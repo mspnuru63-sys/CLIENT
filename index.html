@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PharmaX - Commandes en ligne</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #16a34a;
+            --primary-dark: #15803d;
+            --accent: #20B2AA;
+            --bg-color: #F4F9F6;
+            --card-bg: #FFFFFF;
+            --text-dark: #1e293b;
+            --text-muted: #94a3b8;
+            --danger: #E74C3C;
+            --shadow: 0 4px 16px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 30px rgba(0,0,0,0.08);
+            --radius: 16px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-dark); padding-bottom: 60px; }
+
+        header {
+            background: linear-gradient(135deg, #15803d, #22c55e);
+            color: white; padding: 1.5rem 1rem; text-align: center;
+            box-shadow: var(--shadow-lg); position: relative;
+        }
+        header h1 { font-size: 1.8rem; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; }
+        header p { font-size: 0.85rem; opacity: 0.95; margin-top: 5px; }
+
+        .burger-btn {
+            display: none; position: fixed; top: 15px; right: 15px; z-index: 1001;
+            background: var(--primary-dark); color: white; border: none;
+            padding: 10px 14px; border-radius: 10px; font-size: 1.2rem;
+            cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .cart-badge {
+            background: var(--danger); color: white; border-radius: 50%;
+            padding: 2px 7px; font-size: 0.75rem;
+            position: absolute; top: -5px; right: -5px;
+        }
+
+        .container {
+            max-width: 1150px; margin: 20px auto 0 auto; padding: 0 20px;
+            display: grid; grid-template-columns: 2fr 1fr; gap: 30px;
+        }
+
+        .search-box {
+            background: var(--card-bg); padding: 15px 25px;
+            border-radius: var(--radius); box-shadow: var(--shadow);
+            display: flex; align-items: center; margin-bottom: 25px;
+        }
+        .search-box input { width: 100%; border: none; outline: none; font-size: 1rem; padding: 8px; }
+
+        /* Grille produits */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+            gap: 16px;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            cursor: pointer;
+            transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+            border: 1px solid transparent;
+        }
+        .product-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(22,163,74,.15);
+            border-color: #bbf7d0;
+        }
+        .product-card.disabled {
+            opacity: 0.55; cursor: not-allowed;
+        }
+        .product-card.disabled:hover { transform: none; box-shadow: var(--shadow); }
+
+        .icon-wrap {
+            width: 46px; height: 46px; border-radius: 12px;
+            background: #ECFDF5; color: var(--primary);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .icon-wrap svg { width: 24px; height: 24px; }
+
+        .product-title {
+            font-size: 1rem; font-weight: 700; color: var(--text-dark);
+            line-height: 1.25; margin-top: 2px;
+        }
+        .product-dosage {
+            font-size: 0.85rem; color: var(--text-muted);
+            margin-top: -6px;
+        }
+        .product-price {
+            font-size: 1rem; font-weight: 700; color: var(--primary);
+            margin-top: auto;
+        }
+        .out-badge {
+            font-size: 0.7rem; font-weight: 600; color: var(--danger);
+            background: #FDEDEC; padding: 2px 8px; border-radius: 20px;
+            width: fit-content;
+        }
+
+        /* Panier */
+        .checkout-card {
+            background: var(--card-bg); border-radius: var(--radius);
+            box-shadow: var(--shadow); padding: 25px; height: fit-content;
+            position: sticky; top: 20px;
+            transition: transform 0.3s ease-in-out;
+        }
+        .checkout-card h2 {
+            font-size: 1.3rem; margin-bottom: 15px;
+            border-bottom: 2px solid var(--bg-color); padding-bottom: 10px;
+        }
+        .cart-item { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.9rem; gap: 8px; }
+        .cart-item .remove {
+            background: none; border: none; color: var(--danger);
+            cursor: pointer; font-size: 1rem; padding: 0 4px;
+        }
+        .input-group { margin: 15px 0; }
+        .input-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; }
+        .input-group input {
+            width: 100%; padding: 10px; border: 1px solid #E0E0E0;
+            border-radius: 8px; font-size: 0.95rem; outline: none;
+        }
+        .input-group input:focus { border-color: var(--primary); }
+
+        .overlay {
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 999;
+        }
+
+        .btn {
+            background: var(--primary); color: white; border: none;
+            padding: 10px 18px; border-radius: 8px; font-weight: 600;
+            cursor: pointer; transition: background 0.2s; font-family: inherit;
+        }
+        .btn:hover { background: var(--primary-dark); }
+        .btn:disabled { background: #BDC3C7; cursor: not-allowed; }
+
+        @media (max-width: 850px) {
+            .burger-btn { display: block; }
+            .container { grid-template-columns: 1fr; }
+            .products-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+            .checkout-card {
+                position: fixed; top: 0; right: 0; width: 320px; height: 100vh;
+                z-index: 1000; border-radius: 0; overflow-y: auto;
+                transform: translateX(100%);
+            }
+            .checkout-card.open { transform: translateX(0); }
+            .overlay.active { display: block; }
+        }
+
+        /* Modal */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; background: rgba(0,0,0,0.5);
+            justify-content: center; align-items: center; z-index: 2000;
+        }
+        .modal-content {
+            background: white; padding: 30px; border-radius: var(--radius);
+            text-align: center; max-width: 400px; width: 90%;
+        }
+        .matricule-box {
+            background: #E8F8F5; border: 2px dashed var(--primary);
+            color: var(--primary-dark); font-size: 1.8rem; font-weight: 700;
+            letter-spacing: 3px; padding: 15px; margin: 15px 0; border-radius: 10px;
+        }
+
+        .loader-mini {
+            display: inline-block; width: 14px; height: 14px;
+            border: 2px solid #e2e8f0; border-top-color: var(--primary);
+            border-radius: 50%; animation: spin .8s linear infinite;
+            vertical-align: middle; margin-right: 6px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .status-bar {
+            max-width: 1150px; margin: 12px auto 0; padding: 0 20px;
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.8rem; color: var(--text-muted);
+        }
+        .status-dot {
+            width: 8px; height: 8px; border-radius: 50%; background: #cbd5e1;
+        }
+        .status-dot.ok { background: #22c55e; }
+        .status-dot.err { background: #ef4444; }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================= -->
+    <!--  ⚙️  ZONE DE CONFIGURATION FIREBASE                            -->
+    <!--  Copiez ici la configuration de votre projet Firebase.         -->
+    <!--  Utilisez les mêmes valeurs que dans PharmaGest (Paramètres).  -->
+    <!-- ============================================================= -->
+    <script>
+        const FIREBASE_CONFIG = {
+             apiKey: "AIzaSyANfNK0UjVSEY6c085JMkmwcIEVqspCsM4",
+             authDomain: "pharmax-d0824.firebaseapp.com",
+             databaseURL: "https://pharmax-d0824-default-rtdb.europe-west1.firebasedatabase.app",
+             projectId: "pharmax-d0824",
+             storageBucket: "pharmax-d0824.firebasestorage.app",
+            messagingSenderId: "416614627982",
+             appId: "1:416614627982:web:c6c9fbf1ab597463dfa7df",
+             measurementId: "G-WN8QCBWXML"
+        };
+        // Si une configuration a été sauvegardée localement, on la charge
+        try {
+            const saved = localStorage.getItem('pharmax_firebase_config');
+            if (saved) Object.assign(FIREBASE_CONFIG, JSON.parse(saved));
+        } catch (e) { /* ignore */ }
+    </script>
+    <!-- ============================================================= -->
+
+    <button class="burger-btn" onclick="toggleCart()">
+        🛒 <span class="cart-badge" id="cartCount">0</span>
+    </button>
+
+    <div class="overlay" id="overlay" onclick="toggleCart()"></div>
+
+    <header>
+        <h1>
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:28px;height:28px;">
+                <path d="M35 8h30v27h27v30H65v27H35V65H8V35h27z" fill="#ffffff"/>
+            </svg>
+            PharmaX
+        </h1>
+        <p id="clinicName">Commandez vos produits en ligne et retirez-les rapidement en officine.</p>
+    </header>
+
+    <div class="status-bar">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">Connexion…</span>
+    </div>
+
+    <div class="container">
+        <main>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Rechercher un médicament...">
+            </div>
+
+            <div class="products-grid" id="productsGrid">
+                <p style="grid-column: 1/-1; text-align:center; padding: 30px; background: white; border-radius: 12px;">
+                    <span class="loader-mini"></span> Chargement des produits…
+                </p>
+            </div>
+        </main>
+
+        <aside class="checkout-card" id="checkoutCard">
+            <h2>Votre Commande</h2>
+            <div id="cartItems">
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Votre panier est vide.</p>
+            </div>
+
+            <hr style="margin: 15px 0; border: none; border-top: 1px solid #EEE;">
+            <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 1.1rem;">
+                <span>Total :</span>
+                <span id="cartTotal">0 FCFA</span>
+            </div>
+
+            <div class="input-group">
+                <label for="nomClient">Nom & Prénom :</label>
+                <input type="text" id="nomClient" placeholder="Ex: Jean Dupont" required>
+            </div>
+
+            <div class="input-group">
+                <label for="telephone">Téléphone (optionnel) :</label>
+                <input type="tel" id="telephone" placeholder="Ex: +242 06 12 34 56 78">
+            </div>
+
+            <div class="input-group">
+                <label for="heureRetrait">Heure de retrait souhaitée :</label>
+                <input type="time" id="heureRetrait" required>
+            </div>
+
+            <button class="btn" style="width: 100%; padding: 12px;" id="btnValider">Confirmer la commande</button>
+        </aside>
+    </div>
+
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <h2 style="color: var(--primary);">✅ Commande Confirmée !</h2>
+            <p style="margin-top: 10px; font-size: 0.9rem;">Présentez ce code matricule au comptoir pour récupérer votre commande :</p>
+            <div class="matricule-box" id="matriculeDisplay">PH-0000</div>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Heure de retrait prévue : <strong id="heureDisplay">--:--</strong></p>
+            <button class="btn" style="margin-top: 20px; width: 100%;" onclick="fermerModal()">Fermer</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getDatabase, ref, onValue, push, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+        // ------ Vérification de la configuration ------
+        const statusDot = document.getElementById('statusDot');
+        const statusText = document.getElementById('statusText');
+        const productsGrid = document.getElementById('productsGrid');
+        const required = ['apiKey', 'databaseURL', 'projectId'];
+        const missing = required.filter(k => !FIREBASE_CONFIG[k] || String(FIREBASE_CONFIG[k]).trim() === '');
+        if (missing.length > 0) {
+            statusDot.classList.add('err');
+            statusText.textContent = 'Configuration Firebase manquante : ' + missing.join(', ');
+            productsGrid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; padding: 30px; background: white; border-radius: 12px; color: #ef4444;">
+                ⚠️ Firebase n'est pas encore configuré.<br>
+                <small style="color:#64748b;">Ouvrez <code>client.html</code> et remplissez la constante <code>FIREBASE_CONFIG</code> en haut du fichier.</small>
+            </p>`;
+            throw new Error('Firebase config missing');
+        }
+
+        // ------ Initialisation Firebase ------
+        let app, db;
+        try {
+            app = initializeApp(FIREBASE_CONFIG);
+            db = getDatabase(app);
+            statusDot.classList.add('ok');
+            statusText.textContent = 'Connecté';
+        } catch (e) {
+            statusDot.classList.add('err');
+            statusText.textContent = 'Erreur d\'initialisation : ' + e.message;
+            throw e;
+        }
+
+        // ------ État global ------
+        let tousLesProduits = [];
+        let panier = [];
+        let CURRENCY = 'FCFA';
+        let APP_NAME = 'PharmaX';
+
+        // ------ Formatage ------
+        function fmtPrice(v) {
+            const n = Number(v) || 0;
+            return new Intl.NumberFormat('fr-FR').format(n) + ' ' + CURRENCY;
+        }
+
+        // ------ Écoute meta (devise, nom, ...) ------
+        onValue(ref(db, 'meta'), (snap) => {
+            const m = snap.val() || {};
+            if (m.currency) CURRENCY = m.currency;
+            if (m.clinicName) document.getElementById('clinicName').textContent = m.clinicName + ' — Commandez en ligne et retirez en officine.';
+            if (m.appName) APP_NAME = m.appName;
+            document.title = APP_NAME + ' - Commandes en ligne';
+        });
+
+        // ------ Écoute produits ------
+        onValue(ref(db, 'produits'), (snap) => {
+            const val = snap.val() || {};
+            tousLesProduits = Object.entries(val).map(([id, p]) => ({ id, ...p }));
+            tousLesProduits.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+            afficherProduits();
+        }, (err) => {
+            console.error('Firebase produits error:', err);
+            statusDot.classList.add('err');
+            statusText.textContent = 'Erreur de lecture : ' + err.message;
+            productsGrid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; padding: 30px; background: white; border-radius: 12px; color: #ef4444;">
+                Erreur de chargement des produits. Vérifiez vos règles Firebase.
+            </p>`;
+        });
+
+        // ------ Affichage produits ------
+        const PILL_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10.5 20.5a4.95 4.95 0 0 1-7-7l7-7a4.95 4.95 0 0 1 7 7Z"/>
+            <path d="m8.5 8.5 7 7"/>
+        </svg>`;
+
+        function afficherProduits() {
+            const q = document.getElementById('searchInput').value.toLowerCase().trim();
+            const filtered = tousLesProduits.filter(p => {
+                const hay = ((p.name || '') + ' ' + (p.dosage || '') + ' ' + (p.indications || '')).toLowerCase();
+                return !q || hay.includes(q);
+            });
+
+            if (filtered.length === 0) {
+                productsGrid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; padding: 30px; background: white; border-radius: 12px; color: #94a3b8;">
+                    Aucun produit trouvé.
+                </p>`;
+                return;
+            }
+
+            productsGrid.innerHTML = filtered.map(p => {
+                const stock = Number(p.stock) || 0;
+                const out = stock <= 0;
+                return `
+                    <div class="product-card ${out ? 'disabled' : ''}" ${out ? '' : `onclick="ajouterAuPanier('${p.id}')"`}>
+                        <div class="icon-wrap">${PILL_ICON}</div>
+                        <div class="product-title">${escapeHtml(p.name || 'Produit')}</div>
+                        <div class="product-dosage">${escapeHtml(p.dosage || p.form || '')}</div>
+                        ${out ? `<div class="out-badge">Rupture de stock</div>` : ''}
+                        <div class="product-price">${fmtPrice(p.sellingPrice)}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function escapeHtml(s) {
+            return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        }
+
+        // ------ Panier ------
+        window.ajouterAuPanier = (id) => {
+            const prod = tousLesProduits.find(p => p.id === id);
+            if (!prod) return;
+            const stock = Number(prod.stock) || 0;
+            if (stock <= 0) return;
+
+            const item = panier.find(i => i.id === id);
+            if (item) {
+                if (item.quantite + 1 > stock) { alert("Stock insuffisant pour ce produit."); return; }
+                item.quantite += 1;
+            } else {
+                panier.push({
+                    id: prod.id,
+                    name: prod.name || 'Produit',
+                    price: Number(prod.sellingPrice) || 0,
+                    quantity: 1,
+                    dosage: prod.dosage || ''
+                });
+            }
+            rafraichirPanier();
+        };
+
+        window.retirerDuPanier = (id) => {
+            panier = panier.filter(i => i.id !== id);
+            rafraichirPanier();
+        };
+
+        function rafraichirPanier() {
+            const cartDiv = document.getElementById('cartItems');
+            const totalSpan = document.getElementById('cartTotal');
+            const cartCount = document.getElementById('cartCount');
+
+            const totalQty = panier.reduce((a, c) => a + c.quantity, 0);
+            cartCount.textContent = totalQty;
+
+            if (panier.length === 0) {
+                cartDiv.innerHTML = `<p style="color: var(--text-muted); font-size: 0.9rem;">Votre panier est vide.</p>`;
+                totalSpan.textContent = fmtPrice(0);
+                return;
+            }
+
+            let total = 0;
+            cartDiv.innerHTML = panier.map(it => {
+                total += it.price * it.quantity;
+                return `
+                    <div class="cart-item">
+                        <span>${escapeHtml(it.name)} <small style="color:#94a3b8;">×${it.quantity}</small></span>
+                        <span style="display:flex; align-items:center; gap:6px;">
+                            <strong>${fmtPrice(it.price * it.quantity)}</strong>
+                            <button class="remove" onclick="retirerDuPanier('${it.id}')" title="Retirer">✕</button>
+                        </span>
+                    </div>
+                `;
+            }).join('');
+            totalSpan.textContent = fmtPrice(total);
+        }
+
+        // ------ Validation commande ------
+        document.getElementById('btnValider').addEventListener('click', async (e) => {
+            e.preventDefault();
+
+            const nomInput = document.getElementById('nomClient');
+            const telInput = document.getElementById('telephone');
+            const heureInput = document.getElementById('heureRetrait');
+
+            const nom = nomInput.value.trim();
+            const tel = telInput.value.trim();
+            const heure = heureInput.value;
+
+            if (panier.length === 0) { alert("Votre panier est vide."); return; }
+            if (!nom) { alert("Veuillez saisir votre Nom & Prénom."); nomInput.focus(); return; }
+            if (!heure) { alert("Veuillez sélectionner une heure de retrait."); heureInput.focus(); return; }
+
+            const btn = document.getElementById('btnValider');
+            btn.disabled = true;
+            const originalText = btn.textContent;
+            btn.innerHTML = '<span class="loader-mini" style="border-color:#fff; border-top-color:#fff;"></span> Traitement…';
+
+            const matricule = "PH-" + Math.random().toString(36).substring(2, 6).toUpperCase();
+            const total = panier.reduce((s, i) => s + i.price * i.quantity, 0);
+
+            try {
+                const ordersRef = ref(db, 'orders');
+                const newOrderRef = push(ordersRef);
+                await set(newOrderRef, {
+                    matricule,
+                    customerName: nom,
+                    phone: tel,
+                    heureRetrait: heure,
+                    items: panier.map(it => ({
+                        name: it.name,
+                        price: it.price,
+                        quantity: it.quantity,
+                    })),
+                    total,
+                    status: 'pending',
+                    source: 'client-site',
+                    createdAt: new Date().toISOString()
+                });
+
+                document.getElementById('matriculeDisplay').textContent = matricule;
+                document.getElementById('heureDisplay').textContent = heure;
+                document.getElementById('successModal').style.display = 'flex';
+
+                panier = [];
+                nomInput.value = '';
+                telInput.value = '';
+                heureInput.value = '';
+                rafraichirPanier();
+
+                if (document.getElementById('checkoutCard').classList.contains('open')) toggleCart();
+            } catch (err) {
+                console.error(err);
+                alert("Erreur lors de la validation : " + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = originalText;
+            }
+        });
+
+        window.toggleCart = () => {
+            document.getElementById('checkoutCard').classList.toggle('open');
+            document.getElementById('overlay').classList.toggle('active');
+        };
+
+        window.fermerModal = () => {
+            document.getElementById('successModal').style.display = 'none';
+        };
+
+        document.getElementById('searchInput').addEventListener('input', afficherProduits);
+    </script>
+</body>
+</html>
