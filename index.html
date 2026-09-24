@@ -42,6 +42,96 @@
             position: absolute; top: -5px; right: -5px;
         }
 
+        /* Suivi de commande */
+        .tracking-section {
+            max-width: 1150px; margin: 20px auto 0; padding: 0 20px;
+        }
+        .tracking-card {
+            background: linear-gradient(135deg, #ffffff, #f0fdf4);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 22px 26px;
+            border: 1px solid #dcfce7;
+        }
+        .tracking-card h2 {
+            font-size: 1.1rem; font-weight: 700; color: var(--primary-dark);
+            display: flex; align-items: center; gap: 8px;
+            margin-bottom: 12px;
+        }
+        .tracking-empty p {
+            font-size: 0.9rem; color: var(--text-muted); margin-bottom: 12px;
+        }
+        .tracking-input-row {
+            display: flex; gap: 8px; max-width: 420px;
+        }
+        .tracking-input-row input {
+            flex: 1; padding: 11px 14px; border: 1px solid #d1d5db; border-radius: 10px;
+            font-size: 0.95rem; outline: none; text-transform: uppercase;
+            font-family: 'Poppins', monospace; letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+        .tracking-input-row input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(22,163,74,.1); }
+        .tracking-input-row button {
+            background: var(--primary); color: white; border: none;
+            padding: 11px 20px; border-radius: 10px; font-weight: 600;
+            cursor: pointer; transition: background .2s; font-family: inherit;
+        }
+        .tracking-input-row button:hover { background: var(--primary-dark); }
+
+        .tracking-info {
+            display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center;
+        }
+        .tracking-info-left { min-width: 0; }
+        .tracking-matricule {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: #0f172a; color: white; font-family: monospace;
+            padding: 4px 12px; border-radius: 8px; font-weight: 700;
+            letter-spacing: 2px; font-size: 0.9rem;
+        }
+        .tracking-position {
+            font-size: 2rem; font-weight: 800; color: var(--primary-dark);
+            margin-top: 8px; display: flex; align-items: baseline; gap: 8px;
+            flex-wrap: wrap;
+        }
+        .tracking-position .of {
+            font-size: 1rem; font-weight: 500; color: var(--text-muted);
+        }
+        .tracking-progress {
+            margin-top: 12px; height: 8px; background: #e2e8f0;
+            border-radius: 4px; overflow: hidden; position: relative;
+        }
+        .tracking-progress i {
+            display: block; height: 100%; border-radius: 4px;
+            background: linear-gradient(90deg, #22c55e, #16a34a);
+            transition: width .5s ease;
+        }
+        .tracking-message {
+            margin-top: 12px; font-size: 0.9rem; color: var(--text-dark);
+            padding: 10px 14px; border-radius: 10px;
+            background: #f0fdf4; border: 1px solid #dcfce7;
+        }
+        .tracking-message.status-waiting { background: #eff6ff; border-color: #dbeafe; color: #1e40af; }
+        .tracking-message.status-almost { background: #fef3c7; border-color: #fde68a; color: #92400e; }
+        .tracking-message.status-ready { background: #dcfce7; border-color: #86efac; color: #14532d; font-weight: 600; }
+        .tracking-message.status-cancelled { background: #fee2e2; border-color: #fecaca; color: #991b1b; }
+        .tracking-message.status-not-found { background: #f1f5f9; border-color: #e2e8f0; color: #475569; }
+
+        .tracking-actions { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+        .btn-ghost {
+            background: transparent; border: 1px solid #e2e8f0; color: #64748b;
+            padding: 8px 14px; border-radius: 8px; cursor: pointer;
+            font-size: 0.85rem; font-weight: 500; font-family: inherit;
+            transition: background .15s;
+        }
+        .btn-ghost:hover { background: #f8fafc; }
+
+        /* Animation pulse sur la position */
+        @keyframes pulseGrow {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .tracking-position .num { animation: pulseGrow 2s ease-in-out infinite; }
+
         .container {
             max-width: 1150px; margin: 20px auto 0 auto; padding: 0 20px;
             display: grid; grid-template-columns: 2fr 1fr; gap: 30px;
@@ -54,7 +144,6 @@
         }
         .search-box input { width: 100%; border: none; outline: none; font-size: 1rem; padding: 8px; }
 
-        /* Grille produits */
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
@@ -84,7 +173,6 @@
         }
         .product-card.disabled:hover { transform: none; box-shadow: var(--shadow); }
 
-        /* Badge quantité dans la carte produit (feedback visuel) */
         .qty-badge {
             position: absolute;
             top: 10px; right: 10px;
@@ -127,7 +215,6 @@
             width: fit-content;
         }
 
-        /* Panier */
         .checkout-card {
             background: var(--card-bg); border-radius: var(--radius);
             box-shadow: var(--shadow); padding: 25px; height: fit-content;
@@ -139,7 +226,6 @@
             border-bottom: 2px solid var(--bg-color); padding-bottom: 10px;
         }
 
-        /* Article du panier avec contrôles de quantité */
         .cart-item {
             display: flex;
             justify-content: space-between;
@@ -151,58 +237,32 @@
             border-bottom: 1px solid #F1F5F9;
         }
         .cart-item:last-child { border-bottom: none; }
-        .cart-item-info {
-            flex: 1;
-            min-width: 0;
-        }
+        .cart-item-info { flex: 1; min-width: 0; }
         .cart-item-name {
-            font-weight: 600;
-            color: var(--text-dark);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            font-weight: 600; color: var(--text-dark);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
-        .cart-item-sub {
-            font-size: 0.78rem;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
+        .cart-item-sub { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
         .cart-item-actions {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            flex-shrink: 0;
+            display: flex; align-items: center; gap: 6px; flex-shrink: 0;
         }
         .qty-btn {
-            width: 26px; height: 26px;
-            border-radius: 6px;
-            border: 1px solid #E2E8F0;
-            background: #FFFFFF;
-            color: var(--primary-dark);
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 26px; height: 26px; border-radius: 6px;
+            border: 1px solid #E2E8F0; background: #FFFFFF;
+            color: var(--primary-dark); font-weight: 700; font-size: 1rem;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
             transition: background .15s, border-color .15s;
-            font-family: inherit;
-            line-height: 1;
-            padding: 0;
+            font-family: inherit; line-height: 1; padding: 0;
         }
         .qty-btn:hover { background: #ECFDF5; border-color: #86efac; }
         .qty-btn:disabled { opacity: 0.4; cursor: not-allowed; }
         .qty-display {
-            min-width: 24px;
-            text-align: center;
-            font-weight: 700;
-            font-size: 0.9rem;
-            color: var(--text-dark);
+            min-width: 24px; text-align: center;
+            font-weight: 700; font-size: 0.9rem; color: var(--text-dark);
         }
         .cart-item .remove {
             background: none; border: none; color: var(--danger);
-            cursor: pointer; font-size: 1rem; padding: 0 4px;
-            margin-left: 4px;
+            cursor: pointer; font-size: 1rem; padding: 0 4px; margin-left: 4px;
         }
 
         .input-group { margin: 15px 0; }
@@ -216,10 +276,7 @@
         .input-group input:focus { border-color: var(--primary); }
         .input-group input.error { border-color: var(--danger); background: #FEF2F2; }
         .field-error {
-            color: var(--danger);
-            font-size: 0.75rem;
-            margin-top: 4px;
-            display: none;
+            color: var(--danger); font-size: 0.75rem; margin-top: 4px; display: none;
         }
         .field-error.visible { display: block; }
 
@@ -247,9 +304,10 @@
             }
             .checkout-card.open { transform: translateX(0); }
             .overlay.active { display: block; }
+            .tracking-info { grid-template-columns: 1fr; }
+            .tracking-actions { justify-content: flex-start; }
         }
 
-        /* Modal */
         .modal {
             display: none; position: fixed; top: 0; left: 0;
             width: 100%; height: 100%; background: rgba(0,0,0,0.5);
@@ -289,8 +347,6 @@
 
     <!-- ============================================================= -->
     <!--  ⚙️  ZONE DE CONFIGURATION FIREBASE                            -->
-    <!--  Copiez ici la configuration de votre projet Firebase.         -->
-    <!--  Utilisez les mêmes valeurs que dans PharmaGest (Paramètres).  -->
     <!-- ============================================================= -->
     <script>
         const FIREBASE_CONFIG = {
@@ -303,7 +359,6 @@
              appId: "1:416614627982:web:c6c9fbf1ab597463dfa7df",
              measurementId: "G-WN8QCBWXML"
         };
-        // Si une configuration a été sauvegardée localement, on la charge
         try {
             const saved = localStorage.getItem('pharmax_firebase_config');
             if (saved) Object.assign(FIREBASE_CONFIG, JSON.parse(saved));
@@ -331,6 +386,41 @@
         <span class="status-dot" id="statusDot"></span>
         <span id="statusText">Connexion…</span>
     </div>
+
+    <!-- ============ SUIVI DE COMMANDE ============ -->
+    <section class="tracking-section" id="trackingSection">
+        <div class="tracking-card" id="trackingCard">
+            <h2>📋 Suivi de ma commande</h2>
+
+            <!-- Mode 1 : pas de matricule -->
+            <div class="tracking-empty" id="trackingEmpty">
+                <p>Entrez votre code matricule (reçu lors de votre commande) pour voir votre position dans la file d'attente :</p>
+                <div class="tracking-input-row">
+                    <input type="text" id="matriculeInput" placeholder="PH-XXXX" maxlength="10" autocomplete="off">
+                    <button onclick="suivreCommande()">Suivre</button>
+                </div>
+                <p id="trackingError" style="color: var(--danger); font-size:0.8rem; margin-top:8px; display:none;"></p>
+            </div>
+
+            <!-- Mode 2 : matricule connu -->
+            <div class="tracking-info" id="trackingInfo" style="display:none;">
+                <div class="tracking-info-left">
+                    <div class="tracking-matricule" id="trackingMatricule">PH-0000</div>
+                    <div class="tracking-position" id="trackingPosition">
+                        <span class="num" id="trackingPositionNum">—</span>
+                        <span class="of" id="trackingPositionOf">sur — commande(s) en attente</span>
+                    </div>
+                    <div class="tracking-progress" id="trackingProgressWrap" style="display:none;">
+                        <i id="trackingProgress" style="width:0%"></i>
+                    </div>
+                    <div class="tracking-message status-waiting" id="trackingMessage">En attente de mise à jour…</div>
+                </div>
+                <div class="tracking-actions">
+                    <button class="btn-ghost" onclick="changerMatricule()">Changer</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <div class="container">
         <main>
@@ -385,6 +475,7 @@
             <p style="margin-top: 10px; font-size: 0.9rem;">Présentez ce code matricule au comptoir pour récupérer votre commande :</p>
             <div class="matricule-box" id="matriculeDisplay">PH-0000</div>
             <p style="font-size: 0.85rem; color: var(--text-muted);">Heure de retrait prévue : <strong id="heureDisplay">--:--</strong></p>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top:10px;">Suivez votre position en temps réel dans la section <strong>Suivi de ma commande</strong>.</p>
             <button class="btn" style="margin-top: 20px; width: 100%;" onclick="fermerModal()">Fermer</button>
         </div>
     </div>
@@ -403,8 +494,7 @@
             statusDot.classList.add('err');
             statusText.textContent = 'Configuration Firebase manquante : ' + missing.join(', ');
             productsGrid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; padding: 30px; background: white; border-radius: 12px; color: #ef4444;">
-                ⚠️ Firebase n'est pas encore configuré.<br>
-                <small style="color:#64748b;">Ouvrez <code>client.html</code> et remplissez la constante <code>FIREBASE_CONFIG</code> en haut du fichier.</small>
+                ⚠️ Firebase n'est pas encore configuré.
             </p>`;
             throw new Error('Firebase config missing');
         }
@@ -425,8 +515,12 @@
         // ------ État global ------
         let tousLesProduits = [];
         let panier = [];
+        let toutesLesCommandes = [];   // Toutes les commandes (pour le calcul de position)
+        let matriculeSuivi = null;      // Matricule en cours de suivi
         let CURRENCY = 'FCFA';
         let APP_NAME = 'PharmaX';
+
+        const TRACKING_STORAGE_KEY = 'pharmax_last_matricule';
 
         // ------ Formatage ------
         function fmtPrice(v) {
@@ -454,8 +548,18 @@
             statusDot.classList.add('err');
             statusText.textContent = 'Erreur de lecture : ' + err.message;
             productsGrid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; padding: 30px; background: white; border-radius: 12px; color: #ef4444;">
-                Erreur de chargement des produits. Vérifiez vos règles Firebase.
+                Erreur de chargement des produits.
             </p>`;
+        });
+
+        // ------ Écoute commandes (pour suivi temps réel) ------
+        onValue(ref(db, 'orders'), (snap) => {
+            const val = snap.val() || {};
+            toutesLesCommandes = Object.entries(val).map(([id, o]) => ({ firebaseId: id, ...o }));
+            // Recalcule la position si un matricule est suivi
+            if (matriculeSuivi) afficherSuivi(matriculeSuivi);
+        }, (err) => {
+            console.warn('Firebase orders error:', err);
         });
 
         // ------ Affichage produits ------
@@ -481,7 +585,6 @@
             productsGrid.innerHTML = filtered.map(p => {
                 const stock = Number(p.stock) || 0;
                 const out = stock <= 0;
-                // Quantité déjà présente dans le panier pour ce produit
                 const inCart = panier.find(i => i.id === p.id);
                 const qtyInCart = inCart ? inCart.quantity : 0;
                 return `
@@ -502,7 +605,6 @@
         }
 
         // ------ Panier ------
-        // Ajoute +1 (ou plus) à un produit. Modifie la quantité existante si déjà présent.
         window.ajouterAuPanier = (id, qty = 1) => {
             const prod = tousLesProduits.find(p => p.id === id);
             if (!prod) return;
@@ -529,10 +631,9 @@
                 });
             }
             rafraichirPanier();
-            afficherProduits(); // Rafraîchit les badges de quantité sur les cartes
+            afficherProduits();
         };
 
-        // Modifie la quantité d'un article (+1 / -1). Si 0 → retire du panier.
         window.modifierQuantite = (id, delta) => {
             const item = panier.find(i => i.id === id);
             if (!item) return;
@@ -596,6 +697,195 @@
             totalSpan.textContent = fmtPrice(total);
         }
 
+        // ============================================================
+        // ============ SUIVI DE COMMANDE (position file) ============
+        // ============================================================
+
+        function normalizeMatricule(m) {
+            if (!m) return '';
+            return String(m).trim().toUpperCase().replace(/\s+/g, '');
+        }
+
+        function getStatusOf(o) {
+            return (o && o.status) ? o.status : 'pending';
+        }
+
+        // Calcule la position d'une commande dans la file d'attente
+        // File = commandes avec status = 'pending', triées par createdAt croissant
+        function computeQueuePosition(monMatricule) {
+            const pending = toutesLesCommandes
+                .filter(o => getStatusOf(o) === 'pending')
+                .sort((a, b) => {
+                    const da = new Date(a.createdAt || 0).getTime();
+                    const dbb = new Date(b.createdAt || 0).getTime();
+                    return da - dbb;
+                });
+            const idx = pending.findIndex(o => normalizeMatricule(o.matricule) === normalizeMatricule(monMatricule));
+            return {
+                position: idx >= 0 ? idx + 1 : null,
+                total: pending.length,
+                pending,
+            };
+        }
+
+        // Retrouve la commande (peu importe son statut) par matricule
+        function findOrderByMatricule(matricule) {
+            const target = normalizeMatricule(matricule);
+            return toutesLesCommandes.find(o => normalizeMatricule(o.matricule) === target) || null;
+        }
+
+        function afficherSuivi(matricule) {
+            matriculeSuivi = matricule;
+            const emptyEl = document.getElementById('trackingEmpty');
+            const infoEl = document.getElementById('trackingInfo');
+            const positionNum = document.getElementById('trackingPositionNum');
+            const positionOf = document.getElementById('trackingPositionOf');
+            const progressWrap = document.getElementById('trackingProgressWrap');
+            const progressBar = document.getElementById('trackingProgress');
+            const messageEl = document.getElementById('trackingMessage');
+            const matriculeEl = document.getElementById('trackingMatricule');
+
+            const order = findOrderByMatricule(matricule);
+            emptyEl.style.display = 'none';
+            infoEl.style.display = '';
+            matriculeEl.textContent = normalizeMatricule(matricule);
+
+            // Cas 1 : commande introuvable
+            if (!order) {
+                positionNum.textContent = '?';
+                positionNum.parentElement.style.display = 'none';
+                positionOf.textContent = '';
+                progressWrap.style.display = 'none';
+                messageEl.className = 'tracking-message status-not-found';
+                messageEl.textContent = 'Aucune commande trouvée avec ce matricule. Vérifiez votre code.';
+                return;
+            }
+
+            const st = getStatusOf(order);
+
+            // Cas 2 : annulée
+            if (st === 'cancelled') {
+                positionNum.textContent = '—';
+                positionNum.parentElement.style.display = 'none';
+                positionOf.textContent = '';
+                progressWrap.style.display = 'none';
+                messageEl.className = 'tracking-message status-cancelled';
+                messageEl.textContent = '❌ Votre commande a été annulée. Contactez la pharmacie pour plus d\'informations.';
+                return;
+            }
+
+            // Cas 3 : terminée / prête
+            if (st === 'completed') {
+                positionNum.textContent = '✓';
+                positionNum.parentElement.style.display = '';
+                positionOf.textContent = 'Votre commande est prête !';
+                progressWrap.style.display = 'block';
+                progressBar.style.width = '100%';
+                messageEl.className = 'tracking-message status-ready';
+                messageEl.textContent = '✅ Votre commande est prête à être retirée au comptoir. Présentez votre matricule.';
+                return;
+            }
+
+            // Cas 4 : en attente → calcule la position
+            const queue = computeQueuePosition(matricule);
+            if (queue.position == null) {
+                // La commande existe mais n'est pas dans la file (cas rare) : on affiche un message neutre
+                positionNum.textContent = '—';
+                positionNum.parentElement.style.display = 'none';
+                positionOf.textContent = '';
+                progressWrap.style.display = 'none';
+                messageEl.className = 'tracking-message status-waiting';
+                messageEl.textContent = 'Votre commande est enregistrée. Statut en cours de mise à jour…';
+                return;
+            }
+
+            positionNum.parentElement.style.display = '';
+            positionNum.textContent = queue.position;
+            positionOf.textContent = `sur ${queue.total} commande${queue.total > 1 ? 's' : ''} en attente`;
+            positionNum.style.color = '';
+            progressWrap.style.display = 'block';
+
+            // Barre de progression : 100% quand position=1, 0% quand position=total
+            const pct = queue.total <= 1 ? 100 : Math.max(6, ((queue.total - queue.position + 1) / queue.total) * 100);
+            progressBar.style.width = pct + '%';
+
+            // Message contextuel
+            if (queue.position === 1) {
+                messageEl.className = 'tracking-message status-almost';
+                messageEl.textContent = '🎉 Vous êtes le prochain ! Votre commande est en cours de préparation.';
+                positionNum.style.color = '#15803d';
+            } else if (queue.position <= 3) {
+                messageEl.className = 'tracking-message status-almost';
+                messageEl.textContent = '⏳ Vous avancez rapidement dans la file. Encore un peu de patience !';
+                positionNum.style.color = '#b45309';
+            } else {
+                messageEl.className = 'tracking-message status-waiting';
+                messageEl.textContent = '⏱️ Merci de patienter. Votre position se met à jour automatiquement.';
+                positionNum.style.color = '#1e40af';
+            }
+
+            // Détail du temps de retrait
+            if (order.heureRetrait) {
+                messageEl.textContent += ` (Retrait prévu : ${order.heureRetrait})`;
+            }
+        }
+
+        window.suivreCommande = () => {
+            const input = document.getElementById('matriculeInput');
+            const errEl = document.getElementById('trackingError');
+            const val = normalizeMatricule(input.value);
+            errEl.style.display = 'none';
+            if (!val) {
+                errEl.textContent = 'Veuillez saisir un matricule.';
+                errEl.style.display = 'block';
+                input.focus();
+                return;
+            }
+            // Vérifie l'existence
+            const found = findOrderByMatricule(val);
+            if (!found) {
+                errEl.textContent = 'Aucune commande trouvée avec ce matricule.';
+                errEl.style.display = 'block';
+                return;
+            }
+            try { localStorage.setItem(TRACKING_STORAGE_KEY, val); } catch (e) {}
+            afficherSuivi(val);
+        };
+
+        window.changerMatricule = () => {
+            try { localStorage.removeItem(TRACKING_STORAGE_KEY); } catch (e) {}
+            matriculeSuivi = null;
+            const emptyEl = document.getElementById('trackingEmpty');
+            const infoEl = document.getElementById('trackingInfo');
+            const input = document.getElementById('matriculeInput');
+            emptyEl.style.display = '';
+            infoEl.style.display = 'none';
+            input.value = '';
+            input.focus();
+        };
+
+        // Auto-charge au démarrage si un matricule est mémorisé
+        (function restoreTracking() {
+            try {
+                const saved = localStorage.getItem(TRACKING_STORAGE_KEY);
+                if (saved) {
+                    const val = normalizeMatricule(saved);
+                    // On ne sait pas encore si les commandes sont chargées, donc on tente
+                    matriculeSuivi = val;
+                    document.getElementById('matriculeInput').value = val;
+                    // Affiche l'interface de suivi (le contenu se remplira quand les commandes arriveront)
+                    document.getElementById('trackingEmpty').style.display = 'none';
+                    document.getElementById('trackingInfo').style.display = '';
+                    document.getElementById('trackingMatricule').textContent = val;
+                    document.getElementById('trackingMessage').className = 'tracking-message status-waiting';
+                    document.getElementById('trackingMessage').textContent = 'Chargement…';
+                    document.getElementById('trackingPositionNum').parentElement.style.display = 'none';
+                    document.getElementById('trackingPositionOf').textContent = '';
+                    document.getElementById('trackingProgressWrap').style.display = 'none';
+                }
+            } catch (e) { /* ignore */ }
+        })();
+
         // ------ Validation de commande ------
         document.getElementById('btnValider').addEventListener('click', async (e) => {
             e.preventDefault();
@@ -611,11 +901,9 @@
             const tel = telInput.value.trim();
             const heure = heureInput.value;
 
-            // Réinitialise les erreurs
             [nomInput, telInput, heureInput].forEach(el => el.classList.remove('error'));
             [errNom, errTel, errHeure].forEach(el => el.classList.remove('visible'));
 
-            // ------ Validations ------
             let hasError = false;
 
             if (panier.length === 0) {
@@ -629,7 +917,6 @@
                 hasError = true;
             }
 
-            // Téléphone obligatoire et valide (au moins 6 chiffres)
             if (!tel) {
                 telInput.classList.add('error');
                 errTel.textContent = 'Veuillez saisir votre numéro de téléphone.';
@@ -652,7 +939,6 @@
             }
 
             if (hasError) {
-                // Focus sur le premier champ en erreur
                 const premier = [nomInput, telInput, heureInput].find(el => el.classList.contains('error'));
                 if (premier) premier.focus();
                 return;
@@ -685,10 +971,16 @@
                     createdAt: new Date().toISOString()
                 });
 
+                // Enregistre le matricule pour le suivi auto
+                try { localStorage.setItem(TRACKING_STORAGE_KEY, matricule); } catch (e) {}
+                matriculeSuivi = matricule;
+
+                // Affiche la modale
                 document.getElementById('matriculeDisplay').textContent = matricule;
                 document.getElementById('heureDisplay').textContent = heure;
                 document.getElementById('successModal').style.display = 'flex';
 
+                // Réinitialise le panier
                 panier = [];
                 nomInput.value = '';
                 telInput.value = '';
@@ -697,6 +989,14 @@
                 afficherProduits();
 
                 if (document.getElementById('checkoutCard').classList.contains('open')) toggleCart();
+
+                // Active le suivi de commande
+                document.getElementById('matriculeInput').value = matricule;
+                afficherSuivi(matricule);
+                // Scroll vers la section de suivi
+                setTimeout(() => {
+                    document.getElementById('trackingSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 300);
             } catch (err) {
                 console.error(err);
                 alert("Erreur lors de la validation : " + err.message);
@@ -706,7 +1006,6 @@
             }
         });
 
-        // Efface les erreurs au fur et à mesure de la saisie
         ['nomClient', 'telephone', 'heureRetrait'].forEach(id => {
             const el = document.getElementById(id);
             el.addEventListener('input', () => {
@@ -715,6 +1014,11 @@
                 const err = document.getElementById(map[id]);
                 if (err) err.classList.remove('visible');
             });
+        });
+
+        // Enter pour valider le matricule
+        document.getElementById('matriculeInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') suivreCommande();
         });
 
         window.toggleCart = () => {
