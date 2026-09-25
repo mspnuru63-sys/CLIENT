@@ -22,7 +22,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
         html, body { margin: 0; padding: 0; width: 100%; max-width: 100%; }
 
-        /* ================= LOADER GLOBAL ================= */
+        /* ================= LOADER ================= */
         #global-loader {
             position: fixed; inset: 0; z-index: 9999;
             background: linear-gradient(160deg, #ffffff 0%, #f0fdf4 100%);
@@ -70,7 +70,6 @@
             overflow-y: auto;
         }
         .auth-modal.visible { display: flex; }
-
         .auth-card {
             background: white;
             border-radius: 24px;
@@ -85,7 +84,6 @@
             from { opacity: 0; transform: translateY(20px); }
             to   { opacity: 1; transform: translateY(0); }
         }
-
         .auth-header { text-align: center; margin-bottom: 22px; }
         .auth-logo {
             width: 68px; height: 68px; border-radius: 20px;
@@ -95,14 +93,8 @@
             box-shadow: 0 10px 24px rgba(22,163,74,.35);
         }
         .auth-logo svg { width: 38px; height: 38px; }
-        .auth-header h1 {
-            font-size: 1.4rem; font-weight: 700; color: var(--text-dark);
-            line-height: 1.25;
-        }
-        .auth-header p {
-            font-size: 0.88rem; color: var(--text-muted);
-            margin-top: 6px; line-height: 1.4;
-        }
+        .auth-header h1 { font-size: 1.4rem; font-weight: 700; color: var(--text-dark); line-height: 1.25; }
+        .auth-header p { font-size: 0.88rem; color: var(--text-muted); margin-top: 6px; line-height: 1.4; }
 
         .auth-tabs {
             display: grid; grid-template-columns: 1fr 1fr;
@@ -120,7 +112,6 @@
             background: white; color: var(--primary-dark);
             box-shadow: 0 2px 8px rgba(0,0,0,.08);
         }
-
         .auth-form { display: flex; flex-direction: column; gap: 11px; }
         .auth-form input {
             padding: 12px 14px;
@@ -137,9 +128,7 @@
             box-shadow: 0 0 0 3px rgba(22,163,74,.1);
         }
         .auth-form input::placeholder { color: #94a3b8; }
-        .auth-row {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 11px;
-        }
+        .auth-row { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
         .auth-submit {
             margin-top: 6px; padding: 13px;
             background: linear-gradient(135deg, #15803d, #22c55e);
@@ -155,22 +144,10 @@
             box-shadow: 0 8px 22px rgba(22,163,74,.4);
         }
         .auth-submit:disabled { opacity: .7; cursor: not-allowed; }
-        .auth-error {
-            color: var(--danger);
-            font-size: 0.82rem;
-            text-align: center;
-            min-height: 16px;
-            line-height: 1.3;
-        }
-        .auth-note {
-            font-size: 0.74rem;
-            color: var(--text-muted);
-            text-align: center;
-            margin-top: 14px;
-            line-height: 1.45;
-        }
+        .auth-error { color: var(--danger); font-size: 0.82rem; text-align: center; min-height: 16px; line-height: 1.3; }
+        .auth-note { font-size: 0.74rem; color: var(--text-muted); text-align: center; margin-top: 14px; line-height: 1.45; }
 
-        /* ================= LAYOUT PRINCIPAL ================= */
+        /* ================= LAYOUT ================= */
         body {
             background-color: var(--bg-color);
             color: var(--text-dark);
@@ -180,29 +157,28 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* ================= HEADER ================= */
         header {
             flex-shrink: 0;
             background: linear-gradient(135deg, #15803d, #22c55e);
             color: white;
-            padding: 1.25rem 1rem;
+            padding: 1rem 1rem;
             text-align: center;
             box-shadow: var(--shadow-lg);
             position: relative; z-index: 10;
         }
         header h1 {
-            font-size: 1.65rem; font-weight: 700;
+            font-size: 1.5rem; font-weight: 700;
             display: inline-flex; align-items: center; justify-content: center;
             gap: 8px; line-height: 1.2; flex-wrap: wrap;
         }
         header p {
-            font-size: 0.85rem; opacity: .95; margin-top: 5px;
+            font-size: 0.8rem; opacity: .95; margin-top: 5px;
             line-height: 1.35; max-width: 640px;
             margin-left: auto; margin-right: auto;
             word-wrap: break-word; overflow-wrap: break-word;
         }
 
-        /* ================= BOUTON PANIER ================= */
+        /* BOUTON PANIER */
         .burger-btn {
             display: none;
             position: fixed; top: 14px; right: 14px; z-index: 1001;
@@ -223,7 +199,7 @@
             font-weight: 700; min-width: 20px; text-align: center;
         }
 
-        /* ================= USER BAR ================= */
+        /* USER BAR */
         .user-bar {
             flex-shrink: 0;
             max-width: 1150px; width: 100%;
@@ -244,9 +220,7 @@
             display: flex; align-items: center; justify-content: center;
             font-size: .95rem; flex-shrink: 0;
         }
-        .user-bar-text {
-            flex: 1; min-width: 0;
-        }
+        .user-bar-text { flex: 1; min-width: 0; }
         .user-bar-greeting {
             font-size: .88rem; font-weight: 600;
             color: var(--text-dark);
@@ -266,14 +240,14 @@
         }
         .user-bar-logout:hover { background: #fef2f2; }
 
-        /* ================= STATUS BAR ================= */
+        /* STATUS BAR */
         .status-bar {
             flex-shrink: 0;
             max-width: 1150px; width: 100%;
-            margin: 8px auto 0;
+            margin: 6px auto 0;
             padding: 0 20px;
             display: flex; align-items: center; justify-content: center;
-            gap: 8px; font-size: .78rem; color: var(--text-muted);
+            gap: 8px; font-size: .76rem; color: var(--text-muted);
             text-align: center;
         }
         .status-dot {
@@ -283,154 +257,100 @@
         .status-dot.ok { background: #22c55e; box-shadow: 0 0 8px rgba(34,197,94,.6); }
         .status-dot.err { background: #ef4444; }
 
-        /* ================= TRACKING ================= */
-        .tracking-section {
+        /* ================= NAVIGATION TABS ================= */
+        .client-nav {
             flex-shrink: 0;
-            max-width: 1150px; width: 100%;
-            margin: 10px auto 0;
-            padding: 0 20px;
-        }
-        .tracking-card {
-            background: linear-gradient(135deg, #ffffff, #f0fdf4);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            padding: 18px 22px;
-            border: 1px solid #dcfce7;
-        }
-        .tracking-card h2 {
-            font-size: 1rem; font-weight: 700;
-            color: var(--primary-dark);
-            display: flex; align-items: center; justify-content: center;
-            gap: 8px; margin-bottom: 10px;
-            flex-wrap: wrap; text-align: center; line-height: 1.3;
-        }
-        .tracking-empty p {
-            font-size: .88rem; color: var(--text-muted);
-            margin-bottom: 10px; text-align: center;
-            line-height: 1.4;
-            word-wrap: break-word; overflow-wrap: break-word;
-        }
-        .tracking-input-row {
-            display: flex; gap: 8px;
-            max-width: 420px; margin: 0 auto; width: 100%;
-        }
-        .tracking-input-row input {
-            flex: 1; min-width: 0;
-            padding: 11px 14px;
-            border: 1px solid #d1d5db; border-radius: 10px;
-            font-size: .95rem; outline: none;
-            text-transform: uppercase;
-            font-family: 'Poppins', monospace;
-            letter-spacing: 1.5px; font-weight: 600;
             background: white;
-            transition: border-color .15s, box-shadow .15s;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 6px 12px 0;
+            overflow-x: auto;
+            display: flex;
+            gap: 4px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            max-width: 1150px;
+            width: 100%;
+            margin: 8px auto 0;
+            border-radius: 12px 12px 0 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,.04);
         }
-        .tracking-input-row input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(22,163,74,.1);
-        }
-        .tracking-input-row button {
-            background: var(--primary); color: white;
-            border: none; padding: 11px 20px;
-            border-radius: 10px; font-weight: 600;
-            cursor: pointer; transition: background .2s;
-            font-family: inherit; font-size: .9rem;
-            white-space: nowrap; flex-shrink: 0;
-        }
-        .tracking-input-row button:hover { background: var(--primary-dark); }
+        .client-nav::-webkit-scrollbar { display: none; }
 
-        .tracking-info {
-            display: grid; grid-template-columns: 1fr auto;
-            gap: 20px; align-items: center;
-        }
-        .tracking-info-left { min-width: 0; text-align: center; }
-        .tracking-matricule {
-            display: inline-flex; align-items: center; justify-content: center;
-            gap: 6px; background: #0f172a; color: white;
-            font-family: monospace; padding: 4px 12px;
-            border-radius: 8px; font-weight: 700;
-            letter-spacing: 2px; font-size: .9rem;
-            max-width: 100%;
-        }
-        .tracking-position {
-            font-size: 1.9rem; font-weight: 800;
-            color: var(--primary-dark);
-            margin-top: 8px;
-            display: flex; align-items: baseline; justify-content: center;
-            gap: 8px; flex-wrap: wrap; text-align: center; line-height: 1.1;
-        }
-        .tracking-position .of {
-            font-size: 1rem; font-weight: 500; color: var(--text-muted);
-        }
-        .tracking-progress {
-            margin-top: 12px; height: 8px;
-            background: #e2e8f0; border-radius: 4px;
-            overflow: hidden; position: relative;
-            max-width: 500px;
-            margin-left: auto; margin-right: auto;
-        }
-        .tracking-progress i {
-            display: block; height: 100%; border-radius: 4px;
-            background: linear-gradient(90deg, #22c55e, #16a34a);
-            transition: width .5s ease;
-        }
-        .tracking-message {
-            margin-top: 12px; font-size: .88rem;
-            color: var(--text-dark); padding: 10px 14px;
-            border-radius: 10px;
-            background: #f0fdf4; border: 1px solid #dcfce7;
-            text-align: center; line-height: 1.4;
-            word-wrap: break-word; overflow-wrap: break-word;
-        }
-        .tracking-message.status-waiting { background: #eff6ff; border-color: #dbeafe; color: #1e40af; }
-        .tracking-message.status-almost { background: #fef3c7; border-color: #fde68a; color: #92400e; }
-        .tracking-message.status-ready { background: #dcfce7; border-color: #86efac; color: #14532d; font-weight: 600; }
-        .tracking-message.status-cancelled { background: #fee2e2; border-color: #fecaca; color: #991b1b; }
-        .tracking-message.status-not-found { background: #f1f5f9; border-color: #e2e8f0; color: #475569; }
-
-        .tracking-actions {
-            display: flex; gap: 8px; align-items: center;
-            justify-content: center; flex-shrink: 0;
-        }
-        .btn-ghost {
-            background: transparent; border: 1px solid #e2e8f0;
-            color: #64748b; padding: 8px 14px;
-            border-radius: 8px; cursor: pointer;
-            font-size: .85rem; font-weight: 500;
-            font-family: inherit; transition: background .15s;
+        .nav-tab {
+            flex-shrink: 0;
+            padding: 10px 14px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            color: #64748b;
+            font-family: inherit;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .15s;
             white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: -1px;
         }
-        .btn-ghost:hover { background: #f8fafc; }
+        .nav-tab:hover { color: var(--primary); background: #f0fdf4; }
+        .nav-tab.active {
+            color: var(--primary-dark);
+            border-bottom-color: var(--primary);
+            background: #f0fdf4;
+        }
+        .nav-tab .nav-badge {
+            background: var(--danger); color: white;
+            border-radius: 10px; padding: 1px 6px;
+            font-size: 0.68rem; font-weight: 700;
+        }
 
-        @keyframes pulseGrow { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
-        .tracking-position .num { animation: pulseGrow 2s ease-in-out infinite; }
-
-        /* ================= MAIN CONTAINER ================= */
-        .main-container {
-            flex: 1; min-height: 0;
-            display: grid; grid-template-columns: 2fr 1fr;
-            gap: 24px;
-            max-width: 1150px; width: 100%;
-            margin: 12px auto 0;
-            padding: 0 20px 20px;
+        /* ================= TABS CONTAINER ================= */
+        .tabs-container {
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
+            position: relative;
+        }
+        .tab-panel {
+            display: none;
+            height: 100%;
             overflow: hidden;
         }
-        .products-column {
-            display: flex; flex-direction: column;
-            min-height: 0; min-width: 0; overflow: hidden;
+        .tab-panel.active { display: flex; flex-direction: column; }
+
+        /* ----- BOUTIQUE TAB ----- */
+        #tab-boutique.active {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            padding: 12px 20px 20px;
+            max-width: 1150px;
+            margin: 0 auto;
+            width: 100%;
+            overflow: hidden;
+            min-height: 0;
+        }
+
+        .boutique-main {
+            display: flex;
+            flex-direction: column;
+            min-height: 0; min-width: 0;
+            overflow: hidden;
         }
         .search-box {
             flex-shrink: 0;
             background: var(--card-bg);
-            padding: 14px 20px;
+            padding: 12px 18px;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             display: flex; align-items: center;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
         .search-box input {
             width: 100%; border: none; outline: none;
-            font-size: .98rem; padding: 6px;
+            font-size: .95rem; padding: 6px;
             background: transparent; color: var(--text-dark);
         }
         .search-box input::placeholder { color: #94a3b8; }
@@ -444,7 +364,6 @@
         .products-scroll::-webkit-scrollbar { width: 8px; }
         .products-scroll::-webkit-scrollbar-track { background: transparent; }
         .products-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        .products-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
         .products-grid {
             display: grid;
@@ -469,7 +388,6 @@
         }
         .product-card.disabled { opacity: .55; cursor: not-allowed; }
         .product-card.disabled:hover { transform: none; box-shadow: var(--shadow); }
-
         .qty-badge {
             position: absolute; top: 10px; right: 10px;
             background: var(--primary); color: white;
@@ -487,67 +405,52 @@
         }
         .icon-wrap svg { width: 22px; height: 22px; }
         .product-title {
-            font-size: .98rem; font-weight: 700;
+            font-size: .95rem; font-weight: 700;
             color: var(--text-dark); line-height: 1.3;
             word-wrap: break-word; overflow-wrap: break-word;
-            hyphens: auto;
         }
         .product-dosage {
-            font-size: .82rem; color: var(--text-muted);
+            font-size: .8rem; color: var(--text-muted);
             line-height: 1.3;
             word-wrap: break-word; overflow-wrap: break-word;
         }
         .product-price {
-            font-size: .98rem; font-weight: 700;
+            font-size: .95rem; font-weight: 700;
             color: var(--primary); margin-top: auto;
-            word-wrap: break-word; overflow-wrap: break-word;
         }
         .out-badge {
             font-size: .68rem; font-weight: 600;
             color: var(--danger); background: #FDEDEC;
             padding: 3px 8px; border-radius: 20px;
-            width: fit-content; max-width: 100%;
+            width: fit-content;
         }
 
-        /* ================= PANIER ================= */
+        /* PANIER */
         .checkout-card {
             background: var(--card-bg);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            padding: 22px;
+            padding: 20px;
             overflow-y: auto; min-height: 0; min-width: 0;
         }
         .checkout-card::-webkit-scrollbar { width: 8px; }
-        .checkout-card::-webkit-scrollbar-track { background: transparent; }
         .checkout-card::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         .checkout-card h2 {
-            font-size: 1.15rem; margin-bottom: 15px;
+            font-size: 1.1rem; margin-bottom: 14px;
             border-bottom: 2px solid var(--bg-color);
             padding-bottom: 10px; text-align: center;
         }
-
         .cart-item {
             display: flex; justify-content: space-between;
             align-items: center; margin-bottom: 10px;
-            font-size: .88rem; gap: 8px;
+            font-size: .85rem; gap: 8px;
             padding-bottom: 10px; border-bottom: 1px solid #F1F5F9;
         }
         .cart-item:last-child { border-bottom: none; }
         .cart-item-info { flex: 1; min-width: 0; }
-        .cart-item-name {
-            font-weight: 600; color: var(--text-dark);
-            line-height: 1.3;
-            word-wrap: break-word; overflow-wrap: break-word;
-        }
-        .cart-item-sub {
-            font-size: .75rem; color: var(--text-muted);
-            margin-top: 2px;
-            word-wrap: break-word; overflow-wrap: break-word;
-        }
-        .cart-item-actions {
-            display: flex; align-items: center;
-            gap: 5px; flex-shrink: 0;
-        }
+        .cart-item-name { font-weight: 600; line-height: 1.3; word-wrap: break-word; }
+        .cart-item-sub { font-size: .72rem; color: var(--text-muted); margin-top: 2px; }
+        .cart-item-actions { display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
         .qty-btn {
             width: 26px; height: 26px; border-radius: 6px;
             border: 1px solid #E2E8F0; background: #FFFFFF;
@@ -559,37 +462,376 @@
         }
         .qty-btn:hover { background: #ECFDF5; border-color: #86efac; }
         .qty-btn:disabled { opacity: .4; cursor: not-allowed; }
-        .qty-display {
-            min-width: 24px; text-align: center;
-            font-weight: 700; font-size: .9rem; color: var(--text-dark);
-        }
+        .qty-display { min-width: 22px; text-align: center; font-weight: 700; font-size: .85rem; }
         .cart-item .remove {
-            background: none; border: none;
-            color: var(--danger); cursor: pointer;
-            font-size: 1rem; padding: 0 4px; margin-left: 4px;
+            background: none; border: none; color: var(--danger);
+            cursor: pointer; font-size: 1rem; padding: 0 4px; margin-left: 4px;
         }
-
-        .input-group { margin: 14px 0; }
+        .input-group { margin: 12px 0; }
         .input-group label {
-            display: block; font-size: .85rem;
-            font-weight: 600; margin-bottom: 6px; line-height: 1.3;
+            display: block; font-size: .82rem;
+            font-weight: 600; margin-bottom: 6px;
         }
         .input-group label .req { color: var(--danger); }
         .input-group input {
             width: 100%; padding: 10px;
             border: 1px solid #E0E0E0; border-radius: 8px;
-            font-size: .95rem; outline: none;
+            font-size: .92rem; outline: none;
             transition: border-color .15s, background .15s;
             background: white;
         }
         .input-group input:focus { border-color: var(--primary); }
         .input-group input.error { border-color: var(--danger); background: #FEF2F2; }
+        .input-group input[readonly] { background: #f8fafc; color: #64748b; }
         .field-error {
-            color: var(--danger); font-size: .75rem;
-            margin-top: 4px; display: none; line-height: 1.3;
+            color: var(--danger); font-size: .72rem;
+            margin-top: 4px; display: none;
         }
         .field-error.visible { display: block; }
 
+        /* ================= AUTRES ONGLETS ================= */
+        .tab-scroll {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            padding: 16px 20px 30px;
+        }
+        .tab-content-inner {
+            max-width: 1150px;
+            margin: 0 auto;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid #e2e8f0;
+        }
+        .stat-card .stat-label {
+            font-size: .75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            color: var(--text-muted);
+            display: flex; align-items: center; gap: 6px;
+        }
+        .stat-card .stat-value {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-top: 8px;
+            line-height: 1.1;
+            word-wrap: break-word;
+        }
+        .stat-card.emerald { border-color: #bbf7d0; background: linear-gradient(135deg, #ffffff, #f0fdf4); }
+        .stat-card.emerald .stat-value { color: var(--primary-dark); }
+        .stat-card.indigo { border-color: #c7d2fe; background: linear-gradient(135deg, #ffffff, #eef2ff); }
+        .stat-card.indigo .stat-value { color: #4338ca; }
+        .stat-card.violet { border-color: #ddd6fe; background: linear-gradient(135deg, #ffffff, #f5f3ff); }
+        .stat-card.violet .stat-value { color: #7c3aed; }
+        .stat-card.amber { border-color: #fde68a; background: linear-gradient(135deg, #ffffff, #fffbeb); }
+        .stat-card.amber .stat-value { color: #b45309; }
+
+        .section-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid #e2e8f0;
+            margin-bottom: 20px;
+        }
+        .section-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            display: flex; align-items: center; gap: 8px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+
+        /* ================= TRACKING ================= */
+        .tracking-card {
+            background: linear-gradient(135deg, #ffffff, #f0fdf4);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 18px 22px;
+            border: 1px solid #dcfce7;
+            margin-bottom: 20px;
+        }
+        .tracking-card h2 {
+            font-size: 1rem; font-weight: 700;
+            color: var(--primary-dark);
+            display: flex; align-items: center; justify-content: center;
+            gap: 8px; margin-bottom: 10px;
+            flex-wrap: wrap; text-align: center; line-height: 1.3;
+        }
+        .tracking-empty p {
+            font-size: .85rem; color: var(--text-muted);
+            margin-bottom: 10px; text-align: center;
+            line-height: 1.4;
+        }
+        .tracking-input-row {
+            display: flex; gap: 8px;
+            max-width: 420px; margin: 0 auto; width: 100%;
+        }
+        .tracking-input-row input {
+            flex: 1; min-width: 0;
+            padding: 11px 14px;
+            border: 1px solid #d1d5db; border-radius: 10px;
+            font-size: .92rem; outline: none;
+            text-transform: uppercase;
+            font-family: 'Poppins', monospace;
+            letter-spacing: 1.5px; font-weight: 600;
+            background: white;
+        }
+        .tracking-input-row input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(22,163,74,.1);
+        }
+        .tracking-input-row button {
+            background: var(--primary); color: white;
+            border: none; padding: 11px 20px;
+            border-radius: 10px; font-weight: 600;
+            cursor: pointer;
+            font-family: inherit; font-size: .88rem;
+            white-space: nowrap; flex-shrink: 0;
+        }
+        .tracking-input-row button:hover { background: var(--primary-dark); }
+        .tracking-info {
+            display: grid; grid-template-columns: 1fr auto;
+            gap: 20px; align-items: center;
+        }
+        .tracking-info-left { min-width: 0; text-align: center; }
+        .tracking-matricule {
+            display: inline-flex; align-items: center; justify-content: center;
+            gap: 6px; background: #0f172a; color: white;
+            font-family: monospace; padding: 4px 12px;
+            border-radius: 8px; font-weight: 700;
+            letter-spacing: 2px; font-size: .85rem;
+            max-width: 100%;
+        }
+        .tracking-position {
+            font-size: 1.7rem; font-weight: 800;
+            color: var(--primary-dark);
+            margin-top: 8px;
+            display: flex; align-items: baseline; justify-content: center;
+            gap: 8px; flex-wrap: wrap; text-align: center;
+        }
+        .tracking-position .of { font-size: .9rem; font-weight: 500; color: var(--text-muted); }
+        .tracking-progress {
+            margin-top: 10px; height: 8px;
+            background: #e2e8f0; border-radius: 4px;
+            overflow: hidden;
+            max-width: 500px;
+            margin-left: auto; margin-right: auto;
+        }
+        .tracking-progress i {
+            display: block; height: 100%; border-radius: 4px;
+            background: linear-gradient(90deg, #22c55e, #16a34a);
+            transition: width .5s ease;
+        }
+        .tracking-message {
+            margin-top: 10px; font-size: .85rem;
+            color: var(--text-dark); padding: 10px 14px;
+            border-radius: 10px;
+            background: #f0fdf4; border: 1px solid #dcfce7;
+            text-align: center; line-height: 1.4;
+        }
+        .tracking-message.status-waiting { background: #eff6ff; border-color: #dbeafe; color: #1e40af; }
+        .tracking-message.status-almost { background: #fef3c7; border-color: #fde68a; color: #92400e; }
+        .tracking-message.status-ready { background: #dcfce7; border-color: #86efac; color: #14532d; font-weight: 600; }
+        .tracking-message.status-cancelled { background: #fee2e2; border-color: #fecaca; color: #991b1b; }
+        .tracking-message.status-not-found { background: #f1f5f9; border-color: #e2e8f0; color: #475569; }
+        .tracking-actions { display: flex; gap: 8px; justify-content: center; flex-shrink: 0; }
+        .btn-ghost {
+            background: transparent; border: 1px solid #e2e8f0;
+            color: #64748b; padding: 8px 14px;
+            border-radius: 8px; cursor: pointer;
+            font-size: .82rem; font-weight: 500;
+            font-family: inherit;
+        }
+        .btn-ghost:hover { background: #f8fafc; }
+
+        /* ================= ORDER CARDS ================= */
+        .order-card {
+            border-radius: 14px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            overflow: hidden;
+            margin-bottom: 12px;
+            transition: box-shadow .2s;
+        }
+        .order-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,.05); }
+        .order-card.pending { border-color: #bbf7d0; }
+        .order-card.completed { border-color: #bfdbfe; }
+        .order-card.cancelled { border-color: #fecaca; opacity: .85; }
+
+        .order-head {
+            padding: 12px 16px;
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 10px; flex-wrap: wrap;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .order-card.pending .order-head { background: #f0fdf4; }
+        .order-card.completed .order-head { background: #eff6ff; }
+        .order-card.cancelled .order-head { background: #fef2f2; }
+        .order-head-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+        .order-matricule {
+            display: inline-flex; align-items: center; gap: 4px;
+            background: #0f172a; color: white;
+            font-family: monospace; font-size: .72rem;
+            font-weight: 700; padding: 3px 9px;
+            border-radius: 6px; letter-spacing: 1.5px;
+        }
+        .order-date {
+            font-size: .75rem; color: #64748b;
+        }
+        .order-status {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 3px 10px; border-radius: 20px;
+            font-size: .7rem; font-weight: 700;
+        }
+        .order-status.pending { background: #fef3c7; color: #92400e; }
+        .order-status.completed { background: #dbeafe; color: #1e40af; }
+        .order-status.cancelled { background: #fee2e2; color: #991b1b; }
+
+        .order-body { padding: 12px 16px; }
+        .order-items-list {
+            list-style: none;
+            padding: 0; margin: 0 0 10px;
+        }
+        .order-items-list li {
+            display: flex; justify-content: space-between;
+            padding: 5px 0;
+            font-size: .85rem;
+            border-bottom: 1px dashed #f1f5f9;
+        }
+        .order-items-list li:last-child { border-bottom: none; }
+        .order-total-row {
+            display: flex; justify-content: space-between;
+            align-items: center;
+            padding-top: 10px;
+            border-top: 2px solid #f1f5f9;
+            font-weight: 700;
+        }
+        .order-total-row .amount { color: var(--primary-dark); font-size: 1.05rem; }
+
+        /* ================= HISTORIQUE FILTRES ================= */
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .filter-grid input, .filter-grid select {
+            padding: 10px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: .88rem;
+            font-family: inherit;
+            outline: none;
+            background: white;
+        }
+        .filter-grid input:focus { border-color: var(--primary); }
+
+        /* ================= CHARTS ================= */
+        .chart-svg { width: 100%; height: auto; display: block; }
+
+        .top-med-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 12px;
+        }
+        .top-med-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 14px;
+        }
+        .top-med-card .month-label {
+            font-size: .72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--primary-dark);
+            letter-spacing: .5px;
+            margin-bottom: 6px;
+        }
+        .top-med-card .med-name {
+            font-size: .9rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            line-height: 1.3;
+            word-wrap: break-word;
+            margin-bottom: 4px;
+        }
+        .top-med-card .med-count {
+            display: inline-flex; align-items: center; gap: 4px;
+            background: #dcfce7; color: #14532d;
+            padding: 3px 10px; border-radius: 20px;
+            font-size: .72rem; font-weight: 700;
+        }
+        .top-med-card.empty .med-name { color: var(--text-muted); font-weight: 400; font-style: italic; }
+
+        /* ================= COMPTE ================= */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        .profile-field {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 12px 14px;
+            border: 1px solid #e2e8f0;
+        }
+        .profile-field .field-label {
+            font-size: .72rem; font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: .5px;
+            margin-bottom: 4px;
+        }
+        .profile-field .field-value {
+            font-size: .92rem; font-weight: 600;
+            color: var(--text-dark);
+            word-wrap: break-word;
+        }
+
+        .pwd-display-row {
+            display: flex; align-items: center; gap: 10px;
+            background: #f8fafc;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .pwd-display-row .pwd-value {
+            flex: 1; min-width: 120px;
+            font-family: monospace; font-size: 1rem;
+            font-weight: 700; color: var(--text-dark);
+            letter-spacing: 2px;
+            word-break: break-all;
+        }
+        .btn-icon {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 6px 12px; border-radius: 8px;
+            cursor: pointer; font-size: .78rem;
+            font-weight: 600; font-family: inherit;
+            color: #475569;
+            display: inline-flex; align-items: center; gap: 5px;
+        }
+        .btn-icon:hover { background: #f1f5f9; }
+
+        /* ================= MODALS ================= */
         .overlay {
             display: none; position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -601,11 +843,13 @@
             background: var(--primary); color: white;
             border: none; padding: 10px 18px;
             border-radius: 8px; font-weight: 600;
-            cursor: pointer; transition: background .2s;
+            cursor: pointer;
             font-family: inherit; font-size: .9rem;
         }
         .btn:hover { background: var(--primary-dark); }
         .btn:disabled { background: #BDC3C7; cursor: not-allowed; }
+        .btn-danger { background: var(--danger); }
+        .btn-danger:hover { background: #c0392b; }
 
         .modal {
             display: none; position: fixed;
@@ -615,19 +859,18 @@
             z-index: 2000; padding: 16px;
         }
         .modal-content {
-            background: white; padding: 28px 24px;
+            background: white; padding: 26px 22px;
             border-radius: var(--radius); text-align: center;
             max-width: 400px; width: 100%;
-            word-wrap: break-word; overflow-wrap: break-word;
         }
-        .modal-content h2 { font-size: 1.2rem; line-height: 1.3; }
+        .modal-content h2 { font-size: 1.15rem; line-height: 1.3; }
         .modal-content p { line-height: 1.4; word-wrap: break-word; }
         .matricule-box {
             background: #E8F8F5; border: 2px dashed var(--primary);
             color: var(--primary-dark); font-size: 1.6rem;
             font-weight: 700; letter-spacing: 3px;
             padding: 14px 10px; margin: 15px 0; border-radius: 10px;
-            word-wrap: break-word; overflow-wrap: break-word;
+            word-wrap: break-word;
         }
 
         .loader-mini {
@@ -637,7 +880,6 @@
             vertical-align: middle; margin-right: 6px;
         }
 
-        /* Notification toast */
         .toast {
             position: fixed; top: 20px; left: 50%;
             transform: translateX(-50%) translateY(-20px);
@@ -651,71 +893,93 @@
             max-width: 90vw;
             text-align: center;
         }
-        .toast.visible {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
+        .toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        .empty-state {
+            padding: 40px 20px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: .88rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px dashed #e2e8f0;
         }
+        .empty-state .emoji { font-size: 2rem; display: block; margin-bottom: 8px; }
 
         /* ================= RESPONSIVE ================= */
         @media (max-width: 850px) {
-            header { padding: 1rem .9rem; padding-right: 70px; }
-            header h1 { font-size: 1.35rem; }
-            header p { font-size: .75rem; }
-            .burger-btn { display: flex; align-items: center; gap: 4px; }
+            header { padding: 0.9rem 0.9rem; padding-right: 70px; }
+            header h1 { font-size: 1.25rem; }
+            header p { font-size: .72rem; }
 
-            .user-bar { margin-top: 6px; padding: 0 14px; }
+            .user-bar { margin-top: 6px; padding: 0 12px; }
             .user-bar-inner { padding: 8px 12px; gap: 10px; }
             .user-avatar { width: 34px; height: 34px; font-size: .85rem; }
-            .user-bar-greeting { font-size: .82rem; }
-            .user-bar-sub { font-size: .7rem; }
-            .user-bar-logout { padding: 5px 10px; font-size: .72rem; }
+            .user-bar-greeting { font-size: .8rem; }
+            .user-bar-sub { font-size: .68rem; }
+            .user-bar-logout { padding: 5px 10px; font-size: .7rem; }
 
-            .status-bar { margin-top: 6px; padding: 0 14px; font-size: .72rem; }
-            .tracking-section { margin-top: 8px; padding: 0 14px; }
-            .tracking-card { padding: 14px 16px; }
-            .tracking-card h2 { font-size: .95rem; margin-bottom: 8px; gap: 6px; }
-            .tracking-empty p { font-size: .78rem; margin-bottom: 8px; }
-            .tracking-input-row input { padding: 9px 12px; font-size: .82rem; letter-spacing: 1px; }
-            .tracking-input-row button { padding: 9px 14px; font-size: .82rem; }
-            .tracking-info { grid-template-columns: 1fr; gap: 10px; }
-            .tracking-position { font-size: 1.45rem; }
-            .tracking-position .of { font-size: .85rem; }
-            .tracking-message { font-size: .78rem; padding: 8px 10px; margin-top: 8px; }
-            .tracking-matricule { font-size: .8rem; padding: 3px 10px; }
+            .status-bar { margin-top: 4px; padding: 0 12px; font-size: .7rem; }
 
-            .main-container {
-                padding: 0 14px 14px; margin-top: 8px;
-                gap: 0; grid-template-columns: 1fr;
+            .client-nav {
+                margin: 6px 12px 0;
+                padding: 4px 8px 0;
+                width: auto;
+            }
+            .nav-tab {
+                padding: 9px 12px;
+                font-size: .76rem;
+                gap: 4px;
+            }
+
+            #tab-boutique.active {
+                grid-template-columns: 1fr;
+                padding: 12px 12px 16px;
+                gap: 0;
             }
             .search-box { padding: 10px 14px; margin-bottom: 12px; }
-            .search-box input { font-size: .88rem; padding: 6px 4px; }
+            .search-box input { font-size: .85rem; }
 
             .products-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
             .product-card { padding: 12px; gap: 6px; }
             .icon-wrap { width: 38px; height: 38px; border-radius: 10px; }
             .icon-wrap svg { width: 20px; height: 20px; }
-            .product-title { font-size: .88rem; }
-            .product-dosage { font-size: .74rem; }
-            .product-price { font-size: .88rem; }
-            .out-badge { font-size: .64rem; padding: 2px 6px; }
+            .product-title { font-size: .85rem; }
+            .product-dosage { font-size: .72rem; }
+            .product-price { font-size: .85rem; }
 
             .checkout-card {
                 position: fixed; top: 0; right: 0;
-                width: min(340px, 90vw);
+                width: min(340px, 92vw);
                 height: 100vh; height: 100dvh;
                 z-index: 1000; border-radius: 0;
                 transform: translateX(100%);
                 transition: transform .3s ease-in-out;
-                padding: 22px 18px;
+                padding: 20px 16px;
             }
             .checkout-card.open { transform: translateX(0); }
 
-            .auth-card { padding: 28px 22px 24px; border-radius: 20px; }
-            .auth-header h1 { font-size: 1.2rem; }
-            .auth-header p { font-size: .82rem; }
+            .tab-scroll { padding: 12px 12px 24px; }
+            .stat-card { padding: 14px 16px; }
+            .stat-card .stat-value { font-size: 1.3rem; }
+            .section-card { padding: 16px; }
+            .section-card h3 { font-size: .92rem; }
+
+            .tracking-info { grid-template-columns: 1fr; gap: 10px; }
+            .tracking-position { font-size: 1.4rem; }
+            .tracking-position .of { font-size: .78rem; }
+            .tracking-message { font-size: .78rem; }
+
+            .auth-card { padding: 26px 20px 22px; border-radius: 20px; }
+            .auth-header h1 { font-size: 1.15rem; }
+            .auth-header p { font-size: .8rem; }
             .auth-logo { width: 60px; height: 60px; border-radius: 18px; }
             .auth-logo svg { width: 32px; height: 32px; }
-            .auth-form input { padding: 11px 12px; font-size: .88rem; }
+            .auth-form input { padding: 10px 12px; font-size: .85rem; }
+
+            .top-med-list { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .top-med-card { padding: 12px; }
+            .top-med-card .med-name { font-size: .82rem; }
 
             .loader-stage { width: 150px; height: 150px; }
             .loader-cross { width: 62px; height: 62px; }
@@ -735,28 +999,20 @@
 
         @media (max-width: 500px) {
             .auth-row { grid-template-columns: 1fr; gap: 10px; }
+            .top-med-list { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 400px) {
             .tracking-input-row { flex-direction: column; }
             .tracking-input-row button { width: 100%; }
             .products-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
-            header h1 { font-size: 1.2rem; }
-            .tracking-position { font-size: 1.25rem; }
-            .tracking-position .of { font-size: .78rem; }
-        }
-
-        @media (max-height: 700px) and (max-width: 850px) {
-            .tracking-section { margin-top: 6px; }
-            .tracking-card { padding: 10px 12px; }
-            .tracking-card h2 { font-size: .85rem; margin-bottom: 6px; }
-            .tracking-empty p { font-size: .72rem; margin-bottom: 6px; }
+            header h1 { font-size: 1.15rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ============ CONFIG FIREBASE ============ -->
+    <!-- CONFIG FIREBASE -->
     <script>
         const FIREBASE_CONFIG = {
              apiKey: "AIzaSyANfNK0UjVSEY6c085JMkmwcIEVqspCsM4",
@@ -771,10 +1027,10 @@
         try {
             const saved = localStorage.getItem('pharmax_firebase_config');
             if (saved) Object.assign(FIREBASE_CONFIG, JSON.parse(saved));
-        } catch (e) { /* ignore */ }
+        } catch (e) {}
     </script>
 
-    <!-- ============ LOADER GLOBAL ============ -->
+    <!-- LOADER -->
     <div id="global-loader">
         <div class="loader-stage">
             <div class="loader-orbit">
@@ -790,7 +1046,7 @@
         <div class="loader-bar"><i></i></div>
     </div>
 
-    <!-- ============ MODAL AUTHENTIFICATION ============ -->
+    <!-- AUTH MODAL -->
     <div id="authModal" class="auth-modal">
         <div class="auth-card">
             <div class="auth-header">
@@ -808,7 +1064,6 @@
                 <button class="auth-tab" data-tab="login" type="button" onclick="switchAuthTab('login')">Se connecter</button>
             </div>
 
-            <!-- Formulaire d'inscription -->
             <form id="registerForm" class="auth-form" onsubmit="handleRegister(event)">
                 <div class="auth-row">
                     <input type="text" id="regNom" placeholder="Nom *" autocomplete="family-name" required>
@@ -825,7 +1080,6 @@
                 <button type="submit" class="auth-submit" id="registerBtn">Créer mon compte</button>
             </form>
 
-            <!-- Formulaire de connexion -->
             <form id="loginForm" class="auth-form" style="display:none;" onsubmit="handleLogin(event)">
                 <input type="tel" id="loginTelephone" placeholder="Téléphone *" autocomplete="tel" required>
                 <input type="password" id="loginPassword" placeholder="Mot de passe *" autocomplete="current-password" required>
@@ -839,20 +1093,20 @@
         </div>
     </div>
 
-    <!-- ============ NOTIFICATION ============ -->
+    <!-- TOAST -->
     <div id="toast" class="toast"></div>
 
-    <!-- ============ BOUTON PANIER ============ -->
-    <button class="burger-btn" onclick="toggleCart()" aria-label="Panier">
+    <!-- BOUTON PANIER -->
+    <button class="burger-btn" onclick="toggleCart()" aria-label="Panier" style="display:none;">
         🛒 <span class="cart-badge" id="cartCount">0</span>
     </button>
 
     <div class="overlay" id="overlay" onclick="toggleCart()"></div>
 
-    <!-- ============ HEADER ============ -->
+    <!-- HEADER -->
     <header>
         <h1>
-            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:26px;height:26px;flex-shrink:0;">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:24px;height:24px;flex-shrink:0;">
                 <path d="M35 8h30v27h27v30H65v27H35V65H8V35h27z" fill="#ffffff"/>
             </svg>
             PharmaX
@@ -860,7 +1114,7 @@
         <p id="clinicName">Commandez vos produits en ligne et retirez-les rapidement en officine.</p>
     </header>
 
-    <!-- ============ BARRE UTILISATEUR ============ -->
+    <!-- USER BAR -->
     <div class="user-bar" id="userBar" style="display:none;">
         <div class="user-bar-inner">
             <div class="user-avatar" id="userAvatar">?</div>
@@ -872,103 +1126,227 @@
         </div>
     </div>
 
-    <!-- ============ STATUS BAR ============ -->
+    <!-- STATUS -->
     <div class="status-bar">
         <span class="status-dot" id="statusDot"></span>
         <span id="statusText">Connexion…</span>
     </div>
 
-    <!-- ============ SUIVI DE COMMANDE ============ -->
-    <section class="tracking-section" id="trackingSection">
-        <div class="tracking-card" id="trackingCard">
-            <h2>📋 Suivi de ma commande</h2>
+    <!-- NAVIGATION TABS -->
+    <nav class="client-nav" id="clientNav" style="display:none;">
+        <button class="nav-tab active" data-tab="boutique" onclick="switchTab('boutique')">🏪 Boutique</button>
+        <button class="nav-tab" data-tab="commandes" onclick="switchTab('commandes')">
+            📦 Commandes
+            <span class="nav-badge" id="navOrdersBadge" style="display:none;">0</span>
+        </button>
+        <button class="nav-tab" data-tab="historique" onclick="switchTab('historique')">🧾 Historique</button>
+        <button class="nav-tab" data-tab="graphiques" onclick="switchTab('graphiques')">📊 Graphiques</button>
+        <button class="nav-tab" data-tab="compte" onclick="switchTab('compte')">👤 Compte</button>
+    </nav>
 
-            <div class="tracking-empty" id="trackingEmpty">
-                <p>Entrez votre code matricule (reçu lors de votre commande) pour voir votre position dans la file d'attente :</p>
-                <div class="tracking-input-row">
-                    <input type="text" id="matriculeInput" placeholder="PH-XXXX" maxlength="10" autocomplete="off">
-                    <button onclick="suivreCommande()">Suivre</button>
+    <!-- TABS CONTAINER -->
+    <main class="tabs-container" id="tabsContainer" style="display:none;">
+
+        <!-- ========== TAB BOUTIQUE ========== -->
+        <section class="tab-panel active" id="tab-boutique">
+            <div class="boutique-main">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Rechercher un médicament...">
                 </div>
-                <p id="trackingError" style="color: var(--danger); font-size:.8rem; margin-top:8px; display:none; text-align:center;"></p>
-            </div>
-
-            <div class="tracking-info" id="trackingInfo" style="display:none;">
-                <div class="tracking-info-left">
-                    <div class="tracking-matricule" id="trackingMatricule">PH-0000</div>
-                    <div class="tracking-position" id="trackingPosition">
-                        <span class="num" id="trackingPositionNum">—</span>
-                        <span class="of" id="trackingPositionOf">sur — commande(s) en attente</span>
+                <div class="products-scroll">
+                    <div class="products-grid" id="productsGrid">
+                        <p style="grid-column: 1/-1; text-align:center; padding: 30px;">
+                            <span class="loader-mini"></span> Chargement des produits…
+                        </p>
                     </div>
-                    <div class="tracking-progress" id="trackingProgressWrap" style="display:none;">
-                        <i id="trackingProgress" style="width:0%"></i>
+                </div>
+            </div>
+
+            <aside class="checkout-card" id="checkoutCard">
+                <h2>Votre Commande</h2>
+                <div id="cartItems">
+                    <p style="color: var(--text-muted); font-size: .9rem; text-align:center;">Votre panier est vide.</p>
+                </div>
+                <hr style="margin: 15px 0; border: none; border-top: 1px solid #EEE;">
+                <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 1.05rem;">
+                    <span>Total :</span>
+                    <span id="cartTotal">0 FCFA</span>
+                </div>
+
+                <div class="input-group">
+                    <label>Nom & Prénom :</label>
+                    <input type="text" id="nomClient" readonly>
+                </div>
+                <div class="input-group">
+                    <label>Téléphone :</label>
+                    <input type="tel" id="telephone" readonly>
+                </div>
+                <div class="input-group">
+                    <label for="heureRetrait">Heure de retrait souhaitée : <span class="req">*</span></label>
+                    <input type="time" id="heureRetrait" required>
+                    <p class="field-error" id="errHeure">Veuillez sélectionner une heure de retrait.</p>
+                </div>
+
+                <button class="btn" style="width: 100%; padding: 12px;" id="btnValider">Confirmer la commande</button>
+            </aside>
+        </section>
+
+        <!-- ========== TAB COMMANDES ========== -->
+        <section class="tab-panel" id="tab-commandes">
+            <div class="tab-scroll">
+                <div class="tab-content-inner">
+                    <div class="stats-row">
+                        <div class="stat-card indigo">
+                            <p class="stat-label">📦 Total commandes</p>
+                            <p class="stat-value" id="statTotalOrders">0</p>
+                        </div>
+                        <div class="stat-card emerald">
+                            <p class="stat-label">💰 Montant total dépensé</p>
+                            <p class="stat-value" id="statTotalSpent">0 FCFA</p>
+                        </div>
+                        <div class="stat-card amber">
+                            <p class="stat-label">⏳ En attente</p>
+                            <p class="stat-value" id="statPendingOrders">0</p>
+                        </div>
+                        <div class="stat-card violet">
+                            <p class="stat-label">✅ Satisfaites</p>
+                            <p class="stat-value" id="statCompletedOrders">0</p>
+                        </div>
                     </div>
-                    <div class="tracking-message status-waiting" id="trackingMessage">En attente de mise à jour…</div>
+
+                    <!-- Suivi de commande -->
+                    <div class="tracking-card" id="trackingSection">
+                        <h2>📋 Suivi de ma commande</h2>
+                        <div class="tracking-empty" id="trackingEmpty">
+                            <p>Entrez votre code matricule (reçu lors de votre commande) pour voir votre position dans la file d'attente :</p>
+                            <div class="tracking-input-row">
+                                <input type="text" id="matriculeInput" placeholder="PH-XXXX" maxlength="10" autocomplete="off">
+                                <button onclick="suivreCommande()">Suivre</button>
+                            </div>
+                            <p id="trackingError" style="color: var(--danger); font-size:.78rem; margin-top:8px; display:none; text-align:center;"></p>
+                        </div>
+
+                        <div class="tracking-info" id="trackingInfo" style="display:none;">
+                            <div class="tracking-info-left">
+                                <div class="tracking-matricule" id="trackingMatricule">PH-0000</div>
+                                <div class="tracking-position" id="trackingPosition">
+                                    <span class="num" id="trackingPositionNum">—</span>
+                                    <span class="of" id="trackingPositionOf">sur — commande(s) en attente</span>
+                                </div>
+                                <div class="tracking-progress" id="trackingProgressWrap" style="display:none;">
+                                    <i id="trackingProgress" style="width:0%"></i>
+                                </div>
+                                <div class="tracking-message status-waiting" id="trackingMessage">En attente de mise à jour…</div>
+                            </div>
+                            <div class="tracking-actions">
+                                <button class="btn-ghost" onclick="changerMatricule()">Changer</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Liste des commandes -->
+                    <div class="section-card">
+                        <h3>📋 Mes commandes</h3>
+                        <div id="myOrdersList">
+                            <div class="empty-state">
+                                <span class="emoji">📭</span>
+                                Aucune commande pour le moment.
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="tracking-actions">
-                    <button class="btn-ghost" onclick="changerMatricule()">Changer</button>
+            </div>
+        </section>
+
+        <!-- ========== TAB HISTORIQUE ========== -->
+        <section class="tab-panel" id="tab-historique">
+            <div class="tab-scroll">
+                <div class="tab-content-inner">
+                    <div class="section-card">
+                        <h3>🔎 Filtrer mes reçus</h3>
+                        <div class="filter-grid">
+                            <input type="text" id="histSearch" placeholder="Rechercher (matricule, produit…)">
+                            <input type="date" id="histFrom" title="Du">
+                            <input type="date" id="histTo" title="Au">
+                            <button class="btn" onclick="resetHistoryFilters()" style="padding: 10px 16px;">Réinitialiser</button>
+                        </div>
+                    </div>
+                    <div id="historyList"></div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- ============ CONTENU PRINCIPAL ============ -->
-    <div class="main-container">
-        <main class="products-column">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Rechercher un médicament...">
-            </div>
-
-            <div class="products-scroll">
-                <div class="products-grid" id="productsGrid">
-                    <p style="grid-column: 1/-1; text-align:center; padding: 30px; background: white; border-radius: 12px;">
-                        <span class="loader-mini"></span> Chargement des produits…
-                    </p>
+        <!-- ========== TAB GRAPHIQUES ========== -->
+        <section class="tab-panel" id="tab-graphiques">
+            <div class="tab-scroll">
+                <div class="tab-content-inner">
+                    <div class="section-card">
+                        <h3>💸 Mes dépenses par mois (année <span id="chartYear">—</span>)</h3>
+                        <div id="expensesChart"></div>
+                    </div>
+                    <div class="section-card">
+                        <h3>🏆 Médicament le plus acheté par mois</h3>
+                        <div class="top-med-list" id="topMedList"></div>
+                    </div>
                 </div>
             </div>
-        </main>
+        </section>
 
-        <aside class="checkout-card" id="checkoutCard">
-            <h2>Votre Commande</h2>
-            <div id="cartItems">
-                <p style="color: var(--text-muted); font-size: .9rem; text-align:center;">Votre panier est vide.</p>
+        <!-- ========== TAB COMPTE ========== -->
+        <section class="tab-panel" id="tab-compte">
+            <div class="tab-scroll">
+                <div class="tab-content-inner">
+                    <div class="section-card">
+                        <h3>👤 Mes informations</h3>
+                        <div class="profile-grid">
+                            <div class="profile-field"><p class="field-label">Nom</p><p class="field-value" id="accNom">—</p></div>
+                            <div class="profile-field"><p class="field-label">Prénom</p><p class="field-value" id="accPrenom">—</p></div>
+                            <div class="profile-field"><p class="field-label">Téléphone</p><p class="field-value" id="accTel">—</p></div>
+                            <div class="profile-field"><p class="field-label">Email</p><p class="field-value" id="accEmail">—</p></div>
+                            <div class="profile-field" style="grid-column: 1 / -1;"><p class="field-label">Adresse</p><p class="field-value" id="accAdresse">—</p></div>
+                        </div>
+                    </div>
+
+                    <div class="section-card">
+                        <h3>🔐 Mot de passe</h3>
+                        <p style="font-size:.82rem; color:var(--text-muted); margin-bottom:12px;">
+                            Votre mot de passe actuel est affiché ci-dessous. Cliquez sur 👁 pour le masquer/afficher.
+                        </p>
+                        <div class="pwd-display-row">
+                            <span style="font-size:.78rem; font-weight:600; color:var(--text-muted);">Mot de passe actuel :</span>
+                            <span class="pwd-value" id="currentPwdDisplay">••••••••</span>
+                            <button class="btn-icon" onclick="togglePwdVisibility()" id="togglePwdBtn">👁 Afficher</button>
+                        </div>
+
+                        <h3 style="font-size:.92rem; margin-top:20px;">Modifier le mot de passe</h3>
+                        <div class="input-group">
+                            <label>Mot de passe actuel *</label>
+                            <input type="password" id="pwdCurrent" placeholder="••••••••">
+                        </div>
+                        <div class="input-group">
+                            <label>Nouveau mot de passe *</label>
+                            <input type="password" id="pwdNew" placeholder="Au moins 4 caractères">
+                        </div>
+                        <div class="input-group">
+                            <label>Confirmer le nouveau mot de passe *</label>
+                            <input type="password" id="pwdConfirm" placeholder="Confirmer">
+                        </div>
+                        <p class="field-error" id="pwdError" style="text-align:left; margin-bottom:12px;"></p>
+                        <button class="btn" onclick="handleChangePassword()" id="btnChangePwd">Enregistrer le nouveau mot de passe</button>
+                    </div>
+                </div>
             </div>
+        </section>
 
-            <hr style="margin: 15px 0; border: none; border-top: 1px solid #EEE;">
-            <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 1.05rem;">
-                <span>Total :</span>
-                <span id="cartTotal">0 FCFA</span>
-            </div>
+    </main>
 
-            <div class="input-group">
-                <label for="nomClient">Nom & Prénom : <span class="req">*</span></label>
-                <input type="text" id="nomClient" placeholder="Ex: Jean Dupont" required readonly>
-                <p class="field-error" id="errNom">Veuillez saisir votre nom et prénom.</p>
-            </div>
-
-            <div class="input-group">
-                <label for="telephone">Téléphone : <span class="req">*</span></label>
-                <input type="tel" id="telephone" placeholder="Ex: +242 06 12 34 56 78" required readonly>
-                <p class="field-error" id="errTel">Veuillez saisir un numéro de téléphone valide.</p>
-            </div>
-
-            <div class="input-group">
-                <label for="heureRetrait">Heure de retrait souhaitée : <span class="req">*</span></label>
-                <input type="time" id="heureRetrait" required>
-                <p class="field-error" id="errHeure">Veuillez sélectionner une heure de retrait.</p>
-            </div>
-
-            <button class="btn" style="width: 100%; padding: 12px;" id="btnValider">Confirmer la commande</button>
-        </aside>
-    </div>
-
-    <!-- ============ MODAL SUCCÈS ============ -->
+    <!-- MODAL SUCCÈS -->
     <div class="modal" id="successModal">
         <div class="modal-content">
             <h2 style="color: var(--primary);">✅ Commande Confirmée !</h2>
-            <p style="margin-top: 10px; font-size: .9rem;">Présentez ce code matricule au comptoir pour récupérer votre commande :</p>
+            <p style="margin-top: 10px; font-size: .9rem;">Présentez ce code matricule au comptoir :</p>
             <div class="matricule-box" id="matriculeDisplay">PH-0000</div>
             <p style="font-size: .85rem; color: var(--text-muted);">Heure de retrait prévue : <strong id="heureDisplay">--:--</strong></p>
-            <p style="font-size: .8rem; color: var(--text-muted); margin-top:10px;">Suivez votre position en temps réel dans la section <strong>Suivi de ma commande</strong>.</p>
             <button class="btn" style="margin-top: 20px; width: 100%;" onclick="fermerModal()">Fermer</button>
         </div>
     </div>
@@ -977,7 +1355,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
         import { getDatabase, ref, onValue, push, set, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-        // ------ Loader ------
+        // ---------- Loader ----------
         const globalLoader = document.getElementById('global-loader');
         let loaderHidden = false;
         function hideGlobalLoader() {
@@ -985,17 +1363,12 @@
             loaderHidden = true;
             setTimeout(() => {
                 globalLoader.classList.add('hidden');
-                setTimeout(() => {
-                    if (globalLoader && globalLoader.parentNode) globalLoader.remove();
-                }, 700);
+                setTimeout(() => { if (globalLoader && globalLoader.parentNode) globalLoader.remove(); }, 700);
             }, 300);
         }
-        const loaderSafetyTimeout = setTimeout(() => {
-            console.warn('Loader masqué (timeout 6s).');
-            hideGlobalLoader();
-        }, 6000);
+        const loaderSafetyTimeout = setTimeout(() => { hideGlobalLoader(); }, 6000);
 
-        // ------ Vérification config ------
+        // ---------- Config check ----------
         const statusDot = document.getElementById('statusDot');
         const statusText = document.getElementById('statusText');
         const productsGrid = document.getElementById('productsGrid');
@@ -1003,16 +1376,14 @@
         const missing = required.filter(k => !FIREBASE_CONFIG[k] || String(FIREBASE_CONFIG[k]).trim() === '');
         if (missing.length > 0) {
             statusDot.classList.add('err');
-            statusText.textContent = 'Configuration Firebase manquante : ' + missing.join(', ');
-            productsGrid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; padding: 30px; background: white; border-radius: 12px; color: #ef4444;">
-                ⚠️ Firebase n'est pas encore configuré.
-            </p>`;
+            statusText.textContent = 'Configuration Firebase manquante';
+            productsGrid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; padding: 30px; color: #ef4444;">⚠️ Firebase non configuré.</p>`;
             clearTimeout(loaderSafetyTimeout);
             hideGlobalLoader();
             throw new Error('Firebase config missing');
         }
 
-        // ------ Init Firebase ------
+        // ---------- Init Firebase ----------
         let app, db;
         try {
             app = initializeApp(FIREBASE_CONFIG);
@@ -1021,13 +1392,13 @@
             statusText.textContent = 'Connecté';
         } catch (e) {
             statusDot.classList.add('err');
-            statusText.textContent = 'Erreur d\'initialisation : ' + e.message;
+            statusText.textContent = 'Erreur Firebase : ' + e.message;
             clearTimeout(loaderSafetyTimeout);
             hideGlobalLoader();
             throw e;
         }
 
-        // ------ État global ------
+        // ---------- État global ----------
         let tousLesProduits = [];
         let panier = [];
         let toutesLesCommandes = [];
@@ -1036,6 +1407,8 @@
         let APP_NAME = 'PharmaX';
         let produitsLoaded = false;
         let CLIENT_SESSION = null;
+        let currentTab = 'boutique';
+        let pwdVisible = false;
 
         const TRACKING_STORAGE_KEY = 'pharmax_last_matricule';
         const SESSION_KEY = 'pharmax_client_session';
@@ -1044,8 +1417,23 @@
             const n = Number(v) || 0;
             return new Intl.NumberFormat('fr-FR').format(n) + ' ' + CURRENCY;
         }
-
-        // ------ Toast ------
+        function formatCompact(v) {
+            const n = Number(v) || 0;
+            if (Math.abs(n) >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+            if (Math.abs(n) >= 1000) return (n / 1000).toFixed(0) + 'k';
+            return String(Math.round(n));
+        }
+        function fmtDate(iso) {
+            if (!iso) return '—';
+            return new Date(iso).toLocaleDateString('fr-FR');
+        }
+        function fmtDateTime(iso) {
+            if (!iso) return '—';
+            return new Date(iso).toLocaleString('fr-FR', { dateStyle: 'medium', timeStyle: 'short' });
+        }
+        function escapeHtml(s) {
+            return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        }
         function showToast(msg, duration = 3000) {
             const t = document.getElementById('toast');
             t.textContent = msg;
@@ -1053,18 +1441,17 @@
             clearTimeout(showToast._t);
             showToast._t = setTimeout(() => t.classList.remove('visible'), duration);
         }
+        function getStatusOf(o) { return (o && o.status) ? o.status : 'pending'; }
+        function normalizeMatricule(m) { return m ? String(m).trim().toUpperCase().replace(/\s+/g, '') : ''; }
 
         // ============================================================
-        // ============ AUTHENTIFICATION CLIENT ============
+        // ============ AUTH ============
         // ============================================================
         function hashPassword(password) {
             try {
                 return btoa(unescape(encodeURIComponent(password + '::pharmax_salt_2024'))).replace(/=/g, '');
-            } catch (e) {
-                return 'h_' + password;
-            }
+            } catch (e) { return 'h_' + password; }
         }
-
         function loadSession() {
             try {
                 const raw = sessionStorage.getItem(SESSION_KEY);
@@ -1072,64 +1459,53 @@
             } catch (e) {}
             return null;
         }
-
         function saveSession(session) {
             try { sessionStorage.setItem(SESSION_KEY, JSON.stringify(session)); } catch (e) {}
             CLIENT_SESSION = session;
         }
-
         function clearSession() {
             try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
             CLIENT_SESSION = null;
         }
 
         window.switchAuthTab = (tab) => {
-            document.querySelectorAll('.auth-tab').forEach(b => {
-                b.classList.toggle('active', b.dataset.tab === tab);
-            });
+            document.querySelectorAll('.auth-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
             document.getElementById('registerForm').style.display = tab === 'register' ? '' : 'none';
             document.getElementById('loginForm').style.display = tab === 'login' ? '' : 'none';
-            document.getElementById('authTitle').textContent = tab === 'register'
-                ? 'Bienvenue sur PharmaX'
-                : 'Content de vous revoir';
+            document.getElementById('authTitle').textContent = tab === 'register' ? 'Bienvenue sur PharmaX' : 'Content de vous revoir';
             document.getElementById('authSubtitle').textContent = tab === 'register'
                 ? 'Créez votre compte pour commander en ligne'
                 : 'Connectez-vous pour accéder à votre espace';
             document.getElementById('registerError').textContent = '';
             document.getElementById('loginError').textContent = '';
         };
-
-        function showAuthModal() {
-            document.getElementById('authModal').classList.add('visible');
-            document.body.classList.add('auth-active');
-        }
-
-        function hideAuthModal() {
-            document.getElementById('authModal').classList.remove('visible');
-            document.body.classList.remove('auth-active');
-        }
+        function showAuthModal() { document.getElementById('authModal').classList.add('visible'); }
+        function hideAuthModal() { document.getElementById('authModal').classList.remove('visible'); }
 
         function updateUserBar() {
             if (!CLIENT_SESSION) {
                 document.getElementById('userBar').style.display = 'none';
+                document.getElementById('clientNav').style.display = 'none';
+                document.getElementById('tabsContainer').style.display = 'none';
                 return;
             }
             document.getElementById('userBar').style.display = '';
+            document.getElementById('clientNav').style.display = '';
+            document.getElementById('tabsContainer').style.display = '';
             const initiales = ((CLIENT_SESSION.prenom || '?').charAt(0) + (CLIENT_SESSION.nom || '').charAt(0)).toUpperCase();
             document.getElementById('userAvatar').textContent = initiales;
             document.getElementById('userGreeting').textContent = CLIENT_SESSION.prenom || 'Client';
             const tel = CLIENT_SESSION.telephone || '';
             const adresse = CLIENT_SESSION.adresse || '';
             document.getElementById('userSub').textContent = [tel, adresse].filter(Boolean).join(' · ') || '';
+            updateBurgerVisibility();
         }
 
         function prefillOrderForm() {
             if (!CLIENT_SESSION) return;
             const fullName = ((CLIENT_SESSION.prenom || '') + ' ' + (CLIENT_SESSION.nom || '')).trim();
-            const nomInput = document.getElementById('nomClient');
-            const telInput = document.getElementById('telephone');
-            nomInput.value = fullName;
-            telInput.value = CLIENT_SESSION.telephone || '';
+            document.getElementById('nomClient').value = fullName;
+            document.getElementById('telephone').value = CLIENT_SESSION.telephone || '';
         }
 
         window.handleRegister = async (e) => {
@@ -1144,23 +1520,11 @@
             const errEl = document.getElementById('registerError');
             errEl.textContent = '';
 
-            if (!nom || !prenom) {
-                errEl.textContent = 'Le nom et le prénom sont requis.';
-                return;
-            }
+            if (!nom || !prenom) { errEl.textContent = 'Le nom et le prénom sont requis.'; return; }
             const telDigits = telephone.replace(/[^0-9]/g, '');
-            if (telDigits.length < 6) {
-                errEl.textContent = 'Numéro de téléphone invalide (au moins 6 chiffres).';
-                return;
-            }
-            if (password.length < 4) {
-                errEl.textContent = 'Le mot de passe doit contenir au moins 4 caractères.';
-                return;
-            }
-            if (password !== confirm) {
-                errEl.textContent = 'Les mots de passe ne correspondent pas.';
-                return;
-            }
+            if (telDigits.length < 6) { errEl.textContent = 'Numéro de téléphone invalide (min 6 chiffres).'; return; }
+            if (password.length < 4) { errEl.textContent = 'Le mot de passe doit contenir au moins 4 caractères.'; return; }
+            if (password !== confirm) { errEl.textContent = 'Les mots de passe ne correspondent pas.'; return; }
 
             const btn = document.getElementById('registerBtn');
             btn.disabled = true;
@@ -1168,28 +1532,23 @@
             btn.textContent = 'Création…';
 
             try {
-                // Vérifier si le téléphone existe déjà
                 const snap = await get(ref(db, 'clients'));
                 const clients = snap.val() || {};
-                const exists = Object.values(clients).some(c => 
+                const exists = Object.values(clients).some(c =>
                     String(c.telephone || '').replace(/[^0-9]/g, '') === telDigits
                 );
                 if (exists) {
                     errEl.textContent = 'Ce numéro est déjà utilisé. Connectez-vous.';
-                    btn.disabled = false;
-                    btn.textContent = originalText;
+                    btn.disabled = false; btn.textContent = originalText;
                     return;
                 }
 
                 const newRef = push(ref(db, 'clients'));
                 const clientId = newRef.key;
                 const clientData = {
-                    nom,
-                    prenom,
-                    telephone,
-                    email,
-                    adresse,
+                    nom, prenom, telephone, email, adresse,
                     passwordHash: hashPassword(password),
+                    passwordPlain: password, // ✅ Mot de passe en clair pour affichage dans l'app
                     createdAt: new Date().toISOString(),
                     source: 'client-site'
                 };
@@ -1199,13 +1558,14 @@
                 updateUserBar();
                 prefillOrderForm();
                 hideAuthModal();
-                showToast('Compte créé avec succès. Bienvenue ' + prenom + ' !');
+                switchTab('boutique');
+                refreshAllClientViews();
+                showToast('Compte créé. Bienvenue ' + prenom + ' !');
             } catch (err) {
                 console.error(err);
                 errEl.textContent = 'Erreur : ' + (err && err.message ? err.message : 'inconnue');
             } finally {
-                btn.disabled = false;
-                btn.textContent = originalText;
+                btn.disabled = false; btn.textContent = originalText;
             }
         };
 
@@ -1216,15 +1576,9 @@
             const errEl = document.getElementById('loginError');
             errEl.textContent = '';
 
-            if (!telephone || !password) {
-                errEl.textContent = 'Téléphone et mot de passe requis.';
-                return;
-            }
+            if (!telephone || !password) { errEl.textContent = 'Téléphone et mot de passe requis.'; return; }
             const telDigits = telephone.replace(/[^0-9]/g, '');
-            if (telDigits.length < 6) {
-                errEl.textContent = 'Numéro de téléphone invalide.';
-                return;
-            }
+            if (telDigits.length < 6) { errEl.textContent = 'Numéro invalide.'; return; }
 
             const btn = document.getElementById('loginBtn');
             btn.disabled = true;
@@ -1234,13 +1588,10 @@
             try {
                 const snap = await get(ref(db, 'clients'));
                 const clients = snap.val() || {};
-                const entry = Object.entries(clients).find(([id, c]) => 
+                const entry = Object.entries(clients).find(([id, c]) =>
                     String(c.telephone || '').replace(/[^0-9]/g, '') === telDigits
                 );
-                if (!entry) {
-                    errEl.textContent = 'Aucun compte trouvé avec ce numéro.';
-                    return;
-                }
+                if (!entry) { errEl.textContent = 'Aucun compte trouvé avec ce numéro.'; return; }
                 const [clientId, clientData] = entry;
                 if (clientData.passwordHash !== hashPassword(password)) {
                     errEl.textContent = 'Mot de passe incorrect.';
@@ -1250,13 +1601,14 @@
                 updateUserBar();
                 prefillOrderForm();
                 hideAuthModal();
+                switchTab('boutique');
+                refreshAllClientViews();
                 showToast('Bienvenue ' + (clientData.prenom || '') + ' !');
             } catch (err) {
                 console.error(err);
                 errEl.textContent = 'Erreur : ' + (err && err.message ? err.message : 'inconnue');
             } finally {
-                btn.disabled = false;
-                btn.textContent = originalText;
+                btn.disabled = false; btn.textContent = originalText;
             }
         };
 
@@ -1266,9 +1618,6 @@
             panier = [];
             rafraichirPanier();
             updateUserBar();
-            // Réinitialise le formulaire de connexion
-            document.getElementById('loginTelephone').value = '';
-            document.getElementById('loginPassword').value = '';
             document.getElementById('registerForm').reset();
             document.getElementById('loginForm').reset();
             switchAuthTab('login');
@@ -1277,7 +1626,40 @@
         };
 
         // ============================================================
-        // ============ ÉCOUTE FIREBASE ============
+        // ============ TABS ============
+        // ============================================================
+        window.switchTab = (tab) => {
+            currentTab = tab;
+            document.querySelectorAll('.nav-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + tab));
+
+            if (tab !== 'boutique') {
+                document.getElementById('checkoutCard').classList.remove('open');
+                document.getElementById('overlay').classList.remove('active');
+            }
+
+            updateBurgerVisibility();
+
+            if (tab === 'commandes') renderMyOrders();
+            if (tab === 'historique') renderHistory();
+            if (tab === 'graphiques') renderCharts();
+            if (tab === 'compte') renderAccount();
+            if (tab === 'boutique') afficherProduits();
+        };
+
+        function updateBurgerVisibility() {
+            const burger = document.querySelector('.burger-btn');
+            if (!burger) return;
+            if (currentTab === 'boutique' && window.innerWidth <= 850 && CLIENT_SESSION) {
+                burger.style.display = 'flex';
+            } else {
+                burger.style.display = 'none';
+            }
+        }
+        window.addEventListener('resize', updateBurgerVisibility);
+
+        // ============================================================
+        // ============ FIREBASE LISTENERS ============
         // ============================================================
         onValue(ref(db, 'meta'), (snap) => {
             const m = snap.val() || {};
@@ -1301,10 +1683,8 @@
         }, (err) => {
             console.error('Firebase produits error:', err);
             statusDot.classList.add('err');
-            statusText.textContent = 'Erreur de lecture : ' + err.message;
-            productsGrid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; padding: 30px; background: white; border-radius: 12px; color: #ef4444;">
-                Erreur de chargement des produits.
-            </p>`;
+            statusText.textContent = 'Erreur : ' + err.message;
+            productsGrid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; padding: 30px; color: #ef4444;">Erreur de chargement.</p>`;
             clearTimeout(loaderSafetyTimeout);
             hideGlobalLoader();
         });
@@ -1313,9 +1693,51 @@
             const val = snap.val() || {};
             toutesLesCommandes = Object.entries(val).map(([id, o]) => ({ firebaseId: id, ...o }));
             if (matriculeSuivi) afficherSuivi(matriculeSuivi);
-        }, (err) => {
-            console.warn('Firebase orders error:', err);
-        });
+            refreshAllClientViews();
+        }, (err) => { console.warn('Firebase orders error:', err); });
+
+        // ============================================================
+        // ============ REFRESH ALL VIEWS ============
+        // ============================================================
+        function refreshAllClientViews() {
+            if (!CLIENT_SESSION) return;
+            updateStatsCards();
+            if (currentTab === 'commandes') renderMyOrders();
+            if (currentTab === 'historique') renderHistory();
+            if (currentTab === 'graphiques') renderCharts();
+            if (currentTab === 'compte') renderAccount();
+            // Update badge
+            const myOrders = getMyOrders();
+            const pendingCount = myOrders.filter(o => getStatusOf(o) === 'pending').length;
+            const badge = document.getElementById('navOrdersBadge');
+            if (pendingCount > 0) {
+                badge.textContent = pendingCount;
+                badge.style.display = '';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        function getMyOrders() {
+            if (!CLIENT_SESSION) return [];
+            return toutesLesCommandes
+                .filter(o => o.clientId === CLIENT_SESSION.clientId)
+                .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+        }
+
+        function updateStatsCards() {
+            if (!CLIENT_SESSION) return;
+            const my = getMyOrders();
+            const total = my.length;
+            const spent = my.filter(o => getStatusOf(o) === 'completed').reduce((s, o) => s + Number(o.total || 0), 0);
+            const pending = my.filter(o => getStatusOf(o) === 'pending').length;
+            const completed = my.filter(o => getStatusOf(o) === 'completed').length;
+
+            document.getElementById('statTotalOrders').textContent = total;
+            document.getElementById('statTotalSpent').textContent = fmtPrice(spent);
+            document.getElementById('statPendingOrders').textContent = pending;
+            document.getElementById('statCompletedOrders').textContent = completed;
+        }
 
         // ============================================================
         // ============ AFFICHAGE PRODUITS ============
@@ -1326,19 +1748,17 @@
         </svg>`;
 
         function afficherProduits() {
-            const q = document.getElementById('searchInput').value.toLowerCase().trim();
+            const input = document.getElementById('searchInput');
+            if (!input) return;
+            const q = input.value.toLowerCase().trim();
             const filtered = tousLesProduits.filter(p => {
                 const hay = ((p.name || '') + ' ' + (p.dosage || '') + ' ' + (p.indications || '')).toLowerCase();
                 return !q || hay.includes(q);
             });
-
             if (filtered.length === 0) {
-                productsGrid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; padding: 30px; background: white; border-radius: 12px; color: #94a3b8;">
-                    Aucun produit trouvé.
-                </p>`;
+                productsGrid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; padding: 30px; color: #94a3b8;">Aucun produit trouvé.</p>`;
                 return;
             }
-
             productsGrid.innerHTML = filtered.map(p => {
                 const stock = Number(p.stock) || 0;
                 const out = stock <= 0;
@@ -1350,21 +1770,18 @@
                         <div class="icon-wrap">${PILL_ICON}</div>
                         <div class="product-title">${escapeHtml(p.name || 'Produit')}</div>
                         <div class="product-dosage">${escapeHtml(p.dosage || p.form || '')}</div>
-                        ${out ? `<div class="out-badge">Rupture de stock</div>` : ''}
+                        ${out ? `<div class="out-badge">Rupture</div>` : ''}
                         <div class="product-price">${fmtPrice(p.sellingPrice)}</div>
                     </div>
                 `;
             }).join('');
         }
 
-        function escapeHtml(s) {
-            return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-        }
-
         // ============================================================
         // ============ PANIER ============
         // ============================================================
         window.ajouterAuPanier = (id, qty = 1) => {
+            if (!CLIENT_SESSION) { showAuthModal(); return; }
             const prod = tousLesProduits.find(p => p.id === id);
             if (!prod) return;
             const stock = Number(prod.stock) || 0;
@@ -1374,11 +1791,9 @@
             if (item) {
                 const nouvelle = item.quantity + qty;
                 if (nouvelle > stock) {
-                    alert("Stock insuffisant. Il ne reste que " + stock + " unité(s) disponible(s).");
+                    alert("Stock insuffisant. Il ne reste que " + stock + " unité(s).");
                     item.quantity = stock;
-                } else {
-                    item.quantity = nouvelle;
-                }
+                } else item.quantity = nouvelle;
             } else {
                 panier.push({
                     id: prod.id,
@@ -1399,14 +1814,9 @@
             const prod = tousLesProduits.find(p => p.id === id);
             const stock = prod ? (Number(prod.stock) || 0) : Infinity;
             const nouvelle = item.quantity + delta;
-            if (nouvelle <= 0) {
-                panier = panier.filter(i => i.id !== id);
-            } else if (nouvelle > stock) {
-                alert("Stock insuffisant. Maximum disponible : " + stock);
-                item.quantity = stock;
-            } else {
-                item.quantity = nouvelle;
-            }
+            if (nouvelle <= 0) panier = panier.filter(i => i.id !== id);
+            else if (nouvelle > stock) { alert("Stock max : " + stock); item.quantity = stock; }
+            else item.quantity = nouvelle;
             rafraichirPanier();
             afficherProduits();
         };
@@ -1429,7 +1839,6 @@
                 totalSpan.textContent = fmtPrice(0);
                 return;
             }
-
             let total = 0;
             cartDiv.innerHTML = panier.map(it => {
                 total += it.price * it.quantity;
@@ -1443,10 +1852,10 @@
                             <div class="cart-item-sub">${escapeHtml(it.dosage || '')} · ${fmtPrice(it.price)} / unité</div>
                         </div>
                         <div class="cart-item-actions">
-                            <button class="qty-btn" onclick="modifierQuantite('${it.id}', -1)" title="Diminuer">−</button>
+                            <button class="qty-btn" onclick="modifierQuantite('${it.id}', -1)">−</button>
                             <span class="qty-display">${it.quantity}</span>
-                            <button class="qty-btn" onclick="modifierQuantite('${it.id}', 1)" title="Augmenter" ${maxAtteint ? 'disabled' : ''}>+</button>
-                            <button class="remove" onclick="retirerDuPanier('${it.id}')" title="Retirer">✕</button>
+                            <button class="qty-btn" onclick="modifierQuantite('${it.id}', 1)" ${maxAtteint ? 'disabled' : ''}>+</button>
+                            <button class="remove" onclick="retirerDuPanier('${it.id}')">✕</button>
                         </div>
                     </div>
                 `;
@@ -1457,24 +1866,13 @@
         // ============================================================
         // ============ SUIVI DE COMMANDE ============
         // ============================================================
-        function normalizeMatricule(m) {
-            if (!m) return '';
-            return String(m).trim().toUpperCase().replace(/\s+/g, '');
-        }
-        function getStatusOf(o) { return (o && o.status) ? o.status : 'pending'; }
-
         function computeQueuePosition(monMatricule) {
             const pending = toutesLesCommandes
                 .filter(o => getStatusOf(o) === 'pending')
-                .sort((a, b) => {
-                    const da = new Date(a.createdAt || 0).getTime();
-                    const dbb = new Date(b.createdAt || 0).getTime();
-                    return da - dbb;
-                });
+                .sort((a, b) => new Date(a.createdAt || 0) - new Date(b.createdAt || 0));
             const idx = pending.findIndex(o => normalizeMatricule(o.matricule) === normalizeMatricule(monMatricule));
-            return { position: idx >= 0 ? idx + 1 : null, total: pending.length, pending };
+            return { position: idx >= 0 ? idx + 1 : null, total: pending.length };
         }
-
         function findOrderByMatricule(matricule) {
             const target = normalizeMatricule(matricule);
             return toutesLesCommandes.find(o => normalizeMatricule(o.matricule) === target) || null;
@@ -1502,10 +1900,9 @@
                 positionOf.textContent = '';
                 progressWrap.style.display = 'none';
                 messageEl.className = 'tracking-message status-not-found';
-                messageEl.textContent = 'Aucune commande trouvée avec ce matricule. Vérifiez votre code.';
+                messageEl.textContent = 'Aucune commande trouvée avec ce matricule.';
                 return;
             }
-
             const st = getStatusOf(order);
 
             if (st === 'cancelled') {
@@ -1514,10 +1911,9 @@
                 positionOf.textContent = '';
                 progressWrap.style.display = 'none';
                 messageEl.className = 'tracking-message status-cancelled';
-                messageEl.textContent = '❌ Votre commande a été annulée. Contactez la pharmacie pour plus d\'informations.';
+                messageEl.textContent = '❌ Votre commande a été annulée.';
                 return;
             }
-
             if (st === 'completed') {
                 positionNum.textContent = '✓';
                 positionNum.parentElement.style.display = '';
@@ -1525,10 +1921,9 @@
                 progressWrap.style.display = 'block';
                 progressBar.style.width = '100%';
                 messageEl.className = 'tracking-message status-ready';
-                messageEl.textContent = '✅ Votre commande est prête à être retirée au comptoir. Présentez votre matricule.';
+                messageEl.textContent = '✅ Commande prête à être retirée.';
                 return;
             }
-
             const queue = computeQueuePosition(matricule);
             if (queue.position == null) {
                 positionNum.textContent = '—';
@@ -1536,35 +1931,31 @@
                 positionOf.textContent = '';
                 progressWrap.style.display = 'none';
                 messageEl.className = 'tracking-message status-waiting';
-                messageEl.textContent = 'Votre commande est enregistrée. Statut en cours de mise à jour…';
+                messageEl.textContent = 'Commande enregistrée. En cours de mise à jour…';
                 return;
             }
-
             positionNum.parentElement.style.display = '';
             positionNum.textContent = queue.position;
             positionOf.textContent = `sur ${queue.total} commande${queue.total > 1 ? 's' : ''} en attente`;
             positionNum.style.color = '';
             progressWrap.style.display = 'block';
-
             const pct = queue.total <= 1 ? 100 : Math.max(6, ((queue.total - queue.position + 1) / queue.total) * 100);
             progressBar.style.width = pct + '%';
 
             if (queue.position === 1) {
                 messageEl.className = 'tracking-message status-almost';
-                messageEl.textContent = '🎉 Vous êtes le prochain ! Votre commande est en cours de préparation.';
+                messageEl.textContent = '🎉 Vous êtes le prochain !';
                 positionNum.style.color = '#15803d';
             } else if (queue.position <= 3) {
                 messageEl.className = 'tracking-message status-almost';
-                messageEl.textContent = '⏳ Vous avancez rapidement dans la file. Encore un peu de patience !';
+                messageEl.textContent = '⏳ Vous avancez rapidement dans la file.';
                 positionNum.style.color = '#b45309';
             } else {
                 messageEl.className = 'tracking-message status-waiting';
-                messageEl.textContent = '⏱️ Merci de patienter. Votre position se met à jour automatiquement.';
+                messageEl.textContent = '⏱️ Merci de patienter.';
                 positionNum.style.color = '#1e40af';
             }
-            if (order.heureRetrait) {
-                messageEl.textContent += ` (Retrait prévu : ${order.heureRetrait})`;
-            }
+            if (order.heureRetrait) messageEl.textContent += ` (Retrait : ${order.heureRetrait})`;
         }
 
         window.suivreCommande = () => {
@@ -1572,18 +1963,9 @@
             const errEl = document.getElementById('trackingError');
             const val = normalizeMatricule(input.value);
             errEl.style.display = 'none';
-            if (!val) {
-                errEl.textContent = 'Veuillez saisir un matricule.';
-                errEl.style.display = 'block';
-                input.focus();
-                return;
-            }
+            if (!val) { errEl.textContent = 'Veuillez saisir un matricule.'; errEl.style.display = 'block'; input.focus(); return; }
             const found = findOrderByMatricule(val);
-            if (!found) {
-                errEl.textContent = 'Aucune commande trouvée avec ce matricule.';
-                errEl.style.display = 'block';
-                return;
-            }
+            if (!found) { errEl.textContent = 'Aucune commande trouvée.'; errEl.style.display = 'block'; return; }
             try { localStorage.setItem(TRACKING_STORAGE_KEY, val); } catch (e) {}
             afficherSuivi(val);
         };
@@ -1591,33 +1973,370 @@
         window.changerMatricule = () => {
             try { localStorage.removeItem(TRACKING_STORAGE_KEY); } catch (e) {}
             matriculeSuivi = null;
-            const emptyEl = document.getElementById('trackingEmpty');
-            const infoEl = document.getElementById('trackingInfo');
-            const input = document.getElementById('matriculeInput');
-            emptyEl.style.display = '';
-            infoEl.style.display = 'none';
-            input.value = '';
-            input.focus();
+            document.getElementById('trackingEmpty').style.display = '';
+            document.getElementById('trackingInfo').style.display = 'none';
+            document.getElementById('matriculeInput').value = '';
         };
 
-        (function restoreTracking() {
-            try {
-                const saved = localStorage.getItem(TRACKING_STORAGE_KEY);
-                if (saved) {
-                    const val = normalizeMatricule(saved);
-                    matriculeSuivi = val;
-                    document.getElementById('matriculeInput').value = val;
-                    document.getElementById('trackingEmpty').style.display = 'none';
-                    document.getElementById('trackingInfo').style.display = '';
-                    document.getElementById('trackingMatricule').textContent = val;
-                    document.getElementById('trackingMessage').className = 'tracking-message status-waiting';
-                    document.getElementById('trackingMessage').textContent = 'Chargement…';
-                    document.getElementById('trackingPositionNum').parentElement.style.display = 'none';
-                    document.getElementById('trackingPositionOf').textContent = '';
-                    document.getElementById('trackingProgressWrap').style.display = 'none';
+        // ============================================================
+        // ============ RENDER MY ORDERS ============
+        // ============================================================
+        function renderMyOrders() {
+            const container = document.getElementById('myOrdersList');
+            if (!container || !CLIENT_SESSION) return;
+            const my = getMyOrders();
+            if (my.length === 0) {
+                container.innerHTML = `<div class="empty-state"><span class="emoji">📭</span>Aucune commande pour le moment.</div>`;
+                return;
+            }
+            container.innerHTML = my.map(o => {
+                const st = getStatusOf(o);
+                const statusClass = st === 'pending' ? 'pending' : st === 'completed' ? 'completed' : 'cancelled';
+                const statusLabel = st === 'pending' ? '⏳ En attente' : st === 'completed' ? '✅ Satisfaite' : '❌ Annulée';
+                const items = Array.isArray(o.items) ? o.items : (o.items ? Object.values(o.items) : []);
+                const itemsHtml = items.map(it => `
+                    <li>
+                        <span>${escapeHtml(it.name || 'Article')} <small style="color:#94a3b8;">× ${it.quantity || 1}</small></span>
+                        <span style="font-family:monospace;">${fmtPrice((Number(it.price) || 0) * (Number(it.quantity) || 1))}</span>
+                    </li>
+                `).join('');
+                return `
+                    <div class="order-card ${statusClass}">
+                        <div class="order-head">
+                            <div class="order-head-left">
+                                ${o.matricule ? `<span class="order-matricule">📋 ${escapeHtml(o.matricule)}</span>` : ''}
+                                <span class="order-date">${fmtDateTime(o.createdAt)}</span>
+                            </div>
+                            <span class="order-status ${statusClass}">${statusLabel}</span>
+                        </div>
+                        <div class="order-body">
+                            <ul class="order-items-list">${itemsHtml || '<li>Aucun article</li>'}</ul>
+                            <div class="order-total-row">
+                                <span>Total</span>
+                                <span class="amount">${fmtPrice(o.total || 0)}</span>
+                            </div>
+                            ${o.heureRetrait ? `<p style="font-size:.75rem; color:#64748b; margin-top:6px;">🕐 Retrait prévu : ${escapeHtml(o.heureRetrait)}</p>` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ============================================================
+        // ============ RENDER HISTORY ============
+        // ============================================================
+        function renderHistory() {
+            const container = document.getElementById('historyList');
+            if (!container || !CLIENT_SESSION) return;
+
+            const search = (document.getElementById('histSearch').value || '').trim().toLowerCase();
+            const fromStr = document.getElementById('histFrom').value;
+            const toStr = document.getElementById('histTo').value;
+
+            const fromTs = fromStr ? new Date(fromStr + 'T00:00:00').getTime() : null;
+            const toTs = toStr ? new Date(toStr + 'T23:59:59').getTime() : null;
+
+            let my = getMyOrders();
+
+            // Filter
+            let filtered = my.filter(o => {
+                const t = new Date(o.createdAt || 0).getTime();
+                if (fromTs !== null && t < fromTs) return false;
+                if (toTs !== null && t > toTs) return false;
+                if (search) {
+                    const items = Array.isArray(o.items) ? o.items : (o.items ? Object.values(o.items) : []);
+                    const inProducts = items.some(it => (it.name || '').toLowerCase().includes(search));
+                    const inMatricule = (o.matricule || '').toLowerCase().includes(search);
+                    if (!inProducts && !inMatricule) return false;
                 }
-            } catch (e) { /* ignore */ }
-        })();
+                return true;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="empty-state"><span class="emoji">🔍</span>Aucun reçu ne correspond à vos filtres.</div>`;
+                return;
+            }
+
+            // Group by date
+            const grouped = {};
+            filtered.forEach(o => {
+                const d = o.createdAt ? new Date(o.createdAt).toLocaleDateString('fr-FR', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' }) : 'Date inconnue';
+                if (!grouped[d]) grouped[d] = [];
+                grouped[d].push(o);
+            });
+
+            const dateKeys = Object.keys(grouped).sort((a, b) => {
+                const da = new Date(grouped[a][0].createdAt).getTime();
+                const db = new Date(grouped[b][0].createdAt).getTime();
+                return db - da;
+            });
+
+            let html = '';
+            let totalAll = 0;
+            dateKeys.forEach(dateLabel => {
+                const orders = grouped[dateLabel];
+                html += `<div style="margin-bottom:20px;">
+                    <p style="font-size:.78rem; font-weight:700; text-transform:uppercase; color:var(--primary-dark); letter-spacing:.5px; margin-bottom:8px;">📅 ${dateLabel}</p>
+                `;
+                orders.forEach(o => {
+                    const st = getStatusOf(o);
+                    const statusClass = st === 'pending' ? 'pending' : st === 'completed' ? 'completed' : 'cancelled';
+                    const statusLabel = st === 'pending' ? '⏳ En attente' : st === 'completed' ? '✅ Satisfaite' : '❌ Annulée';
+                    const items = Array.isArray(o.items) ? o.items : (o.items ? Object.values(o.items) : []);
+                    if (st === 'completed') totalAll += Number(o.total) || 0;
+                    const itemsHtml = items.map(it => `
+                        <li>
+                            <span>${escapeHtml(it.name || 'Article')} <small style="color:#94a3b8;">× ${it.quantity || 1}</small></span>
+                            <span style="font-family:monospace;">${fmtPrice((Number(it.price) || 0) * (Number(it.quantity) || 1))}</span>
+                        </li>
+                    `).join('');
+                    html += `
+                        <div class="order-card ${statusClass}">
+                            <div class="order-head">
+                                <div class="order-head-left">
+                                    ${o.matricule ? `<span class="order-matricule">📋 ${escapeHtml(o.matricule)}</span>` : ''}
+                                    <span class="order-date">${o.createdAt ? new Date(o.createdAt).toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}) : ''}</span>
+                                </div>
+                                <span class="order-status ${statusClass}">${statusLabel}</span>
+                            </div>
+                            <div class="order-body">
+                                <ul class="order-items-list">${itemsHtml || '<li>Aucun article</li>'}</ul>
+                                <div class="order-total-row">
+                                    <span>Total</span>
+                                    <span class="amount">${fmtPrice(o.total || 0)}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            });
+
+            container.innerHTML = `
+                <div class="section-card">
+                    <h3>🧾 Mes reçus (${filtered.length})</h3>
+                    <p style="font-size:.8rem; color:var(--text-muted); margin-bottom:12px;">
+                        Total des commandes satisfaites affichées : <strong style="color:var(--primary-dark);">${fmtPrice(totalAll)}</strong>
+                    </p>
+                    ${html}
+                </div>
+            `;
+        }
+
+        window.resetHistoryFilters = () => {
+            document.getElementById('histSearch').value = '';
+            document.getElementById('histFrom').value = '';
+            document.getElementById('histTo').value = '';
+            renderHistory();
+        };
+
+        // Listeners for history filters
+        ['histSearch', 'histFrom', 'histTo'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('input', renderHistory);
+        });
+
+        // ============================================================
+        // ============ RENDER CHARTS ============
+        // ============================================================
+        function computeMonthlyClientStats() {
+            const my = getMyOrders();
+            const year = new Date().getFullYear();
+            const monthNames = ['Janv','Févr','Mars','Avril','Mai','Juin','Juil','Août','Sept','Oct','Nov','Déc'];
+            const result = [];
+            for (let m = 0; m < 12; m++) {
+                const prefix = `${year}-${String(m+1).padStart(2,'0')}`;
+                const monthOrders = my.filter(o => {
+                    if (getStatusOf(o) !== 'completed') return false;
+                    const d = o.completedAt || o.createdAt;
+                    if (!d) return false;
+                    return String(d).slice(0,7) === prefix;
+                });
+                const total = monthOrders.reduce((s,o)=>s+Number(o.total||0), 0);
+                const count = monthOrders.length;
+
+                // Aggregate items
+                const prodCount = {};
+                monthOrders.forEach(o => {
+                    const items = Array.isArray(o.items) ? o.items : (o.items ? Object.values(o.items) : []);
+                    items.forEach(it => {
+                        const name = it.name || 'Article';
+                        prodCount[name] = (prodCount[name] || 0) + Number(it.quantity || 1);
+                    });
+                });
+                const sorted = Object.entries(prodCount).sort((a,b) => b[1] - a[1]);
+                const top = sorted[0] || null;
+
+                result.push({
+                    monthIndex: m,
+                    label: monthNames[m],
+                    prefix,
+                    total, count,
+                    topMedicine: top ? top[0] : null,
+                    topCount: top ? top[1] : 0
+                });
+            }
+            return result;
+        }
+
+        function renderCharts() {
+            if (!CLIENT_SESSION) return;
+            const year = new Date().getFullYear();
+            const yearEl = document.getElementById('chartYear');
+            if (yearEl) yearEl.textContent = year;
+            renderExpensesChart(year);
+            renderTopMedicineList();
+        }
+
+        function renderExpensesChart(year) {
+            const container = document.getElementById('expensesChart');
+            if (!container) return;
+            const data = computeMonthlyClientStats();
+
+            const W = 720, H = 260, padL = 70, padR = 20, padT = 30, padB = 45;
+            const innerW = W - padL - padR, innerH = H - padT - padB;
+            const maxV = Math.max(1, ...data.map(d => d.total));
+            const barGap = 8;
+            const barW = (innerW - barGap * (data.length - 1)) / data.length;
+
+            let svg = `<svg viewBox="0 0 ${W} ${H}" class="chart-svg" preserveAspectRatio="xMidYMid meet">`;
+            svg += `<defs><linearGradient id="expGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#16a34a" stop-opacity="0.95"/>
+                <stop offset="100%" stop-color="#16a34a" stop-opacity="0.55"/>
+            </linearGradient></defs>`;
+
+            // Grid
+            [0, 0.5, 1].forEach(f => {
+                const y = padT + innerH * (1 - f);
+                svg += `<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="#e2e8f0" stroke-width="0.6"/>`;
+                svg += `<text x="${padL-8}" y="${y+4}" text-anchor="end" font-size="10" fill="#94a3b8">${formatCompact(maxV * f)}</text>`;
+            });
+
+            // Bars
+            data.forEach((d, i) => {
+                const bh = (d.total / maxV) * innerH;
+                const x = padL + i * (barW + barGap);
+                const y = padT + innerH - bh;
+                svg += `<rect x="${x}" y="${y}" width="${barW}" height="${Math.max(bh, 0.5)}" rx="3" fill="url(#expGrad)"/>`;
+                if (d.total > 0) {
+                    svg += `<text x="${x+barW/2}" y="${y-5}" text-anchor="middle" font-size="9" fill="#15803d" font-weight="700">${formatCompact(d.total)}</text>`;
+                }
+                svg += `<text x="${x+barW/2}" y="${H-18}" text-anchor="middle" font-size="10" fill="#94a3b8">${d.label}</text>`;
+            });
+            svg += `</svg>`;
+
+            const totalYear = data.reduce((s,d)=>s+d.total,0);
+            container.innerHTML = `
+                ${svg}
+                <p style="text-align:center; font-size:.82rem; color:var(--text-muted); margin-top:8px;">
+                    Total dépensé en ${year} : <strong style="color:var(--primary-dark);">${fmtPrice(totalYear)}</strong>
+                </p>
+            `;
+        }
+
+        function renderTopMedicineList() {
+            const container = document.getElementById('topMedList');
+            if (!container) return;
+            const data = computeMonthlyClientStats();
+            container.innerHTML = data.map(d => {
+                if (!d.topMedicine) {
+                    return `
+                        <div class="top-med-card empty">
+                            <p class="month-label">${d.label}</p>
+                            <p class="med-name">Aucun achat</p>
+                        </div>
+                    `;
+                }
+                return `
+                    <div class="top-med-card">
+                        <p class="month-label">${d.label}</p>
+                        <p class="med-name">🏆 ${escapeHtml(d.topMedicine)}</p>
+                        <span class="med-count">${d.topCount} unité${d.topCount > 1 ? 's' : ''} achetée${d.topCount > 1 ? 's' : ''}</span>
+                        <p style="font-size:.72rem; color:var(--text-muted); margin-top:6px;">
+                            ${d.count} commande${d.count > 1 ? 's' : ''} · ${fmtPrice(d.total)}
+                        </p>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ============================================================
+        // ============ RENDER ACCOUNT ============
+        // ============================================================
+        function renderAccount() {
+            if (!CLIENT_SESSION) return;
+            document.getElementById('accNom').textContent = CLIENT_SESSION.nom || '—';
+            document.getElementById('accPrenom').textContent = CLIENT_SESSION.prenom || '—';
+            document.getElementById('accTel').textContent = CLIENT_SESSION.telephone || '—';
+            document.getElementById('accEmail').textContent = CLIENT_SESSION.email || '—';
+            document.getElementById('accAdresse').textContent = CLIENT_SESSION.adresse || '—';
+            updatePwdDisplay();
+        }
+
+        function updatePwdDisplay() {
+            const el = document.getElementById('currentPwdDisplay');
+            const btn = document.getElementById('togglePwdBtn');
+            if (!CLIENT_SESSION) { el.textContent = '—'; return; }
+            const pwd = CLIENT_SESSION.passwordPlain || '(non disponible)';
+            if (pwdVisible) {
+                el.textContent = pwd;
+                btn.textContent = '🙈 Masquer';
+            } else {
+                el.textContent = '•'.repeat(Math.min(pwd.length, 12));
+                btn.textContent = '👁 Afficher';
+            }
+        }
+
+        window.togglePwdVisibility = () => {
+            pwdVisible = !pwdVisible;
+            updatePwdDisplay();
+        };
+
+        window.handleChangePassword = async () => {
+            if (!CLIENT_SESSION) return;
+            const current = document.getElementById('pwdCurrent').value;
+            const newPwd = document.getElementById('pwdNew').value;
+            const confirm = document.getElementById('pwdConfirm').value;
+            const errEl = document.getElementById('pwdError');
+            errEl.textContent = '';
+            errEl.classList.remove('visible');
+
+            if (!current) { errEl.textContent = 'Saisissez votre mot de passe actuel.'; errEl.classList.add('visible'); return; }
+            if (!newPwd || newPwd.length < 4) { errEl.textContent = 'Le nouveau mot de passe doit contenir au moins 4 caractères.'; errEl.classList.add('visible'); return; }
+            if (newPwd !== confirm) { errEl.textContent = 'Les nouveaux mots de passe ne correspondent pas.'; errEl.classList.add('visible'); return; }
+
+            // Verify current password
+            const currentOk = (CLIENT_SESSION.passwordPlain === current) || (hashPassword(current) === CLIENT_SESSION.passwordHash);
+            if (!currentOk) { errEl.textContent = 'Mot de passe actuel incorrect.'; errEl.classList.add('visible'); return; }
+
+            const btn = document.getElementById('btnChangePwd');
+            btn.disabled = true;
+            const original = btn.textContent;
+            btn.textContent = 'Enregistrement…';
+
+            try {
+                const updated = {
+                    ...CLIENT_SESSION,
+                    passwordHash: hashPassword(newPwd),
+                    passwordPlain: newPwd,
+                    passwordUpdatedAt: new Date().toISOString()
+                };
+                await set(ref(db, 'clients/' + CLIENT_SESSION.clientId), updated);
+                saveSession(updated);
+                document.getElementById('pwdCurrent').value = '';
+                document.getElementById('pwdNew').value = '';
+                document.getElementById('pwdConfirm').value = '';
+                updatePwdDisplay();
+                showToast('Mot de passe modifié avec succès !');
+            } catch (err) {
+                console.error(err);
+                errEl.textContent = 'Erreur : ' + (err && err.message ? err.message : 'inconnue');
+                errEl.classList.add('visible');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = original;
+            }
+        };
 
         // ============================================================
         // ============ VALIDATION DE COMMANDE ============
@@ -1625,23 +2344,15 @@
         document.getElementById('btnValider').addEventListener('click', async (e) => {
             e.preventDefault();
 
-            // Le client doit être connecté
-            if (!CLIENT_SESSION) {
-                showAuthModal();
-                return;
-            }
+            if (!CLIENT_SESSION) { showAuthModal(); return; }
 
             const heureInput = document.getElementById('heureRetrait');
             const heure = heureInput.value;
             const errHeure = document.getElementById('errHeure');
-
             errHeure.classList.remove('visible');
             heureInput.classList.remove('error');
 
-            if (panier.length === 0) {
-                alert("Votre panier est vide.");
-                return;
-            }
+            if (panier.length === 0) { alert("Votre panier est vide."); return; }
             if (!heure) {
                 heureInput.classList.add('error');
                 errHeure.classList.add('visible');
@@ -1694,9 +2405,9 @@
 
                 document.getElementById('matriculeInput').value = matricule;
                 afficherSuivi(matricule);
-                setTimeout(() => {
-                    document.getElementById('trackingSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }, 300);
+
+                // Switch to commandes tab
+                setTimeout(() => { switchTab('commandes'); }, 400);
             } catch (err) {
                 console.error(err);
                 alert("Erreur lors de la validation : " + err.message);
@@ -1719,21 +2430,38 @@
             document.getElementById('checkoutCard').classList.toggle('open');
             document.getElementById('overlay').classList.toggle('active');
         };
-
         window.fermerModal = () => {
             document.getElementById('successModal').style.display = 'none';
         };
-
         document.getElementById('searchInput').addEventListener('input', afficherProduits);
 
         // ============================================================
-        // ============ INITIALISATION ============
+        // ============ INIT ============
         // ============================================================
         CLIENT_SESSION = loadSession();
         if (CLIENT_SESSION) {
             updateUserBar();
             prefillOrderForm();
             hideAuthModal();
+            switchTab('boutique');
+            // Restore tracking from localStorage
+            try {
+                const saved = localStorage.getItem(TRACKING_STORAGE_KEY);
+                if (saved) {
+                    const val = normalizeMatricule(saved);
+                    matriculeSuivi = val;
+                    document.getElementById('matriculeInput').value = val;
+                    document.getElementById('trackingEmpty').style.display = 'none';
+                    document.getElementById('trackingInfo').style.display = '';
+                    document.getElementById('trackingMatricule').textContent = val;
+                    document.getElementById('trackingMessage').className = 'tracking-message status-waiting';
+                    document.getElementById('trackingMessage').textContent = 'Chargement…';
+                    document.getElementById('trackingPositionNum').parentElement.style.display = 'none';
+                    document.getElementById('trackingPositionOf').textContent = '';
+                    document.getElementById('trackingProgressWrap').style.display = 'none';
+                }
+            } catch (e) {}
+            refreshAllClientViews();
         } else {
             showAuthModal();
             switchAuthTab('register');
