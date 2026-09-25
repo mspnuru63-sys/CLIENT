@@ -34,10 +34,100 @@
             max-width: 100%;
         }
 
-        /* ================= LAYOUT PRINCIPAL =================
-           Le body est une colonne flex 100vh, avec overflow hidden.
-           Les zones fixes (header, status, tracking, search) sont en haut.
-           Seul .products-scroll défile. */
+        /* ================= LOADER GLOBAL (identique à PharmaGest) ================= */
+        #global-loader {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: linear-gradient(160deg, #ffffff 0%, #f0fdf4 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: opacity .6s ease, visibility .6s ease;
+        }
+        #global-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .loader-stage {
+            position: relative;
+            width: 190px;
+            height: 190px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .loader-cross {
+            width: 76px;
+            height: 76px;
+            z-index: 3;
+            filter: drop-shadow(0 6px 16px rgba(22,163,74,.45));
+            animation: crossPulse 1.6s ease-in-out infinite;
+        }
+        @keyframes crossPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.09); }
+        }
+        .loader-orbit {
+            position: absolute;
+            inset: 0;
+            animation: spin 2.4s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loader-orbit span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: #16a34a;
+            transform-origin: center;
+            box-shadow: 0 0 10px rgba(22,163,74,.55);
+        }
+        .loader-orbit span:nth-child(1){transform:translate(-50%,-50%) rotate(0deg)   translateY(-78px);opacity:1}
+        .loader-orbit span:nth-child(2){transform:translate(-50%,-50%) rotate(45deg)  translateY(-78px);opacity:.88;background:#22c55e}
+        .loader-orbit span:nth-child(3){transform:translate(-50%,-50%) rotate(90deg)  translateY(-78px);opacity:.76;background:#4ade80}
+        .loader-orbit span:nth-child(4){transform:translate(-50%,-50%) rotate(135deg) translateY(-78px);opacity:.64;background:#86efac}
+        .loader-orbit span:nth-child(5){transform:translate(-50%,-50%) rotate(180deg) translateY(-78px);opacity:.52;background:#bbf7d0}
+        .loader-orbit span:nth-child(6){transform:translate(-50%,-50%) rotate(225deg) translateY(-78px);opacity:.42;background:#dcfce7}
+        .loader-orbit span:nth-child(7){transform:translate(-50%,-50%) rotate(270deg) translateY(-78px);opacity:.32;background:#dcfce7}
+        .loader-orbit span:nth-child(8){transform:translate(-50%,-50%) rotate(315deg) translateY(-78px);opacity:.24;background:#f0fdf4}
+        .loader-title {
+            margin-top: 34px;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: .4px;
+            color: #15803d;
+        }
+        .loader-sub {
+            margin-top: 6px;
+            font-size: 13px;
+            color: #64748b;
+        }
+        .loader-bar {
+            margin-top: 20px;
+            width: 170px;
+            height: 3px;
+            border-radius: 3px;
+            background: #d1fae5;
+            overflow: hidden;
+        }
+        .loader-bar i {
+            display: block;
+            height: 100%;
+            width: 40%;
+            border-radius: 3px;
+            background: #16a34a;
+            animation: loadSlide 1.3s ease-in-out infinite;
+        }
+        @keyframes loadSlide {
+            0% { transform: translateX(-110%); }
+            100% { transform: translateX(320%); }
+        }
+
+        /* ================= LAYOUT PRINCIPAL ================= */
         body {
             background-color: var(--bg-color);
             color: var(--text-dark);
@@ -343,7 +433,6 @@
             overflow: hidden;
         }
 
-        /* ================= COLONNE PRODUITS ================= */
         .products-column {
             display: flex;
             flex-direction: column;
@@ -352,7 +441,6 @@
             overflow: hidden;
         }
 
-        /* Zone de recherche (fixe dans la colonne) */
         .search-box {
             flex-shrink: 0;
             background: var(--card-bg);
@@ -374,7 +462,6 @@
         }
         .search-box input::placeholder { color: #94a3b8; }
 
-        /* Zone scrollable des produits */
         .products-scroll {
             flex: 1;
             min-height: 0;
@@ -491,7 +578,6 @@
             overflow-wrap: break-word;
         }
 
-        /* ================= PANIER (SIDEBAR) ================= */
         .checkout-card {
             background: var(--card-bg);
             border-radius: var(--radius);
@@ -644,7 +730,6 @@
         .btn:hover { background: var(--primary-dark); }
         .btn:disabled { background: #BDC3C7; cursor: not-allowed; }
 
-        /* ================= MODAL ================= */
         .modal {
             display: none;
             position: fixed;
@@ -787,9 +872,24 @@
                 padding: 22px 18px;
             }
             .checkout-card.open { transform: translateX(0); }
+
+            /* Loader plus compact sur mobile */
+            .loader-stage { width: 150px; height: 150px; }
+            .loader-cross { width: 62px; height: 62px; }
+            .loader-orbit span { width: 9px; height: 9px; }
+            .loader-orbit span:nth-child(1){transform:translate(-50%,-50%) rotate(0deg)   translateY(-62px);opacity:1}
+            .loader-orbit span:nth-child(2){transform:translate(-50%,-50%) rotate(45deg)  translateY(-62px);opacity:.88;background:#22c55e}
+            .loader-orbit span:nth-child(3){transform:translate(-50%,-50%) rotate(90deg)  translateY(-62px);opacity:.76;background:#4ade80}
+            .loader-orbit span:nth-child(4){transform:translate(-50%,-50%) rotate(135deg) translateY(-62px);opacity:.64;background:#86efac}
+            .loader-orbit span:nth-child(5){transform:translate(-50%,-50%) rotate(180deg) translateY(-62px);opacity:.52;background:#bbf7d0}
+            .loader-orbit span:nth-child(6){transform:translate(-50%,-50%) rotate(225deg) translateY(-62px);opacity:.42;background:#dcfce7}
+            .loader-orbit span:nth-child(7){transform:translate(-50%,-50%) rotate(270deg) translateY(-62px);opacity:.32;background:#dcfce7}
+            .loader-orbit span:nth-child(8){transform:translate(-50%,-50%) rotate(315deg) translateY(-62px);opacity:.24;background:#f0fdf4}
+            .loader-title { margin-top: 26px; font-size: 17px; }
+            .loader-sub { font-size: 12px; }
+            .loader-bar { width: 140px; margin-top: 16px; }
         }
 
-        /* Très petits écrans */
         @media (max-width: 400px) {
             .tracking-input-row {
                 flex-direction: column;
@@ -806,7 +906,6 @@
             .tracking-position .of { font-size: 0.78rem; }
         }
 
-        /* Très petits écrans en hauteur */
         @media (max-height: 700px) and (max-width: 850px) {
             .tracking-section { margin-top: 6px; }
             .tracking-card { padding: 10px 12px; }
@@ -838,6 +937,24 @@
     </script>
     <!-- ============================================================= -->
 
+    <!-- ============================================================= -->
+    <!--  🎬 LOADER GLOBAL (identique à PharmaGest)                    -->
+    <!-- ============================================================= -->
+    <div id="global-loader">
+        <div class="loader-stage">
+            <div class="loader-orbit">
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+            </div>
+            <svg class="loader-cross" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M35 8h30v27h27v30H65v27H35V65H8V35h27z" fill="#16a34a"/>
+            </svg>
+        </div>
+        <div class="loader-title">PharmaX</div>
+        <div class="loader-sub">Chargement des produits…</div>
+        <div class="loader-bar"><i></i></div>
+    </div>
+
     <button class="burger-btn" onclick="toggleCart()" aria-label="Panier">
         🛒 <span class="cart-badge" id="cartCount">0</span>
     </button>
@@ -866,7 +983,6 @@
         <div class="tracking-card" id="trackingCard">
             <h2>📋 Suivi de ma commande</h2>
 
-            <!-- Mode 1 : pas de matricule -->
             <div class="tracking-empty" id="trackingEmpty">
                 <p>Entrez votre code matricule (reçu lors de votre commande) pour voir votre position dans la file d'attente :</p>
                 <div class="tracking-input-row">
@@ -876,7 +992,6 @@
                 <p id="trackingError" style="color: var(--danger); font-size:0.8rem; margin-top:8px; display:none; text-align:center;"></p>
             </div>
 
-            <!-- Mode 2 : matricule connu -->
             <div class="tracking-info" id="trackingInfo" style="display:none;">
                 <div class="tracking-info-left">
                     <div class="tracking-matricule" id="trackingMatricule">PH-0000</div>
@@ -898,7 +1013,6 @@
 
     <!-- ============ CONTENEUR PRINCIPAL ============ -->
     <div class="main-container">
-        <!-- Colonne produits : recherche fixe + produits scrollables -->
         <main class="products-column">
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="Rechercher un médicament...">
@@ -913,7 +1027,6 @@
             </div>
         </main>
 
-        <!-- Sidebar panier -->
         <aside class="checkout-card" id="checkoutCard">
             <h2>Votre Commande</h2>
             <div id="cartItems">
@@ -963,6 +1076,26 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
         import { getDatabase, ref, onValue, push, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
+        // ------ Référence au loader global ------
+        const globalLoader = document.getElementById('global-loader');
+        let loaderHidden = false;
+        function hideGlobalLoader() {
+            if (loaderHidden || !globalLoader) return;
+            loaderHidden = true;
+            setTimeout(() => {
+                globalLoader.classList.add('hidden');
+                setTimeout(() => {
+                    if (globalLoader && globalLoader.parentNode) globalLoader.remove();
+                }, 700);
+            }, 300);
+        }
+
+        // Sécurité : si Firebase met trop de temps, on masque quand même le loader après 6 secondes
+        const loaderSafetyTimeout = setTimeout(() => {
+            console.warn('Loader masqué par sécurité (timeout 6s).');
+            hideGlobalLoader();
+        }, 6000);
+
         // ------ Vérification de la configuration ------
         const statusDot = document.getElementById('statusDot');
         const statusText = document.getElementById('statusText');
@@ -975,6 +1108,8 @@
             productsGrid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; padding: 30px; background: white; border-radius: 12px; color: #ef4444;">
                 ⚠️ Firebase n'est pas encore configuré.
             </p>`;
+            clearTimeout(loaderSafetyTimeout);
+            hideGlobalLoader();
             throw new Error('Firebase config missing');
         }
 
@@ -988,6 +1123,8 @@
         } catch (e) {
             statusDot.classList.add('err');
             statusText.textContent = 'Erreur d\'initialisation : ' + e.message;
+            clearTimeout(loaderSafetyTimeout);
+            hideGlobalLoader();
             throw e;
         }
 
@@ -998,6 +1135,7 @@
         let matriculeSuivi = null;
         let CURRENCY = 'FCFA';
         let APP_NAME = 'PharmaX';
+        let produitsLoaded = false;
 
         const TRACKING_STORAGE_KEY = 'pharmax_last_matricule';
 
@@ -1015,12 +1153,19 @@
             document.title = APP_NAME + ' - Commandes en ligne';
         });
 
-        // ------ Écoute produits ------
+        // ------ Écoute produits (déclenche le masquage du loader) ------
         onValue(ref(db, 'produits'), (snap) => {
             const val = snap.val() || {};
             tousLesProduits = Object.entries(val).map(([id, p]) => ({ id, ...p }));
             tousLesProduits.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
             afficherProduits();
+
+            // Masque le loader dès que les produits sont chargés (une seule fois)
+            if (!produitsLoaded) {
+                produitsLoaded = true;
+                clearTimeout(loaderSafetyTimeout);
+                hideGlobalLoader();
+            }
         }, (err) => {
             console.error('Firebase produits error:', err);
             statusDot.classList.add('err');
@@ -1028,6 +1173,9 @@
             productsGrid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; padding: 30px; background: white; border-radius: 12px; color: #ef4444;">
                 Erreur de chargement des produits.
             </p>`;
+            // Masque le loader en cas d'erreur pour ne pas bloquer l'utilisateur
+            clearTimeout(loaderSafetyTimeout);
+            hideGlobalLoader();
         });
 
         // ------ Écoute commandes ------
