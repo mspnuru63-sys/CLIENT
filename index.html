@@ -1445,6 +1445,38 @@
         function normalizeMatricule(m) { return m ? String(m).trim().toUpperCase().replace(/\s+/g, '') : ''; }
 
         // ============================================================
+        // ============ RÉSOLUTION ROBUSTE DES CHAMPS PRODUIT =========
+        // ============================================================
+        function pickNumber(obj, keys, fallback = 0) {
+            if (!obj) return fallback;
+            for (const k of keys) {
+                const v = obj[k];
+                if (v === undefined || v === null || v === '') continue;
+                const n = Number(String(v).replace(/\s/g, '').replace(',', '.').replace(/[^\d.\-]/g, ''));
+                if (!isNaN(n)) return n;
+            }
+            return fallback;
+        }
+        function pickString(obj, keys, fallback = '') {
+            if (!obj) return fallback;
+            for (const k of keys) {
+                const v = obj[k];
+                if (v !== undefined && v !== null && String(v).trim() !== '') return String(v);
+            }
+            return fallback;
+        }
+
+        const PRICE_KEYS  = ['sellingPrice','selling_price','salePrice','price','prix','prixVente','prix_vente','unitPrice','prixUnitaire','montant','amount','Prix','PRIX'];
+        const STOCK_KEYS  = ['stock','quantity','qty','quantite','quantité','stockDisponible','availableStock','inStock','Stock'];
+        const NAME_KEYS   = ['name','nom','libelle','libellé','designation','désignation','productName','Nom'];
+        const DOSAGE_KEYS = ['dosage','forme','form','presentation','conditionnement','description','Dosage'];
+
+        function getProductPrice(p)  { return pickNumber(p, PRICE_KEYS, 0); }
+        function getProductStock(p)  { return pickNumber(p, STOCK_KEYS, 0); }
+        function getProductName(p)   { return pickString(p, NAME_KEYS, 'Produit'); }
+        function getProductDosage(p) { return pickString(p, DOSAGE_KEYS, ''); }
+
+        // ============================================================
         // ============ AUTH ============
         // ============================================================
         function hashPassword(password) {
@@ -1548,7 +1580,7 @@
                 const clientData = {
                     nom, prenom, telephone, email, adresse,
                     passwordHash: hashPassword(password),
-                    passwordPlain: password, // ✅ Mot de passe en clair pour affichage dans l'app
+                    passwordPlain: password,
                     createdAt: new Date().toISOString(),
                     source: 'client-site'
                 };
@@ -1664,15 +1696,27 @@
         onValue(ref(db, 'meta'), (snap) => {
             const m = snap.val() || {};
             if (m.currency) CURRENCY = m.currency;
+            if (m.devise) CURRENCY = m.devise;
             if (m.clinicName) document.getElementById('clinicName').textContent = m.clinicName + ' — Commandez en ligne et retirez en officine.';
+            else if (m.pharmacie) document.getElementById('clinicName').textContent = m.pharmacie + ' — Commandez en ligne et retirez en officine.';
             if (m.appName) APP_NAME = m.appName;
             document.title = APP_NAME + ' - Commandes en ligne';
         });
 
         onValue(ref(db, 'produits'), (snap) => {
             const val = snap.val() || {};
-            tousLesProduits = Object.entries(val).map(([id, p]) => ({ id, ...p }));
-            tousLesProduits.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+            // FIX : on met TOUJOURS la clé Firebase dans id pour éviter
+            // d'écraser l'id avec un éventuel champ "id" du payload.
+            tousLesProduits = Object.entries(val).map(([key, p]) => ({ ...p, id: key }));
+            tousLesProduits.sort((a, b) => getProductName(a).localeCompare(getProductName(b)));
+
+            if (!produitsLoaded) {
+                const first = tousLesProduits[0];
+                console.log('🔎 Exemple de produit Firebase :', first);
+                console.log('🔎 Champs disponibles :', first ? Object.keys(first) : '(aucun produit)');
+                console.log('🔎 Prix détecté :', first ? getProductPrice(first) : 0, '| Stock :', first ? getProductStock(first) : 0);
+            }
+
             afficherProduits();
 
             if (!produitsLoaded) {
@@ -1706,7 +1750,6 @@
             if (currentTab === 'historique') renderHistory();
             if (currentTab === 'graphiques') renderCharts();
             if (currentTab === 'compte') renderAccount();
-            // Update badge
             const myOrders = getMyOrders();
             const pendingCount = myOrders.filter(o => getStatusOf(o) === 'pending').length;
             const badge = document.getElementById('navOrdersBadge');
@@ -1752,7 +1795,7 @@
             if (!input) return;
             const q = input.value.toLowerCase().trim();
             const filtered = tousLesProduits.filter(p => {
-                const hay = ((p.name || '') + ' ' + (p.dosage || '') + ' ' + (p.indications || '')).toLowerCase();
+                const hay = (getProductName(p) + ' ' + getProductDosage(p) + ' ' + (p.indications || '')).toLowerCase();
                 return !q || hay.includes(q);
             });
             if (filtered.length === 0) {
@@ -1760,18 +1803,19 @@
                 return;
             }
             productsGrid.innerHTML = filtered.map(p => {
-                const stock = Number(p.stock) || 0;
+                const stock = getProductStock(p);
                 const out = stock <= 0;
+                const prix = getProductPrice(p);
                 const inCart = panier.find(i => i.id === p.id);
                 const qtyInCart = inCart ? inCart.quantity : 0;
                 return `
                     <div class="product-card ${out ? 'disabled' : ''}" ${out ? '' : `onclick="ajouterAuPanier('${p.id}')"`}>
                         ${qtyInCart > 0 ? `<div class="qty-badge">${qtyInCart}</div>` : ''}
                         <div class="icon-wrap">${PILL_ICON}</div>
-                        <div class="product-title">${escapeHtml(p.name || 'Produit')}</div>
-                        <div class="product-dosage">${escapeHtml(p.dosage || p.form || '')}</div>
+                        <div class="product-title">${escapeHtml(getProductName(p))}</div>
+                        <div class="product-dosage">${escapeHtml(getProductDosage(p))}</div>
                         ${out ? `<div class="out-badge">Rupture</div>` : ''}
-                        <div class="product-price">${fmtPrice(p.sellingPrice)}</div>
+                        <div class="product-price">${fmtPrice(prix)}</div>
                     </div>
                 `;
             }).join('');
@@ -1784,8 +1828,12 @@
             if (!CLIENT_SESSION) { showAuthModal(); return; }
             const prod = tousLesProduits.find(p => p.id === id);
             if (!prod) return;
-            const stock = Number(prod.stock) || 0;
+            const stock = getProductStock(prod);
             if (stock <= 0) return;
+
+            const price  = getProductPrice(prod);
+            const name   = getProductName(prod);
+            const dosage = getProductDosage(prod);
 
             const item = panier.find(i => i.id === id);
             if (item) {
@@ -1794,14 +1842,14 @@
                     alert("Stock insuffisant. Il ne reste que " + stock + " unité(s).");
                     item.quantity = stock;
                 } else item.quantity = nouvelle;
+                item.price  = price;
+                item.stock  = stock;
             } else {
                 panier.push({
                     id: prod.id,
-                    name: prod.name || 'Produit',
-                    price: Number(prod.sellingPrice) || 0,
+                    name, price,
                     quantity: Math.min(qty, stock),
-                    dosage: prod.dosage || '',
-                    stock: stock
+                    dosage, stock
                 });
             }
             rafraichirPanier();
@@ -1812,7 +1860,7 @@
             const item = panier.find(i => i.id === id);
             if (!item) return;
             const prod = tousLesProduits.find(p => p.id === id);
-            const stock = prod ? (Number(prod.stock) || 0) : Infinity;
+            const stock = prod ? getProductStock(prod) : Infinity;
             const nouvelle = item.quantity + delta;
             if (nouvelle <= 0) panier = panier.filter(i => i.id !== id);
             else if (nouvelle > stock) { alert("Stock max : " + stock); item.quantity = stock; }
@@ -1843,7 +1891,7 @@
             cartDiv.innerHTML = panier.map(it => {
                 total += it.price * it.quantity;
                 const prod = tousLesProduits.find(p => p.id === it.id);
-                const stock = prod ? (Number(prod.stock) || 0) : 0;
+                const stock = prod ? getProductStock(prod) : 0;
                 const maxAtteint = it.quantity >= stock;
                 return `
                     <div class="cart-item">
@@ -2038,7 +2086,6 @@
 
             let my = getMyOrders();
 
-            // Filter
             let filtered = my.filter(o => {
                 const t = new Date(o.createdAt || 0).getTime();
                 if (fromTs !== null && t < fromTs) return false;
@@ -2057,7 +2104,6 @@
                 return;
             }
 
-            // Group by date
             const grouped = {};
             filtered.forEach(o => {
                 const d = o.createdAt ? new Date(o.createdAt).toLocaleDateString('fr-FR', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' }) : 'Date inconnue';
@@ -2130,7 +2176,6 @@
             renderHistory();
         };
 
-        // Listeners for history filters
         ['histSearch', 'histFrom', 'histTo'].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.addEventListener('input', renderHistory);
@@ -2155,7 +2200,6 @@
                 const total = monthOrders.reduce((s,o)=>s+Number(o.total||0), 0);
                 const count = monthOrders.length;
 
-                // Aggregate items
                 const prodCount = {};
                 monthOrders.forEach(o => {
                     const items = Array.isArray(o.items) ? o.items : (o.items ? Object.values(o.items) : []);
@@ -2205,14 +2249,12 @@
                 <stop offset="100%" stop-color="#16a34a" stop-opacity="0.55"/>
             </linearGradient></defs>`;
 
-            // Grid
             [0, 0.5, 1].forEach(f => {
                 const y = padT + innerH * (1 - f);
                 svg += `<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="#e2e8f0" stroke-width="0.6"/>`;
                 svg += `<text x="${padL-8}" y="${y+4}" text-anchor="end" font-size="10" fill="#94a3b8">${formatCompact(maxV * f)}</text>`;
             });
 
-            // Bars
             data.forEach((d, i) => {
                 const bh = (d.total / maxV) * innerH;
                 const x = padL + i * (barW + barGap);
@@ -2305,7 +2347,6 @@
             if (!newPwd || newPwd.length < 4) { errEl.textContent = 'Le nouveau mot de passe doit contenir au moins 4 caractères.'; errEl.classList.add('visible'); return; }
             if (newPwd !== confirm) { errEl.textContent = 'Les nouveaux mots de passe ne correspondent pas.'; errEl.classList.add('visible'); return; }
 
-            // Verify current password
             const currentOk = (CLIENT_SESSION.passwordPlain === current) || (hashPassword(current) === CLIENT_SESSION.passwordHash);
             if (!currentOk) { errEl.textContent = 'Mot de passe actuel incorrect.'; errEl.classList.add('visible'); return; }
 
@@ -2406,7 +2447,6 @@
                 document.getElementById('matriculeInput').value = matricule;
                 afficherSuivi(matricule);
 
-                // Switch to commandes tab
                 setTimeout(() => { switchTab('commandes'); }, 400);
             } catch (err) {
                 console.error(err);
@@ -2444,7 +2484,6 @@
             prefillOrderForm();
             hideAuthModal();
             switchTab('boutique');
-            // Restore tracking from localStorage
             try {
                 const saved = localStorage.getItem(TRACKING_STORAGE_KEY);
                 if (saved) {
