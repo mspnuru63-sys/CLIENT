@@ -72,6 +72,7 @@
             cursor: pointer;
             transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
             border: 1px solid transparent;
+            position: relative;
         }
         .product-card:hover {
             transform: translateY(-3px);
@@ -82,6 +83,24 @@
             opacity: 0.55; cursor: not-allowed;
         }
         .product-card.disabled:hover { transform: none; box-shadow: var(--shadow); }
+
+        /* Badge quantité dans la carte produit (feedback visuel) */
+        .qty-badge {
+            position: absolute;
+            top: 10px; right: 10px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            min-width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0 6px;
+            box-shadow: 0 2px 8px rgba(22,163,74,.4);
+        }
 
         .icon-wrap {
             width: 46px; height: 46px; border-radius: 12px;
@@ -119,18 +138,90 @@
             font-size: 1.3rem; margin-bottom: 15px;
             border-bottom: 2px solid var(--bg-color); padding-bottom: 10px;
         }
-        .cart-item { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.9rem; gap: 8px; }
+
+        /* Article du panier avec contrôles de quantité */
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            gap: 8px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #F1F5F9;
+        }
+        .cart-item:last-child { border-bottom: none; }
+        .cart-item-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .cart-item-name {
+            font-weight: 600;
+            color: var(--text-dark);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .cart-item-sub {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+        .qty-btn {
+            width: 26px; height: 26px;
+            border-radius: 6px;
+            border: 1px solid #E2E8F0;
+            background: #FFFFFF;
+            color: var(--primary-dark);
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background .15s, border-color .15s;
+            font-family: inherit;
+            line-height: 1;
+            padding: 0;
+        }
+        .qty-btn:hover { background: #ECFDF5; border-color: #86efac; }
+        .qty-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .qty-display {
+            min-width: 24px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
         .cart-item .remove {
             background: none; border: none; color: var(--danger);
             cursor: pointer; font-size: 1rem; padding: 0 4px;
+            margin-left: 4px;
         }
+
         .input-group { margin: 15px 0; }
         .input-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; }
+        .input-group label .req { color: var(--danger); }
         .input-group input {
             width: 100%; padding: 10px; border: 1px solid #E0E0E0;
             border-radius: 8px; font-size: 0.95rem; outline: none;
+            transition: border-color .15s, background .15s;
         }
         .input-group input:focus { border-color: var(--primary); }
+        .input-group input.error { border-color: var(--danger); background: #FEF2F2; }
+        .field-error {
+            color: var(--danger);
+            font-size: 0.75rem;
+            margin-top: 4px;
+            display: none;
+        }
+        .field-error.visible { display: block; }
 
         .overlay {
             display: none; position: fixed; top: 0; left: 0;
@@ -267,18 +358,21 @@
             </div>
 
             <div class="input-group">
-                <label for="nomClient">Nom & Prénom :</label>
+                <label for="nomClient">Nom & Prénom : <span class="req">*</span></label>
                 <input type="text" id="nomClient" placeholder="Ex: Jean Dupont" required>
+                <p class="field-error" id="errNom">Veuillez saisir votre nom et prénom.</p>
             </div>
 
             <div class="input-group">
-                <label for="telephone">Téléphone (optionnel) :</label>
-                <input type="tel" id="telephone" placeholder="Ex: +242 06 12 34 56 78">
+                <label for="telephone">Téléphone : <span class="req">*</span></label>
+                <input type="tel" id="telephone" placeholder="Ex: +242 06 12 34 56 78" required>
+                <p class="field-error" id="errTel">Veuillez saisir un numéro de téléphone valide.</p>
             </div>
 
             <div class="input-group">
-                <label for="heureRetrait">Heure de retrait souhaitée :</label>
+                <label for="heureRetrait">Heure de retrait souhaitée : <span class="req">*</span></label>
                 <input type="time" id="heureRetrait" required>
+                <p class="field-error" id="errHeure">Veuillez sélectionner une heure de retrait.</p>
             </div>
 
             <button class="btn" style="width: 100%; padding: 12px;" id="btnValider">Confirmer la commande</button>
@@ -387,8 +481,12 @@
             productsGrid.innerHTML = filtered.map(p => {
                 const stock = Number(p.stock) || 0;
                 const out = stock <= 0;
+                // Quantité déjà présente dans le panier pour ce produit
+                const inCart = panier.find(i => i.id === p.id);
+                const qtyInCart = inCart ? inCart.quantity : 0;
                 return `
                     <div class="product-card ${out ? 'disabled' : ''}" ${out ? '' : `onclick="ajouterAuPanier('${p.id}')"`}>
+                        ${qtyInCart > 0 ? `<div class="qty-badge">${qtyInCart}</div>` : ''}
                         <div class="icon-wrap">${PILL_ICON}</div>
                         <div class="product-title">${escapeHtml(p.name || 'Produit')}</div>
                         <div class="product-dosage">${escapeHtml(p.dosage || p.form || '')}</div>
@@ -404,7 +502,8 @@
         }
 
         // ------ Panier ------
-        window.ajouterAuPanier = (id) => {
+        // Ajoute +1 (ou plus) à un produit. Modifie la quantité existante si déjà présent.
+        window.ajouterAuPanier = (id, qty = 1) => {
             const prod = tousLesProduits.find(p => p.id === id);
             if (!prod) return;
             const stock = Number(prod.stock) || 0;
@@ -412,23 +511,51 @@
 
             const item = panier.find(i => i.id === id);
             if (item) {
-                if (item.quantite + 1 > stock) { alert("Stock insuffisant pour ce produit."); return; }
-                item.quantite += 1;
+                const nouvelle = item.quantity + qty;
+                if (nouvelle > stock) {
+                    alert("Stock insuffisant. Il ne reste que " + stock + " unité(s) disponible(s).");
+                    item.quantity = stock;
+                } else {
+                    item.quantity = nouvelle;
+                }
             } else {
                 panier.push({
                     id: prod.id,
                     name: prod.name || 'Produit',
                     price: Number(prod.sellingPrice) || 0,
-                    quantity: 1,
-                    dosage: prod.dosage || ''
+                    quantity: Math.min(qty, stock),
+                    dosage: prod.dosage || '',
+                    stock: stock
                 });
             }
             rafraichirPanier();
+            afficherProduits(); // Rafraîchit les badges de quantité sur les cartes
+        };
+
+        // Modifie la quantité d'un article (+1 / -1). Si 0 → retire du panier.
+        window.modifierQuantite = (id, delta) => {
+            const item = panier.find(i => i.id === id);
+            if (!item) return;
+            const prod = tousLesProduits.find(p => p.id === id);
+            const stock = prod ? (Number(prod.stock) || 0) : Infinity;
+
+            const nouvelle = item.quantity + delta;
+            if (nouvelle <= 0) {
+                panier = panier.filter(i => i.id !== id);
+            } else if (nouvelle > stock) {
+                alert("Stock insuffisant. Maximum disponible : " + stock);
+                item.quantity = stock;
+            } else {
+                item.quantity = nouvelle;
+            }
+            rafraichirPanier();
+            afficherProduits();
         };
 
         window.retirerDuPanier = (id) => {
             panier = panier.filter(i => i.id !== id);
             rafraichirPanier();
+            afficherProduits();
         };
 
         function rafraichirPanier() {
@@ -448,34 +575,88 @@
             let total = 0;
             cartDiv.innerHTML = panier.map(it => {
                 total += it.price * it.quantity;
+                const prod = tousLesProduits.find(p => p.id === it.id);
+                const stock = prod ? (Number(prod.stock) || 0) : 0;
+                const maxAtteint = it.quantity >= stock;
                 return `
                     <div class="cart-item">
-                        <span>${escapeHtml(it.name)} <small style="color:#94a3b8;">×${it.quantity}</small></span>
-                        <span style="display:flex; align-items:center; gap:6px;">
-                            <strong>${fmtPrice(it.price * it.quantity)}</strong>
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${escapeHtml(it.name)}</div>
+                            <div class="cart-item-sub">${escapeHtml(it.dosage || '')} · ${fmtPrice(it.price)} / unité</div>
+                        </div>
+                        <div class="cart-item-actions">
+                            <button class="qty-btn" onclick="modifierQuantite('${it.id}', -1)" title="Diminuer">−</button>
+                            <span class="qty-display">${it.quantity}</span>
+                            <button class="qty-btn" onclick="modifierQuantite('${it.id}', 1)" title="Augmenter" ${maxAtteint ? 'disabled' : ''}>+</button>
                             <button class="remove" onclick="retirerDuPanier('${it.id}')" title="Retirer">✕</button>
-                        </span>
+                        </div>
                     </div>
                 `;
             }).join('');
             totalSpan.textContent = fmtPrice(total);
         }
 
-        // ------ Validation commande ------
+        // ------ Validation de commande ------
         document.getElementById('btnValider').addEventListener('click', async (e) => {
             e.preventDefault();
 
             const nomInput = document.getElementById('nomClient');
             const telInput = document.getElementById('telephone');
             const heureInput = document.getElementById('heureRetrait');
+            const errNom = document.getElementById('errNom');
+            const errTel = document.getElementById('errTel');
+            const errHeure = document.getElementById('errHeure');
 
             const nom = nomInput.value.trim();
             const tel = telInput.value.trim();
             const heure = heureInput.value;
 
-            if (panier.length === 0) { alert("Votre panier est vide."); return; }
-            if (!nom) { alert("Veuillez saisir votre Nom & Prénom."); nomInput.focus(); return; }
-            if (!heure) { alert("Veuillez sélectionner une heure de retrait."); heureInput.focus(); return; }
+            // Réinitialise les erreurs
+            [nomInput, telInput, heureInput].forEach(el => el.classList.remove('error'));
+            [errNom, errTel, errHeure].forEach(el => el.classList.remove('visible'));
+
+            // ------ Validations ------
+            let hasError = false;
+
+            if (panier.length === 0) {
+                alert("Votre panier est vide.");
+                return;
+            }
+
+            if (!nom) {
+                nomInput.classList.add('error');
+                errNom.classList.add('visible');
+                hasError = true;
+            }
+
+            // Téléphone obligatoire et valide (au moins 6 chiffres)
+            if (!tel) {
+                telInput.classList.add('error');
+                errTel.textContent = 'Veuillez saisir votre numéro de téléphone.';
+                errTel.classList.add('visible');
+                hasError = true;
+            } else {
+                const chiffres = tel.replace(/[^0-9]/g, '');
+                if (chiffres.length < 6) {
+                    telInput.classList.add('error');
+                    errTel.textContent = 'Numéro invalide (au moins 6 chiffres).';
+                    errTel.classList.add('visible');
+                    hasError = true;
+                }
+            }
+
+            if (!heure) {
+                heureInput.classList.add('error');
+                errHeure.classList.add('visible');
+                hasError = true;
+            }
+
+            if (hasError) {
+                // Focus sur le premier champ en erreur
+                const premier = [nomInput, telInput, heureInput].find(el => el.classList.contains('error'));
+                if (premier) premier.focus();
+                return;
+            }
 
             const btn = document.getElementById('btnValider');
             btn.disabled = true;
@@ -513,6 +694,7 @@
                 telInput.value = '';
                 heureInput.value = '';
                 rafraichirPanier();
+                afficherProduits();
 
                 if (document.getElementById('checkoutCard').classList.contains('open')) toggleCart();
             } catch (err) {
@@ -522,6 +704,17 @@
                 btn.disabled = false;
                 btn.textContent = originalText;
             }
+        });
+
+        // Efface les erreurs au fur et à mesure de la saisie
+        ['nomClient', 'telephone', 'heureRetrait'].forEach(id => {
+            const el = document.getElementById(id);
+            el.addEventListener('input', () => {
+                el.classList.remove('error');
+                const map = { nomClient: 'errNom', telephone: 'errTel', heureRetrait: 'errHeure' };
+                const err = document.getElementById(map[id]);
+                if (err) err.classList.remove('visible');
+            });
         });
 
         window.toggleCart = () => {
