@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>PharmaX - Commandes en ligne</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -19,96 +19,281 @@
             --shadow-lg: 0 10px 30px rgba(0,0,0,0.08);
             --radius: 16px;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-dark); padding-bottom: 60px; }
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        /* ================= LAYOUT PRINCIPAL =================
+           Le body est une colonne flex 100vh, avec overflow hidden.
+           Les zones fixes (header, status, tracking, search) sont en haut.
+           Seul .products-scroll défile. */
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ================= HEADER (FIXE) ================= */
         header {
+            flex-shrink: 0;
             background: linear-gradient(135deg, #15803d, #22c55e);
-            color: white; padding: 1.5rem 1rem; text-align: center;
-            box-shadow: var(--shadow-lg); position: relative;
+            color: white;
+            padding: 1.25rem 1rem;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            z-index: 10;
         }
-        header h1 { font-size: 1.8rem; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; }
-        header p { font-size: 0.85rem; opacity: 0.95; margin-top: 5px; }
+        header h1 {
+            font-size: 1.65rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            line-height: 1.2;
+            flex-wrap: wrap;
+        }
+        header p {
+            font-size: 0.85rem;
+            opacity: 0.95;
+            margin-top: 5px;
+            line-height: 1.35;
+            max-width: 640px;
+            margin-left: auto;
+            margin-right: auto;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
 
+        /* ================= BOUTON PANIER FLOTTANT ================= */
         .burger-btn {
-            display: none; position: fixed; top: 15px; right: 15px; z-index: 1001;
-            background: var(--primary-dark); color: white; border: none;
-            padding: 10px 14px; border-radius: 10px; font-size: 1.2rem;
-            cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: none;
+            position: fixed;
+            top: 14px;
+            right: 14px;
+            z-index: 1001;
+            background: rgba(21, 128, 61, 0.95);
+            backdrop-filter: blur(6px);
+            color: white;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 1.15rem;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+            transition: transform .15s ease;
         }
+        .burger-btn:active { transform: scale(0.95); }
         .cart-badge {
-            background: var(--danger); color: white; border-radius: 50%;
-            padding: 2px 7px; font-size: 0.75rem;
-            position: absolute; top: -5px; right: -5px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            padding: 2px 7px;
+            font-size: 0.72rem;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-weight: 700;
+            min-width: 20px;
+            text-align: center;
         }
 
-        /* Suivi de commande */
+        /* ================= BARRE DE STATUT (FIXE) ================= */
+        .status-bar {
+            flex-shrink: 0;
+            max-width: 1150px;
+            width: 100%;
+            margin: 10px auto 0;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            flex-shrink: 0;
+        }
+        .status-dot.ok { background: #22c55e; box-shadow: 0 0 8px rgba(34,197,94,.6); }
+        .status-dot.err { background: #ef4444; }
+
+        /* ================= SUIVI DE COMMANDE (FIXE) ================= */
         .tracking-section {
-            max-width: 1150px; margin: 20px auto 0; padding: 0 20px;
+            flex-shrink: 0;
+            max-width: 1150px;
+            width: 100%;
+            margin: 12px auto 0;
+            padding: 0 20px;
         }
         .tracking-card {
             background: linear-gradient(135deg, #ffffff, #f0fdf4);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            padding: 22px 26px;
+            padding: 20px 24px;
             border: 1px solid #dcfce7;
         }
         .tracking-card h2 {
-            font-size: 1.1rem; font-weight: 700; color: var(--primary-dark);
-            display: flex; align-items: center; gap: 8px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
             margin-bottom: 12px;
+            flex-wrap: wrap;
+            text-align: center;
+            line-height: 1.3;
         }
         .tracking-empty p {
-            font-size: 0.9rem; color: var(--text-muted); margin-bottom: 12px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            text-align: center;
+            line-height: 1.4;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
         .tracking-input-row {
-            display: flex; gap: 8px; max-width: 420px;
+            display: flex;
+            gap: 8px;
+            max-width: 420px;
+            margin: 0 auto;
+            width: 100%;
         }
         .tracking-input-row input {
-            flex: 1; padding: 11px 14px; border: 1px solid #d1d5db; border-radius: 10px;
-            font-size: 0.95rem; outline: none; text-transform: uppercase;
-            font-family: 'Poppins', monospace; letter-spacing: 1.5px;
+            flex: 1;
+            min-width: 0;
+            padding: 11px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            outline: none;
+            text-transform: uppercase;
+            font-family: 'Poppins', monospace;
+            letter-spacing: 1.5px;
             font-weight: 600;
+            background: white;
+            transition: border-color .15s, box-shadow .15s;
         }
-        .tracking-input-row input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(22,163,74,.1); }
+        .tracking-input-row input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(22,163,74,.1);
+        }
         .tracking-input-row button {
-            background: var(--primary); color: white; border: none;
-            padding: 11px 20px; border-radius: 10px; font-weight: 600;
-            cursor: pointer; transition: background .2s; font-family: inherit;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 11px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background .2s;
+            font-family: inherit;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
         .tracking-input-row button:hover { background: var(--primary-dark); }
 
         .tracking-info {
-            display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 20px;
+            align-items: center;
         }
-        .tracking-info-left { min-width: 0; }
+        .tracking-info-left {
+            min-width: 0;
+            text-align: center;
+        }
         .tracking-matricule {
-            display: inline-flex; align-items: center; gap: 6px;
-            background: #0f172a; color: white; font-family: monospace;
-            padding: 4px 12px; border-radius: 8px; font-weight: 700;
-            letter-spacing: 2px; font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: #0f172a;
+            color: white;
+            font-family: monospace;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            max-width: 100%;
         }
         .tracking-position {
-            font-size: 2rem; font-weight: 800; color: var(--primary-dark);
-            margin-top: 8px; display: flex; align-items: baseline; gap: 8px;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-top: 8px;
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 8px;
             flex-wrap: wrap;
+            text-align: center;
+            line-height: 1.1;
         }
         .tracking-position .of {
-            font-size: 1rem; font-weight: 500; color: var(--text-muted);
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-muted);
         }
         .tracking-progress {
-            margin-top: 12px; height: 8px; background: #e2e8f0;
-            border-radius: 4px; overflow: hidden; position: relative;
+            margin-top: 12px;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
         }
         .tracking-progress i {
-            display: block; height: 100%; border-radius: 4px;
+            display: block;
+            height: 100%;
+            border-radius: 4px;
             background: linear-gradient(90deg, #22c55e, #16a34a);
             transition: width .5s ease;
         }
         .tracking-message {
-            margin-top: 12px; font-size: 0.9rem; color: var(--text-dark);
-            padding: 10px 14px; border-radius: 10px;
-            background: #f0fdf4; border: 1px solid #dcfce7;
+            margin-top: 12px;
+            font-size: 0.88rem;
+            color: var(--text-dark);
+            padding: 10px 14px;
+            border-radius: 10px;
+            background: #f0fdf4;
+            border: 1px solid #dcfce7;
+            text-align: center;
+            line-height: 1.4;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
         .tracking-message.status-waiting { background: #eff6ff; border-color: #dbeafe; color: #1e40af; }
         .tracking-message.status-almost { background: #fef3c7; border-color: #fde68a; color: #92400e; }
@@ -116,52 +301,116 @@
         .tracking-message.status-cancelled { background: #fee2e2; border-color: #fecaca; color: #991b1b; }
         .tracking-message.status-not-found { background: #f1f5f9; border-color: #e2e8f0; color: #475569; }
 
-        .tracking-actions { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+        .tracking-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
         .btn-ghost {
-            background: transparent; border: 1px solid #e2e8f0; color: #64748b;
-            padding: 8px 14px; border-radius: 8px; cursor: pointer;
-            font-size: 0.85rem; font-weight: 500; font-family: inherit;
+            background: transparent;
+            border: 1px solid #e2e8f0;
+            color: #64748b;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            font-family: inherit;
             transition: background .15s;
+            white-space: nowrap;
         }
         .btn-ghost:hover { background: #f8fafc; }
 
-        /* Animation pulse sur la position */
         @keyframes pulseGrow {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
         }
         .tracking-position .num { animation: pulseGrow 2s ease-in-out infinite; }
 
-        .container {
-            max-width: 1150px; margin: 20px auto 0 auto; padding: 0 20px;
-            display: grid; grid-template-columns: 2fr 1fr; gap: 30px;
+        /* ================= CONTENEUR PRINCIPAL ================= */
+        .main-container {
+            flex: 1;
+            min-height: 0;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            max-width: 1150px;
+            width: 100%;
+            margin: 12px auto 0;
+            padding: 0 20px 20px;
+            overflow: hidden;
         }
 
-        .search-box {
-            background: var(--card-bg); padding: 15px 25px;
-            border-radius: var(--radius); box-shadow: var(--shadow);
-            display: flex; align-items: center; margin-bottom: 25px;
+        /* ================= COLONNE PRODUITS ================= */
+        .products-column {
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            min-width: 0;
+            overflow: hidden;
         }
-        .search-box input { width: 100%; border: none; outline: none; font-size: 1rem; padding: 8px; }
+
+        /* Zone de recherche (fixe dans la colonne) */
+        .search-box {
+            flex-shrink: 0;
+            background: var(--card-bg);
+            padding: 14px 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .search-box input {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 0.98rem;
+            padding: 6px;
+            background: transparent;
+            color: var(--text-dark);
+        }
+        .search-box input::placeholder { color: #94a3b8; }
+
+        /* Zone scrollable des produits */
+        .products-scroll {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-right: 6px;
+            padding-bottom: 10px;
+            -webkit-overflow-scrolling: touch;
+        }
+        .products-scroll::-webkit-scrollbar { width: 8px; }
+        .products-scroll::-webkit-scrollbar-track { background: transparent; }
+        .products-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .products-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 14px;
         }
 
         .product-card {
             background: var(--card-bg);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            padding: 18px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
             cursor: pointer;
             transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
             border: 1px solid transparent;
             position: relative;
+            min-width: 0;
         }
         .product-card:hover {
             transform: translateY(-3px);
@@ -169,13 +418,15 @@
             border-color: #bbf7d0;
         }
         .product-card.disabled {
-            opacity: 0.55; cursor: not-allowed;
+            opacity: 0.55;
+            cursor: not-allowed;
         }
         .product-card.disabled:hover { transform: none; box-shadow: var(--shadow); }
 
         .qty-badge {
             position: absolute;
-            top: 10px; right: 10px;
+            top: 10px;
+            right: 10px;
             background: var(--primary);
             color: white;
             border-radius: 50%;
@@ -184,163 +435,384 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             font-weight: 700;
             padding: 0 6px;
             box-shadow: 0 2px 8px rgba(22,163,74,.4);
         }
 
         .icon-wrap {
-            width: 46px; height: 46px; border-radius: 12px;
-            background: #ECFDF5; color: var(--primary);
-            display: flex; align-items: center; justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: #ECFDF5;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
         }
-        .icon-wrap svg { width: 24px; height: 24px; }
+        .icon-wrap svg { width: 22px; height: 22px; }
 
         .product-title {
-            font-size: 1rem; font-weight: 700; color: var(--text-dark);
-            line-height: 1.25; margin-top: 2px;
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            line-height: 1.3;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
         }
         .product-dosage {
-            font-size: 0.85rem; color: var(--text-muted);
-            margin-top: -6px;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.3;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
         .product-price {
-            font-size: 1rem; font-weight: 700; color: var(--primary);
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: var(--primary);
             margin-top: auto;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
         .out-badge {
-            font-size: 0.7rem; font-weight: 600; color: var(--danger);
-            background: #FDEDEC; padding: 2px 8px; border-radius: 20px;
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: var(--danger);
+            background: #FDEDEC;
+            padding: 3px 8px;
+            border-radius: 20px;
             width: fit-content;
+            max-width: 100%;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
+        /* ================= PANIER (SIDEBAR) ================= */
         .checkout-card {
-            background: var(--card-bg); border-radius: var(--radius);
-            box-shadow: var(--shadow); padding: 25px; height: fit-content;
-            position: sticky; top: 20px;
-            transition: transform 0.3s ease-in-out;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 22px;
+            overflow-y: auto;
+            min-height: 0;
+            min-width: 0;
+        }
+        .checkout-card::-webkit-scrollbar { width: 8px; }
+        .checkout-card::-webkit-scrollbar-track { background: transparent; }
+        .checkout-card::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
         }
         .checkout-card h2 {
-            font-size: 1.3rem; margin-bottom: 15px;
-            border-bottom: 2px solid var(--bg-color); padding-bottom: 10px;
+            font-size: 1.15rem;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--bg-color);
+            padding-bottom: 10px;
+            text-align: center;
         }
 
         .cart-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
-            font-size: 0.9rem;
+            margin-bottom: 10px;
+            font-size: 0.88rem;
             gap: 8px;
             padding-bottom: 10px;
             border-bottom: 1px solid #F1F5F9;
         }
         .cart-item:last-child { border-bottom: none; }
-        .cart-item-info { flex: 1; min-width: 0; }
-        .cart-item-name {
-            font-weight: 600; color: var(--text-dark);
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        .cart-item-info {
+            flex: 1;
+            min-width: 0;
         }
-        .cart-item-sub { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+        .cart-item-name {
+            font-weight: 600;
+            color: var(--text-dark);
+            line-height: 1.3;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        .cart-item-sub {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
         .cart-item-actions {
-            display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-shrink: 0;
         }
         .qty-btn {
-            width: 26px; height: 26px; border-radius: 6px;
-            border: 1px solid #E2E8F0; background: #FFFFFF;
-            color: var(--primary-dark); font-weight: 700; font-size: 1rem;
-            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+            border: 1px solid #E2E8F0;
+            background: #FFFFFF;
+            color: var(--primary-dark);
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: background .15s, border-color .15s;
-            font-family: inherit; line-height: 1; padding: 0;
+            font-family: inherit;
+            line-height: 1;
+            padding: 0;
         }
         .qty-btn:hover { background: #ECFDF5; border-color: #86efac; }
         .qty-btn:disabled { opacity: 0.4; cursor: not-allowed; }
         .qty-display {
-            min-width: 24px; text-align: center;
-            font-weight: 700; font-size: 0.9rem; color: var(--text-dark);
+            min-width: 24px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text-dark);
         }
         .cart-item .remove {
-            background: none; border: none; color: var(--danger);
-            cursor: pointer; font-size: 1rem; padding: 0 4px; margin-left: 4px;
+            background: none;
+            border: none;
+            color: var(--danger);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0 4px;
+            margin-left: 4px;
         }
 
-        .input-group { margin: 15px 0; }
-        .input-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; }
+        .input-group { margin: 14px 0; }
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
         .input-group label .req { color: var(--danger); }
         .input-group input {
-            width: 100%; padding: 10px; border: 1px solid #E0E0E0;
-            border-radius: 8px; font-size: 0.95rem; outline: none;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #E0E0E0;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
             transition: border-color .15s, background .15s;
+            background: white;
         }
         .input-group input:focus { border-color: var(--primary); }
         .input-group input.error { border-color: var(--danger); background: #FEF2F2; }
         .field-error {
-            color: var(--danger); font-size: 0.75rem; margin-top: 4px; display: none;
+            color: var(--danger);
+            font-size: 0.75rem;
+            margin-top: 4px;
+            display: none;
+            line-height: 1.3;
         }
         .field-error.visible { display: block; }
 
         .overlay {
-            display: none; position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 999;
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            z-index: 999;
         }
+        .overlay.active { display: block; }
 
         .btn {
-            background: var(--primary); color: white; border: none;
-            padding: 10px 18px; border-radius: 8px; font-weight: 600;
-            cursor: pointer; transition: background 0.2s; font-family: inherit;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: inherit;
+            font-size: 0.9rem;
         }
         .btn:hover { background: var(--primary-dark); }
         .btn:disabled { background: #BDC3C7; cursor: not-allowed; }
 
-        @media (max-width: 850px) {
-            .burger-btn { display: block; }
-            .container { grid-template-columns: 1fr; }
-            .products-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
-            .checkout-card {
-                position: fixed; top: 0; right: 0; width: 320px; height: 100vh;
-                z-index: 1000; border-radius: 0; overflow-y: auto;
-                transform: translateX(100%);
-            }
-            .checkout-card.open { transform: translateX(0); }
-            .overlay.active { display: block; }
-            .tracking-info { grid-template-columns: 1fr; }
-            .tracking-actions { justify-content: flex-start; }
-        }
-
+        /* ================= MODAL ================= */
         .modal {
-            display: none; position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%; background: rgba(0,0,0,0.5);
-            justify-content: center; align-items: center; z-index: 2000;
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 16px;
         }
         .modal-content {
-            background: white; padding: 30px; border-radius: var(--radius);
-            text-align: center; max-width: 400px; width: 90%;
+            background: white;
+            padding: 28px 24px;
+            border-radius: var(--radius);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        .modal-content h2 {
+            font-size: 1.2rem;
+            line-height: 1.3;
+        }
+        .modal-content p {
+            line-height: 1.4;
+            word-wrap: break-word;
         }
         .matricule-box {
-            background: #E8F8F5; border: 2px dashed var(--primary);
-            color: var(--primary-dark); font-size: 1.8rem; font-weight: 700;
-            letter-spacing: 3px; padding: 15px; margin: 15px 0; border-radius: 10px;
+            background: #E8F8F5;
+            border: 2px dashed var(--primary);
+            color: var(--primary-dark);
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            padding: 14px 10px;
+            margin: 15px 0;
+            border-radius: 10px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .loader-mini {
-            display: inline-block; width: 14px; height: 14px;
-            border: 2px solid #e2e8f0; border-top-color: var(--primary);
-            border-radius: 50%; animation: spin .8s linear infinite;
-            vertical-align: middle; margin-right: 6px;
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #e2e8f0;
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+            vertical-align: middle;
+            margin-right: 6px;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        .status-bar {
-            max-width: 1150px; margin: 12px auto 0; padding: 0 20px;
-            display: flex; align-items: center; gap: 8px;
-            font-size: 0.8rem; color: var(--text-muted);
+        /* ================= RESPONSIVE MOBILE ================= */
+        @media (max-width: 850px) {
+            header { padding: 1rem 0.9rem; padding-right: 70px; }
+            header h1 { font-size: 1.35rem; }
+            header p { font-size: 0.75rem; }
+
+            .burger-btn { display: flex; align-items: center; gap: 4px; }
+
+            .status-bar {
+                margin-top: 6px;
+                padding: 0 14px;
+                font-size: 0.72rem;
+            }
+
+            .tracking-section {
+                margin-top: 8px;
+                padding: 0 14px;
+            }
+            .tracking-card { padding: 14px 16px; }
+            .tracking-card h2 { font-size: 0.95rem; margin-bottom: 8px; gap: 6px; }
+            .tracking-empty p { font-size: 0.78rem; margin-bottom: 8px; }
+            .tracking-input-row input {
+                padding: 9px 12px;
+                font-size: 0.82rem;
+                letter-spacing: 1px;
+            }
+            .tracking-input-row button {
+                padding: 9px 14px;
+                font-size: 0.82rem;
+            }
+            .tracking-info {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            .tracking-position { font-size: 1.45rem; }
+            .tracking-position .of { font-size: 0.85rem; }
+            .tracking-message { font-size: 0.78rem; padding: 8px 10px; margin-top: 8px; }
+            .tracking-matricule { font-size: 0.8rem; padding: 3px 10px; }
+
+            .main-container {
+                padding: 0 14px 14px;
+                margin-top: 8px;
+                gap: 0;
+                grid-template-columns: 1fr;
+            }
+
+            .search-box {
+                padding: 10px 14px;
+                margin-bottom: 12px;
+            }
+            .search-box input {
+                font-size: 0.88rem;
+                padding: 6px 4px;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 10px;
+            }
+            .product-card {
+                padding: 12px;
+                gap: 6px;
+            }
+            .icon-wrap { width: 38px; height: 38px; border-radius: 10px; }
+            .icon-wrap svg { width: 20px; height: 20px; }
+            .product-title { font-size: 0.88rem; }
+            .product-dosage { font-size: 0.74rem; }
+            .product-price { font-size: 0.88rem; }
+            .out-badge { font-size: 0.64rem; padding: 2px 6px; }
+
+            .checkout-card {
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: min(340px, 90vw);
+                height: 100vh;
+                height: 100dvh;
+                z-index: 1000;
+                border-radius: 0;
+                transform: translateX(100%);
+                transition: transform 0.3s ease-in-out;
+                padding: 22px 18px;
+            }
+            .checkout-card.open { transform: translateX(0); }
         }
-        .status-dot {
-            width: 8px; height: 8px; border-radius: 50%; background: #cbd5e1;
+
+        /* Très petits écrans */
+        @media (max-width: 400px) {
+            .tracking-input-row {
+                flex-direction: column;
+            }
+            .tracking-input-row button {
+                width: 100%;
+            }
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+                gap: 8px;
+            }
+            header h1 { font-size: 1.2rem; }
+            .tracking-position { font-size: 1.25rem; }
+            .tracking-position .of { font-size: 0.78rem; }
         }
-        .status-dot.ok { background: #22c55e; }
-        .status-dot.err { background: #ef4444; }
+
+        /* Très petits écrans en hauteur */
+        @media (max-height: 700px) and (max-width: 850px) {
+            .tracking-section { margin-top: 6px; }
+            .tracking-card { padding: 10px 12px; }
+            .tracking-card h2 { font-size: 0.85rem; margin-bottom: 6px; }
+            .tracking-empty p { font-size: 0.72rem; margin-bottom: 6px; }
+        }
     </style>
 </head>
 <body>
@@ -366,15 +838,16 @@
     </script>
     <!-- ============================================================= -->
 
-    <button class="burger-btn" onclick="toggleCart()">
+    <button class="burger-btn" onclick="toggleCart()" aria-label="Panier">
         🛒 <span class="cart-badge" id="cartCount">0</span>
     </button>
 
     <div class="overlay" id="overlay" onclick="toggleCart()"></div>
 
+    <!-- ============ HEADER FIXE ============ -->
     <header>
         <h1>
-            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:28px;height:28px;">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:26px;height:26px;flex-shrink:0;">
                 <path d="M35 8h30v27h27v30H65v27H35V65H8V35h27z" fill="#ffffff"/>
             </svg>
             PharmaX
@@ -382,12 +855,13 @@
         <p id="clinicName">Commandez vos produits en ligne et retirez-les rapidement en officine.</p>
     </header>
 
+    <!-- ============ STATUS FIXE ============ -->
     <div class="status-bar">
         <span class="status-dot" id="statusDot"></span>
         <span id="statusText">Connexion…</span>
     </div>
 
-    <!-- ============ SUIVI DE COMMANDE ============ -->
+    <!-- ============ SUIVI DE COMMANDE FIXE ============ -->
     <section class="tracking-section" id="trackingSection">
         <div class="tracking-card" id="trackingCard">
             <h2>📋 Suivi de ma commande</h2>
@@ -399,7 +873,7 @@
                     <input type="text" id="matriculeInput" placeholder="PH-XXXX" maxlength="10" autocomplete="off">
                     <button onclick="suivreCommande()">Suivre</button>
                 </div>
-                <p id="trackingError" style="color: var(--danger); font-size:0.8rem; margin-top:8px; display:none;"></p>
+                <p id="trackingError" style="color: var(--danger); font-size:0.8rem; margin-top:8px; display:none; text-align:center;"></p>
             </div>
 
             <!-- Mode 2 : matricule connu -->
@@ -422,27 +896,32 @@
         </div>
     </section>
 
-    <div class="container">
-        <main>
+    <!-- ============ CONTENEUR PRINCIPAL ============ -->
+    <div class="main-container">
+        <!-- Colonne produits : recherche fixe + produits scrollables -->
+        <main class="products-column">
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="Rechercher un médicament...">
             </div>
 
-            <div class="products-grid" id="productsGrid">
-                <p style="grid-column: 1/-1; text-align:center; padding: 30px; background: white; border-radius: 12px;">
-                    <span class="loader-mini"></span> Chargement des produits…
-                </p>
+            <div class="products-scroll">
+                <div class="products-grid" id="productsGrid">
+                    <p style="grid-column: 1/-1; text-align:center; padding: 30px; background: white; border-radius: 12px;">
+                        <span class="loader-mini"></span> Chargement des produits…
+                    </p>
+                </div>
             </div>
         </main>
 
+        <!-- Sidebar panier -->
         <aside class="checkout-card" id="checkoutCard">
             <h2>Votre Commande</h2>
             <div id="cartItems">
-                <p style="color: var(--text-muted); font-size: 0.9rem;">Votre panier est vide.</p>
+                <p style="color: var(--text-muted); font-size: 0.9rem; text-align:center;">Votre panier est vide.</p>
             </div>
 
             <hr style="margin: 15px 0; border: none; border-top: 1px solid #EEE;">
-            <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 1.1rem;">
+            <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 1.05rem;">
                 <span>Total :</span>
                 <span id="cartTotal">0 FCFA</span>
             </div>
@@ -515,20 +994,19 @@
         // ------ État global ------
         let tousLesProduits = [];
         let panier = [];
-        let toutesLesCommandes = [];   // Toutes les commandes (pour le calcul de position)
-        let matriculeSuivi = null;      // Matricule en cours de suivi
+        let toutesLesCommandes = [];
+        let matriculeSuivi = null;
         let CURRENCY = 'FCFA';
         let APP_NAME = 'PharmaX';
 
         const TRACKING_STORAGE_KEY = 'pharmax_last_matricule';
 
-        // ------ Formatage ------
         function fmtPrice(v) {
             const n = Number(v) || 0;
             return new Intl.NumberFormat('fr-FR').format(n) + ' ' + CURRENCY;
         }
 
-        // ------ Écoute meta (devise, nom, ...) ------
+        // ------ Écoute meta ------
         onValue(ref(db, 'meta'), (snap) => {
             const m = snap.val() || {};
             if (m.currency) CURRENCY = m.currency;
@@ -552,11 +1030,10 @@
             </p>`;
         });
 
-        // ------ Écoute commandes (pour suivi temps réel) ------
+        // ------ Écoute commandes ------
         onValue(ref(db, 'orders'), (snap) => {
             const val = snap.val() || {};
             toutesLesCommandes = Object.entries(val).map(([id, o]) => ({ firebaseId: id, ...o }));
-            // Recalcule la position si un matricule est suivi
             if (matriculeSuivi) afficherSuivi(matriculeSuivi);
         }, (err) => {
             console.warn('Firebase orders error:', err);
@@ -668,7 +1145,7 @@
             cartCount.textContent = totalQty;
 
             if (panier.length === 0) {
-                cartDiv.innerHTML = `<p style="color: var(--text-muted); font-size: 0.9rem;">Votre panier est vide.</p>`;
+                cartDiv.innerHTML = `<p style="color: var(--text-muted); font-size: 0.9rem; text-align:center;">Votre panier est vide.</p>`;
                 totalSpan.textContent = fmtPrice(0);
                 return;
             }
@@ -710,8 +1187,6 @@
             return (o && o.status) ? o.status : 'pending';
         }
 
-        // Calcule la position d'une commande dans la file d'attente
-        // File = commandes avec status = 'pending', triées par createdAt croissant
         function computeQueuePosition(monMatricule) {
             const pending = toutesLesCommandes
                 .filter(o => getStatusOf(o) === 'pending')
@@ -728,7 +1203,6 @@
             };
         }
 
-        // Retrouve la commande (peu importe son statut) par matricule
         function findOrderByMatricule(matricule) {
             const target = normalizeMatricule(matricule);
             return toutesLesCommandes.find(o => normalizeMatricule(o.matricule) === target) || null;
@@ -750,7 +1224,6 @@
             infoEl.style.display = '';
             matriculeEl.textContent = normalizeMatricule(matricule);
 
-            // Cas 1 : commande introuvable
             if (!order) {
                 positionNum.textContent = '?';
                 positionNum.parentElement.style.display = 'none';
@@ -763,7 +1236,6 @@
 
             const st = getStatusOf(order);
 
-            // Cas 2 : annulée
             if (st === 'cancelled') {
                 positionNum.textContent = '—';
                 positionNum.parentElement.style.display = 'none';
@@ -774,7 +1246,6 @@
                 return;
             }
 
-            // Cas 3 : terminée / prête
             if (st === 'completed') {
                 positionNum.textContent = '✓';
                 positionNum.parentElement.style.display = '';
@@ -786,10 +1257,8 @@
                 return;
             }
 
-            // Cas 4 : en attente → calcule la position
             const queue = computeQueuePosition(matricule);
             if (queue.position == null) {
-                // La commande existe mais n'est pas dans la file (cas rare) : on affiche un message neutre
                 positionNum.textContent = '—';
                 positionNum.parentElement.style.display = 'none';
                 positionOf.textContent = '';
@@ -805,11 +1274,9 @@
             positionNum.style.color = '';
             progressWrap.style.display = 'block';
 
-            // Barre de progression : 100% quand position=1, 0% quand position=total
             const pct = queue.total <= 1 ? 100 : Math.max(6, ((queue.total - queue.position + 1) / queue.total) * 100);
             progressBar.style.width = pct + '%';
 
-            // Message contextuel
             if (queue.position === 1) {
                 messageEl.className = 'tracking-message status-almost';
                 messageEl.textContent = '🎉 Vous êtes le prochain ! Votre commande est en cours de préparation.';
@@ -824,7 +1291,6 @@
                 positionNum.style.color = '#1e40af';
             }
 
-            // Détail du temps de retrait
             if (order.heureRetrait) {
                 messageEl.textContent += ` (Retrait prévu : ${order.heureRetrait})`;
             }
@@ -841,7 +1307,6 @@
                 input.focus();
                 return;
             }
-            // Vérifie l'existence
             const found = findOrderByMatricule(val);
             if (!found) {
                 errEl.textContent = 'Aucune commande trouvée avec ce matricule.';
@@ -864,16 +1329,13 @@
             input.focus();
         };
 
-        // Auto-charge au démarrage si un matricule est mémorisé
         (function restoreTracking() {
             try {
                 const saved = localStorage.getItem(TRACKING_STORAGE_KEY);
                 if (saved) {
                     const val = normalizeMatricule(saved);
-                    // On ne sait pas encore si les commandes sont chargées, donc on tente
                     matriculeSuivi = val;
                     document.getElementById('matriculeInput').value = val;
-                    // Affiche l'interface de suivi (le contenu se remplira quand les commandes arriveront)
                     document.getElementById('trackingEmpty').style.display = 'none';
                     document.getElementById('trackingInfo').style.display = '';
                     document.getElementById('trackingMatricule').textContent = val;
@@ -971,16 +1433,13 @@
                     createdAt: new Date().toISOString()
                 });
 
-                // Enregistre le matricule pour le suivi auto
                 try { localStorage.setItem(TRACKING_STORAGE_KEY, matricule); } catch (e) {}
                 matriculeSuivi = matricule;
 
-                // Affiche la modale
                 document.getElementById('matriculeDisplay').textContent = matricule;
                 document.getElementById('heureDisplay').textContent = heure;
                 document.getElementById('successModal').style.display = 'flex';
 
-                // Réinitialise le panier
                 panier = [];
                 nomInput.value = '';
                 telInput.value = '';
@@ -990,10 +1449,8 @@
 
                 if (document.getElementById('checkoutCard').classList.contains('open')) toggleCart();
 
-                // Active le suivi de commande
                 document.getElementById('matriculeInput').value = matricule;
                 afficherSuivi(matricule);
-                // Scroll vers la section de suivi
                 setTimeout(() => {
                     document.getElementById('trackingSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }, 300);
@@ -1016,7 +1473,6 @@
             });
         });
 
-        // Enter pour valider le matricule
         document.getElementById('matriculeInput').addEventListener('keydown', (e) => {
             if (e.key === 'Enter') suivreCommande();
         });
